@@ -10,6 +10,7 @@ modern yalc package with enhancements for better developer experience and usabil
 - Typescript
 - improved error handling
 - improved unit tests and coverage
+- conventional commits and automated changelog generation
 
 ## Guidelines
 

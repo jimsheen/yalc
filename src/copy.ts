@@ -1,7 +1,7 @@
 import crypto from 'crypto'
 import fs from 'fs-extra'
 import ignore from 'ignore'
-import npmPacklist from 'npm-packlist'
+const npmPacklist = require('npm-packlist')
 import { dirname, join } from 'path'
 
 import { readIgnoreFile, readPackageManifest, readSignatureFile } from '.'
@@ -25,7 +25,7 @@ export const getFileHash = (srcPath: string, relPath: string = '') => {
     const stream = fs.createReadStream(srcPath)
     const md5sum = crypto.createHash('md5')
     md5sum.update(relPath.replace(/\\/g, '/'))
-    stream.on('data', (data: string) => md5sum.update(data))
+    stream.on('data', (data: string | Buffer) => md5sum.update(data))
     stream.on('error', reject).on('close', () => {
       resolve(md5sum.digest('hex'))
     })
@@ -172,9 +172,27 @@ export const copyPackageToStore = async (options: {
   const ignoreFileContent = readIgnoreFile(workingDir)
 
   const ignoreRule = ignore().add(ignoreFileContent)
-  const npmList: string[] = await (await npmPacklist({ path: workingDir })).map(
-    fixScopedRelativeName
-  )
+  let npmList: string[] = []
+  try {
+    // npm-packlist v10 expects a tree object with path and package properties
+    const result = await npmPacklist({ path: workingDir, package: pkg })
+    npmList = result.map(fixScopedRelativeName)
+  } catch (walkError) {
+    console.warn('npm-packlist error:', walkError)
+    // Fallback: if npm-packlist fails, use a basic file list
+    const { glob } = await import('glob')
+    try {
+      const globResult = await glob('**/*', {
+        cwd: workingDir,
+        ignore: ['**/node_modules/**', '**/.git/**'],
+        nodir: true,
+      })
+      npmList = globResult.map(fixScopedRelativeName)
+    } catch (globError) {
+      console.warn('Fallback glob error:', globError)
+      npmList = []
+    }
+  }
 
   const filesToCopy = npmList.filter((f) => !ignoreRule.ignores(f))
   if (options.content) {

@@ -27,17 +27,44 @@
     "singleQuote": true
   },
   "bin": {
-    "yalc": "src/yalc.js"
+    "yalc": "lib/yalc.js"
   },
-  "main": "src/index.js",
+  "main": "lib/index.js",
+  "module": "lib/index.mjs",
+  "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "require": "./lib/index.js",
+      "import": "./lib/index.mjs"
+    },
+    "./yalc": {
+      "types": "./lib/yalc.d.ts",
+      "require": "./lib/yalc.js",
+      "import": "./lib/yalc.mjs"
+    }
+  },
   "scripts": {
-    "build": "tsc",
-    "clean": "ts-clean-built --old && trash  **/*.log",
-    "prepublishOnly": "yarn clean && tsc && yarn test",
-    "test": "tsc && mocha test && yarn lint",
+    "build": "tsup",
+    "build:tsc": "tsc -p tsconfig.test.json",
+    "build:watch": "tsup --watch",
+    "clean": "ts-clean-built --old && trash **/*.log && rm -rf lib",
+    "prepublishOnly": "pnpm run clean && pnpm run build && pnpm run test",
+    "test": "pnpm run build:tsc && mocha test && pnpm run lint",
+    "test:mocha": "pnpm run build:tsc && mocha test",
+    "test:vitest": "vitest run",
+    "test:vitest:watch": "vitest",
+    "test:vitest:ui": "vitest --ui",
+    "test:vitest:coverage": "vitest run --coverage",
+    "test:regression": "vitest run tests/regression/regression.test.ts",
+    "test:all": "pnpm run test:mocha && pnpm run test:vitest",
+    "regression:capture": "node scripts/regression-validate.js capture",
+    "regression:validate": "node scripts/regression-validate.js validate",
     "test-dev": "ts-node-dev -T --respawn node_modules/mocha/bin/mocha test/index.ts",
-    "ci": "tsc && yarn test",
-    "lint": "tslint -p ."
+    "ci": "pnpm run typecheck && pnpm run build && pnpm run test",
+    "lint": "tslint -p .",
+    "typecheck": "tsc --noEmit",
+    "dev": "tsup --watch"
   },
   "husky": {
     "hooks": {
@@ -45,22 +72,23 @@
     }
   },
   "dependencies": {
-    "chalk": "^4.1.0",
-    "detect-indent": "^6.0.0",
-    "fs-extra": "^8.0.1",
-    "glob": "^7.1.4",
-    "ignore": "^5.0.4",
-    "ini": "^2.0.0",
-    "npm-packlist": "^5.0.2",
-    "yargs": "^16.1.1"
+    "chalk": "^5.6.2",
+    "detect-indent": "^7.0.2",
+    "fs-extra": "^11.3.2",
+    "glob": "^11.0.3",
+    "ignore": "^7.0.5",
+    "ini": "^6.0.0",
+    "npm-packlist": "^10.0.3",
+    "yargs": "^18.0.0"
   },
   "devDependencies": {
-    "@types/fs-extra": "^7.0.0",
-    "@types/glob": "^5.0.30",
-    "@types/mocha": "^8.0.0",
-    "@types/node": "^12.0.7",
-    "@types/npm-packlist": "^1.1.0",
-    "@types/yargs": "^6.6.0",
+    "@types/fs-extra": "^11.0.4",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^24.10.1",
+    "@types/npm-packlist": "^7.0.3",
+    "@types/yargs": "^17.0.34",
+    "@vitest/coverage-v8": "^4.0.8",
+    "@vitest/ui": "^4.0.8",
     "clean-ts-built": "^1.0.0",
     "husky": "^1.3.1",
     "mocha": "^8.0.1",
@@ -72,8 +100,10 @@
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
     "tslint-plugin-prettier": "^1.3.0",
-    "typescript": "^3.9.7",
-    "typescript-tslint-plugin": "^0.1.2"
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "typescript-tslint-plugin": "^0.1.2",
+    "vitest": "^4.0.8"
   },
   "license": "MIT"
 }

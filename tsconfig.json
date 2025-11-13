@@ -1,23 +1,51 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["es2015"],
+    "target": "ES2020",
+    "lib": ["ES2020"],
     "module": "commonjs",
     "declaration": true,
     "sourceMap": true,
-    "strictNullChecks": true,
-    "esModuleInterop": true,
+    "outDir": "./lib",
+
+    // Strict Type Checking
     "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
     "noImplicitThis": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "allowJs": false,
-    "newLine": "LF",
+
+    // Module Resolution
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+
+    // Advanced Options
     "skipLibCheck": true,
-    "skipDefaultLibCheck": true
+    "skipDefaultLibCheck": true,
+    "allowJs": false,
+    "checkJs": false,
+    "newLine": "LF",
+
+    // Emit Options
+    "removeComments": false,
+    "preserveConstEnums": true
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "**/*.js", "**/*.d.ts"],
+  "exclude": [
+    "node_modules",
+    "**/*.js",
+    "**/*.d.ts",
+    "lib/**/*",
+    "dist/**/*",
+    "tests/**/*"
+  ],
   "formatCodeOptions": {
     "indentSize": 2,
     "tabSize": 2

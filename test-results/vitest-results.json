@@ -1,0 +1,119 @@
+{
+  "numTotalTestSuites": 5,
+  "numPassedTestSuites": 5,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 7,
+  "numPassedTests": 7,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1763065201140,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["YALC Regression Tests", "Baseline Capture"],
+          "fullName": "YALC Regression Tests Baseline Capture should capture baseline commands successfully",
+          "status": "passed",
+          "title": "should capture baseline commands successfully",
+          "duration": 361.078375,
+          "failureMessages": [],
+          "location": { "line": 13, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["YALC Regression Tests", "Baseline Capture"],
+          "fullName": "YALC Regression Tests Baseline Capture should save and load baselines correctly",
+          "status": "passed",
+          "title": "should save and load baselines correctly",
+          "duration": 340.93274999999994,
+          "failureMessages": [],
+          "location": { "line": 27, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "YALC Regression Tests",
+            "Command Output Validation"
+          ],
+          "fullName": "YALC Regression Tests Command Output Validation should have consistent help output",
+          "status": "passed",
+          "title": "should have consistent help output",
+          "duration": 330.09687499999995,
+          "failureMessages": [],
+          "location": { "line": 40, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "YALC Regression Tests",
+            "Command Output Validation"
+          ],
+          "fullName": "YALC Regression Tests Command Output Validation should have consistent version output",
+          "status": "passed",
+          "title": "should have consistent version output",
+          "duration": 363.740583,
+          "failureMessages": [],
+          "location": { "line": 53, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "YALC Regression Tests",
+            "Command Output Validation"
+          ],
+          "fullName": "YALC Regression Tests Command Output Validation should have consistent directory output",
+          "status": "passed",
+          "title": "should have consistent directory output",
+          "duration": 366.48558300000013,
+          "failureMessages": [],
+          "location": { "line": 64, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["YALC Regression Tests", "Regression Detection"],
+          "fullName": "YALC Regression Tests Regression Detection should detect no regressions when comparing identical baselines",
+          "status": "passed",
+          "title": "should detect no regressions when comparing identical baselines",
+          "duration": 658.9915409999999,
+          "failureMessages": [],
+          "location": { "line": 77, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["YALC Regression Tests", "Regression Detection"],
+          "fullName": "YALC Regression Tests Regression Detection should create baseline file for future comparisons",
+          "status": "passed",
+          "title": "should create baseline file for future comparisons",
+          "duration": 326.47466699999995,
+          "failureMessages": [],
+          "location": { "line": 87, "column": 5 },
+          "meta": {}
+        }
+      ],
+      "startTime": 1763065201343,
+      "endTime": 1763065204091.4746,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/jamessheen/Documents/Projects/yalc-1/tests/regression/regression.test.ts"
+    }
+  ]
+}

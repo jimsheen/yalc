@@ -1,4 +1,4 @@
-import chalk, { Chalk } from 'chalk'
+import chalk from 'chalk'
 
 declare const console: any
 
@@ -35,7 +35,7 @@ export const makeConsoleColored = () => {
   overloadConsole({
     methods: ['log', 'warn', 'error', 'info'],
     output: ({ method, args, oldMethods }) => {
-      const fns: Record<string, Chalk> = {
+      const fns: Record<string, typeof chalk> = {
         warn: chalk.yellowBright,
         info: chalk.blueBright,
         error: chalk.redBright,

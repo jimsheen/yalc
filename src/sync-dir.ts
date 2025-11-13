@@ -1,5 +1,4 @@
-import glob from 'glob'
-import util from 'util'
+import { glob } from 'glob'
 import { resolve } from 'path'
 import fs from 'fs-extra'
 import { getFileHash } from './copy'
@@ -15,7 +14,7 @@ if (NODE_MAJOR_VERSION >= 8 && NODE_MAJOR_VERSION < 10) {
     Symbol.asyncIterator || Symbol('Symbol.asyncIterator')
 }
 
-const globP = util.promisify(glob)
+// glob v11 is already Promise-based
 
 const cache: {
   [dir: string]: {
@@ -50,14 +49,14 @@ export const copyDirSafe = async (
   const nodir = false
   const srcList = cache[srcDir]
     ? cache[srcDir].glob
-    : await globP('**', { cwd: srcDir, ignore, dot, nodir })
-  const destList = await globP('**', { cwd: destDir, ignore, dot, nodir })
+    : await glob('**', { cwd: srcDir, ignore, dot, nodir })
+  const destList = await glob('**', { cwd: destDir, ignore, dot, nodir })
   const srcMap = makeListMap(srcList)
   const destMap = makeListMap(destList)
 
-  const newFiles = srcList.filter((file) => !destMap[file])
-  const filesToRemove = destList.filter((file) => !srcMap[file])
-  const commonFiles = srcList.filter((file) => destMap[file])
+  const newFiles = srcList.filter((file: string) => !destMap[file])
+  const filesToRemove = destList.filter((file: string) => !srcMap[file])
+  const commonFiles = srcList.filter((file: string) => destMap[file])
   cache[srcDir] = cache[srcDir] || {
     files: {},
     glob: srcList,
