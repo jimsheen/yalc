@@ -11,6 +11,12 @@ import {
   writePackageManifest,
   writeSignatureFile,
 } from '.'
+import {
+  readCatalogConfig,
+  resolveCatalogDependency,
+  isCatalogDependency,
+  ParsedCatalog,
+} from './catalog'
 
 const shortSignatureLength = 8
 
@@ -80,9 +86,13 @@ const resolveWorkspaces = (
   pkg: PackageManifest,
   workingDir: string
 ): PackageManifest => {
+  // Read catalog configuration for catalog resolution
+  const catalogConfig = readCatalogConfig(workingDir)
+
   const resolveDeps = (deps: PackageManifest['dependencies']) => {
     return deps
       ? mapObj(deps, (val, depPkgName) => {
+          // Handle workspace: protocol
           if (val.startsWith('workspace:')) {
             const version = val.split(':')[1]
             const resolved = resolveWorkspaceDepVersion(
@@ -95,6 +105,20 @@ const resolveWorkspaces = (
             )
             return resolved
           }
+
+          // Handle catalog: protocol
+          if (isCatalogDependency(val)) {
+            const resolved = resolveCatalogDependency(
+              val,
+              depPkgName,
+              catalogConfig
+            )
+            console.log(
+              `Resolving catalog package ${depPkgName} (${val}) ==> ${resolved}`
+            )
+            return resolved
+          }
+
           return val
         })
       : deps

@@ -12,8 +12,12 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "allowJs": false,
-    "newLine": "LF"
+    "newLine": "LF",
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true
   },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "**/*.js", "**/*.d.ts"],
   "formatCodeOptions": {
     "indentSize": 2,
     "tabSize": 2

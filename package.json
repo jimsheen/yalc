@@ -1,12 +1,27 @@
 {
-  "name": "yalc",
-  "version": "1.0.0-pre.53",
-  "description": "Work with npm/yarn packages locally like a boss.",
-  "homepage": "https://github.com/whitecolor/yalc",
+  "name": "@jimsheen/yalc",
+  "version": "2.0.0-alpha.1",
+  "description": "Local package development tool, modernized and supercharged. Drop-in replacement for yalc with better performance and modern features.",
+  "keywords": [
+    "yalc",
+    "local",
+    "packages",
+    "development",
+    "monorepo",
+    "workspace",
+    "pnpm",
+    "catalog",
+    "modern"
+  ],
+  "homepage": "https://github.com/jimsheen/yalc",
   "repository": {
     "type": "git",
-    "url": "https://github.com/whitecolor/yalc.git"
+    "url": "https://github.com/jimsheen/yalc.git"
   },
+  "bugs": {
+    "url": "https://github.com/jimsheen/yalc/issues"
+  },
+  "author": "Jim Sheen <jim@example.com>",
   "prettier": {
     "semi": false,
     "singleQuote": true
