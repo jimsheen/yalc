@@ -27,42 +27,47 @@
     "singleQuote": true
   },
   "bin": {
-    "yalc": "lib/yalc.js"
+    "yalc": "dist/yalc.js"
   },
-  "main": "lib/index.js",
-  "module": "lib/index.mjs",
-  "types": "lib/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./lib/index.d.ts",
-      "require": "./lib/index.js",
-      "import": "./lib/index.mjs"
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
     },
     "./yalc": {
-      "types": "./lib/yalc.d.ts",
-      "require": "./lib/yalc.js",
-      "import": "./lib/yalc.mjs"
+      "types": "./dist/yalc.d.ts",
+      "require": "./dist/yalc.js",
+      "import": "./dist/yalc.mjs"
     }
   },
   "scripts": {
     "build": "tsup",
     "build:tsc": "tsc -p tsconfig.test.json",
     "build:watch": "tsup --watch",
-    "clean": "ts-clean-built --old && trash **/*.log && rm -rf lib",
+    "clean": "ts-clean-built --old && trash **/*.log && rm -rf dist",
     "prepublishOnly": "pnpm run clean && pnpm run build && pnpm run test",
-    "test": "pnpm run build:tsc && mocha test && pnpm run lint",
+    "test": "pnpm run build:tsc && mocha test && pnpm run lint:check",
     "test:mocha": "pnpm run build:tsc && mocha test",
     "test:vitest": "vitest run",
     "test:vitest:watch": "vitest",
     "test:vitest:ui": "vitest --ui",
     "test:vitest:coverage": "vitest run --coverage",
+    "test:unit": "vitest run src",
+    "test:unit:watch": "vitest src",
+    "test:unit:coverage": "vitest run --coverage src",
     "test:regression": "vitest run tests/regression/regression.test.ts",
     "test:all": "pnpm run test:mocha && pnpm run test:vitest",
+    "test:full": "pnpm run test:unit && pnpm run test:mocha && pnpm run test:regression",
     "regression:capture": "node scripts/regression-validate.js capture",
     "regression:validate": "node scripts/regression-validate.js validate",
     "test-dev": "ts-node-dev -T --respawn node_modules/mocha/bin/mocha test/index.ts",
     "ci": "pnpm run typecheck && pnpm run build && pnpm run test",
-    "lint": "tslint -p .",
+    "lint": "eslint src --fix",
+    "lint:check": "eslint src",
     "typecheck": "tsc --noEmit",
     "dev": "tsup --watch"
   },
@@ -82,27 +87,30 @@
     "yargs": "^18.0.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.1",
     "@types/fs-extra": "^11.0.4",
     "@types/mocha": "^10.0.10",
     "@types/node": "^24.10.1",
     "@types/npm-packlist": "^7.0.3",
     "@types/yargs": "^17.0.34",
+    "@typescript-eslint/eslint-plugin": "^8.46.4",
+    "@typescript-eslint/parser": "^8.46.4",
     "@vitest/coverage-v8": "^4.0.8",
     "@vitest/ui": "^4.0.8",
     "clean-ts-built": "^1.0.0",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
     "husky": "^1.3.1",
     "mocha": "^8.0.1",
-    "prettier": "^2.0.5",
-    "pretty-quick": "^1.8.0",
+    "prettier": "^3.6.2",
+    "pretty-quick": "^4.2.2",
     "trash-cli": "^1.4.0",
     "ts-clean-built": "^1.2.1",
     "ts-node-dev": "^1.0.0-pre.55",
-    "tslint": "^5.11.0",
-    "tslint-config-prettier": "^1.15.0",
-    "tslint-plugin-prettier": "^1.3.0",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
-    "typescript-tslint-plugin": "^0.1.2",
+    "typescript-eslint": "^8.46.4",
     "vitest": "^4.0.8"
   },
   "license": "MIT"
