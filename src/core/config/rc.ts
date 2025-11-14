@@ -1,3 +1,8 @@
+/**
+ * @deprecated Use rc-modern.ts instead. This file is kept for backwards compatibility.
+ * The new rc-modern.ts provides better TypeScript support, multiple file formats,
+ * and uses the standard rc package for configuration loading.
+ */
 import fs from 'fs'
 const ini = require('ini')
 

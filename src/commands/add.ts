@@ -1,6 +1,7 @@
 import { execSync } from 'child_process'
 import * as fs from 'fs-extra'
 import { join, relative } from 'path'
+import * as clack from '@clack/prompts'
 
 import {
   execLoudOptions,
@@ -17,6 +18,11 @@ import { addPackageToLockfile } from './lockfile'
 import { PackageScripts } from '../package/manifest/pkg'
 import { getPackageManager, pmRunScriptCmd } from '../package/manager/pm'
 import { copyDirSafe } from '../core/utils/sync-dir'
+import {
+  listStorePackages,
+  formatSize,
+  formatRelativeTime,
+} from '../core/store/manager'
 
 const ensureSymlinkSync = fs.ensureSymlinkSync as typeof fs.symlinkSync
 
@@ -58,11 +64,110 @@ const checkPnpmWorkspace = (workingDir: string) => {
   return fs.existsSync(join(workingDir, 'pnpm-workspace.yaml'))
 }
 
+/**
+ * Interactive package selection for add command
+ */
+async function selectPackagesInteractively(
+  options: AddPackagesOptions,
+): Promise<string[]> {
+  const packages = listStorePackages()
+
+  if (packages.length === 0) {
+    clack.intro('📦 YALC Add Package')
+    clack.note(
+      'No packages found in store. Use `yalc publish` to add packages.',
+      '📦 Empty Store',
+    )
+    clack.outro('No packages to add')
+    return []
+  }
+
+  clack.intro('📦 YALC Add Package')
+
+  // Show store overview
+  const storeInfo = `📦 ${packages.length} packages available`
+  clack.note(storeInfo, '📊 Store Overview')
+
+  // Multi-select packages
+  const packageOptions = packages.map((pkg) => ({
+    value: pkg.name,
+    label: `${pkg.name}@${pkg.version}`,
+    hint: `${formatSize(pkg.size)} • ${formatRelativeTime(pkg.publishedAt)}${pkg.usedInProjects.length > 0 ? ` • 🔗 ${pkg.usedInProjects.length} projects` : ''}`,
+  }))
+
+  const selectedPackageNames = await clack.multiselect({
+    message: 'Select packages to add:',
+    options: packageOptions,
+    required: false,
+  })
+
+  if (clack.isCancel(selectedPackageNames)) {
+    clack.outro('Cancelled')
+    return []
+  }
+
+  if (!selectedPackageNames.length) {
+    clack.outro('No packages selected')
+    return []
+  }
+
+  // Ask for options
+  const addOptions = await clack.group(
+    {
+      isDev: () =>
+        clack.confirm({
+          message: 'Add as dev dependency?',
+          initialValue: false,
+        }),
+
+      isLink: () =>
+        clack.confirm({
+          message: 'Use link instead of copy?',
+          initialValue: false,
+        }),
+
+      useWorkspace: () =>
+        clack.confirm({
+          message: 'Use workspace: protocol?',
+          initialValue: false,
+        }),
+    },
+    {
+      onCancel: () => {
+        clack.cancel('Operation cancelled')
+        process.exit(0)
+      },
+    },
+  )
+
+  // Apply selected options to the existing options object
+  if (addOptions.isDev) options.dev = true
+  if (addOptions.isLink) options.linkDep = true
+  if (addOptions.useWorkspace) options.workspace = true
+
+  const selectedPackages = selectedPackageNames
+  clack.note(
+    `Adding ${selectedPackages.length} packages:\n${selectedPackages.map((pkg) => `  📦 ${pkg}`).join('\n')}`,
+    '✅ Selected Packages',
+  )
+
+  clack.outro('Adding packages...')
+  return selectedPackages
+}
+
 export const addPackages = async (
   packages: string[],
   options: AddPackagesOptions,
 ) => {
-  if (!packages.length) return
+  // If no packages provided, launch interactive selection
+  if (!packages.length) {
+    const selectedPackages = await selectPackagesInteractively(options)
+    if (!selectedPackages.length) {
+      console.log('No packages selected')
+      return
+    }
+    packages = selectedPackages
+  }
   const workingDir = options.workingDir
   const localPkg = readPackageManifest(workingDir)
   let localPkgUpdated = false

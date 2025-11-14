@@ -49,7 +49,7 @@ import {
   disabledConsoleOutput,
 } from '../core/utils/console'
 import { PublishPackageOptions } from './publish'
-import { readRcConfig } from '../core/config/rc'
+import { readRcConfig } from '../core/config/rc-modern'
 
 const updateFlags = ['update', 'upgrade', 'up']
 

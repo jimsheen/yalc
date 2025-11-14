@@ -29,7 +29,6 @@ function getStringArray(arr: (string | number)[]): string[] {
 }
 
 import {
-  values,
   publishPackage,
   addPackages,
   updatePackages,
@@ -46,7 +45,12 @@ import {
 import { checkManifest } from './commands/check'
 import { makeConsoleColored, disabledConsoleOutput } from './core/utils/console'
 import { PublishPackageOptions } from './commands/publish'
-import { readRcConfig } from './core/config/rc'
+import { readRcConfig } from './core/config/rc-modern'
+import { interactiveMode } from './commands/interactive'
+import { listPackages } from './commands/list'
+import { showPackageInfo } from './commands/info'
+import { showPackageUsage } from './commands/where'
+import { cleanPackages } from './commands/clean'
 
 const updateFlags = ['update', 'upgrade', 'up']
 
@@ -58,8 +62,6 @@ const publishFlags = [
   'files',
   ...updateFlags,
 ]
-
-const cliCommand = values.myNameIs
 
 const getVersionMessage = () => {
   const pkg = require(__dirname + '/../package.json')
@@ -97,7 +99,8 @@ const getPublishOptions = (
 
 /* tslint:disable-next-line */
 yargs(hideBin(process.argv))
-  .usage(cliCommand + ' [command] [options] [package1 [package2...]]')
+  .scriptName('yalc')
+  .usage('yalc [command] [options] [package1 [package2...]]')
   .coerce('store-folder', function (folder: string) {
     if (!yalcGlobal.yalcStoreMainDir) {
       yalcGlobal.yalcStoreMainDir = resolve(folder)
@@ -109,16 +112,38 @@ yargs(hideBin(process.argv))
     builder: (yargs) => {
       return yargs.boolean(['version'])
     },
-    handler: (argv) => {
-      let msg = 'Use `yalc help` to see available commands.'
+    handler: async (argv) => {
       if (argv._[0]) {
-        msg = 'Unknown command `' + argv._[0] + '`. ' + msg
+        // Unknown command
+        console.log(
+          'Unknown command `' +
+            argv._[0] +
+            '`. Use `yalc --help` to see available commands.',
+        )
+      } else if (argv.version) {
+        // Show version
+        console.log(getVersionMessage())
       } else {
-        if (argv.version) {
-          msg = getVersionMessage()
+        // No command provided - smart default behavior
+        if (process.stdout.isTTY && process.stdin.isTTY) {
+          // Interactive environment - launch interactive mode
+          await interactiveMode()
+        } else {
+          // Non-interactive environment (scripts, CI) - show help
+          console.log('yalc [command] [options] [package1 [package2...]]')
+          console.log('')
+          console.log('Use `yalc --help` to see available commands.')
+          console.log('Use `yalc interactive` to launch interactive mode.')
         }
       }
-      console.log(msg)
+    },
+  })
+  .command({
+    command: 'interactive',
+    aliases: ['i'],
+    describe: 'Launch interactive mode with menu-driven interface',
+    handler: async () => {
+      await interactiveMode()
     },
   })
   .command({
@@ -297,6 +322,71 @@ yargs(hideBin(process.argv))
         commit: argv.commit ?? false,
         all: argv.all ?? false,
         workingDir: process.cwd(),
+      })
+    },
+  })
+  .command({
+    command: 'list',
+    describe: 'List packages in yalc store',
+    builder: (yargs) => {
+      return yargs
+        .boolean(['detailed', 'unused', 'json'])
+        .describe('detailed', 'Show detailed package information')
+        .describe('unused', 'Show only unused packages')
+        .describe('json', 'Output in JSON format')
+    },
+    handler: (argv) => {
+      listPackages({
+        detailed: argv.detailed,
+        unused: argv.unused,
+        json: argv.json,
+      })
+    },
+  })
+  .command({
+    command: 'info <package>',
+    describe: 'Show detailed information about a package',
+    builder: (yargs) => {
+      return yargs.positional('package', {
+        describe: 'Package name to show information for',
+        type: 'string',
+        demandOption: true,
+      })
+    },
+    handler: (argv) => {
+      showPackageInfo(argv.package)
+    },
+  })
+  .command({
+    command: 'where <package>',
+    describe: 'Show which projects use a package',
+    builder: (yargs) => {
+      return yargs.positional('package', {
+        describe: 'Package name to find usage for',
+        type: 'string',
+        demandOption: true,
+      })
+    },
+    handler: (argv) => {
+      showPackageUsage(argv.package)
+    },
+  })
+  .command({
+    command: 'clean',
+    describe: 'Clean unused packages from store',
+    builder: (yargs) => {
+      return yargs
+        .boolean(['unused', 'old', 'dry-run'])
+        .describe('unused', 'Remove unused packages (default)')
+        .describe('old', 'Remove old package versions')
+        .describe('dry-run', 'Show what would be removed without removing')
+        .default('unused', true)
+    },
+    handler: (argv) => {
+      cleanPackages({
+        unused: argv.unused,
+        old: argv.old,
+        dryRun: argv.dryRun,
       })
     },
   })

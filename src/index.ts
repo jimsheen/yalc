@@ -43,3 +43,10 @@ export type { PackageManifest, PackageScripts } from './package/manifest/pkg'
 
 export type { UpdatePackagesOptions } from './commands/update'
 export type { YalcGlobal } from './core/config/index'
+
+// Export configuration types for .yalcrc files
+export type {
+  YalcConfig,
+  YalcConfigResolved,
+  ConfigValidationResult,
+} from './core/config/types'

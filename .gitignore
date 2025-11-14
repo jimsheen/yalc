@@ -13,3 +13,6 @@ test-results
 tests/**/tmp/
 tests/**/tmp-*/
 **/tmp-*
+# act testing
+.secrets
+.actrc.local

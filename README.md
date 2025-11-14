@@ -137,9 +137,79 @@ If you want to override default pure behavior use `--no-pure` flag.
 
 - Use `--quiet` to fully disable output (except of errors). Use `--no-colors` to disable colors.
 
-### Set default options via .yalcrc
+### Configuration (.yalcrc)
 
-- For example add `workspace-resolve=false` line to the `.yalcrc` file to turn off `workspace:` protocol resolution or `sig=false` to disable package version hash signature.
+Yalc supports configuration via a `.yalcrc` file (INI format) in your project root to set default options for all commands.
+
+#### Available Options:
+
+| Option              | Default | Description                                                                         |
+| ------------------- | ------- | ----------------------------------------------------------------------------------- |
+| `workspace-resolve` | `true`  | Resolve `workspace:*`, `workspace:^`, `workspace:~` dependencies to actual versions |
+| `sig`               | `false` | Generate package integrity signatures (`yalc.sig` files)                            |
+| `dev-mod`           | `true`  | Include `devDependencies` in published packages                                     |
+| `scripts`           | `true`  | Run npm lifecycle scripts during publish (`prepack`, `postpack`, etc.)              |
+| `quiet`             | `false` | Suppress console output (errors still shown)                                        |
+| `files`             | `false` | Use `package.json` `files` field to determine what to publish                       |
+
+#### Example .yalcrc:
+
+```ini
+# Resolve workspace dependencies (recommended for monorepos)
+workspace-resolve=true
+
+# Disable signatures for faster publishing
+sig=false
+
+# Clean packages by removing devDependencies
+dev-mod=false
+
+# Enable lifecycle scripts
+scripts=true
+
+# Normal output
+quiet=false
+```
+
+#### Command Line Override:
+
+You can override any `.yalcrc` setting with command line flags:
+
+```bash
+# Override .yalcrc settings for this command only
+yalc publish --sig --dev-mod --no-workspace-resolve
+
+# Example: Force signature generation even if .yalcrc has sig=false
+yalc publish --sig
+```
+
+#### Multiple Format Support:
+
+Yalc also supports modern configuration formats:
+
+```bash
+# .yalcrc (INI format)
+workspace-resolve=true
+sig=false
+
+# .yalcrc.json (JSON format)
+{
+  "workspace-resolve": true,
+  "sig": false
+}
+
+# .yalcrc.yaml (YAML format)
+workspace-resolve: true
+sig: false
+
+# package.json (embedded config)
+{
+  "yalc": {
+    "workspace-resolve": true,
+    "sig": false
+  }
+}
+```
 
 ## Related links
 

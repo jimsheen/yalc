@@ -1,0 +1,17 @@
+# act configuration file
+# Use medium image for better compatibility
+--container-architecture linux/amd64
+-P ubuntu-latest=catthehacker/ubuntu:act-latest
+-P ubuntu-20.04=catthehacker/ubuntu:act-20.04
+-P ubuntu-18.04=catthehacker/ubuntu:act-18.04
+
+# Use secrets from .secrets file
+--secret-file .secrets
+
+# Set environment variables
+--env GITHUB_REPOSITORY=jimsheen/yalc
+--env CI=true
+--env GITHUB_ACTIONS=true
+
+# Verbose logging
+--verbose
