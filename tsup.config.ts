@@ -11,7 +11,7 @@ export default defineConfig({
   dts: true,
 
   // Output directory
-  outDir: 'lib',
+  outDir: 'dist',
 
   // Clean output directory before build
   clean: true,

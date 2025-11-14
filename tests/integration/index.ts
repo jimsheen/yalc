@@ -1,18 +1,15 @@
 import * as fs from 'fs-extra'
-import { doesNotThrow, throws, deepEqual, ok, strictEqual } from 'assert'
+import { describe, it, beforeAll, beforeEach, expect } from 'vitest'
 import { join } from 'path'
-import {
-  addPackages,
-  updatePackages,
-  publishPackage,
-  removePackages,
-  yalcGlobal,
-  readPackageManifest,
-} from '../src'
+import { addPackages } from '../../src/commands/add'
+import { updatePackages } from '../../src/commands/update'
+import { publishPackage } from '../../src/commands/publish'
+import { removePackages } from '../../src/commands/remove'
+import { yalcGlobal, readPackageManifest } from '../../src/core/config/index'
 
-import { readInstallationsFile } from '../src/installations'
+import { readInstallationsFile } from '../../src/package/installations/installations'
 
-import { readLockfile, LockFileConfigV1 } from '../src/lockfile'
+import { readLockfile, LockFileConfigV1 } from '../../src/commands/lockfile'
 
 const values = {
   depPackage: 'dep-package',
@@ -66,11 +63,13 @@ const publishedPackage2Path = join(
   values.depPackage2Version,
 )
 
-const checkExists = (path: string) =>
-  doesNotThrow(() => fs.accessSync(path), path + ' does not exist')
+const checkExists = (path: string) => {
+  expect(() => fs.accessSync(path)).not.toThrow()
+}
 
-const checkNotExists = (path: string) =>
-  throws(() => fs.accessSync(path), path + ' exists')
+const checkNotExists = (path: string) => {
+  expect(() => fs.accessSync(path)).toThrow()
+}
 
 const extractSignature = (lockfile: LockFileConfigV1, packageName: string) => {
   const packageEntry = lockfile.packages[packageName]
@@ -98,23 +97,20 @@ const extractSignature = (lockfile: LockFileConfigV1, packageName: string) => {
   return signature
 }
 
-describe('Yalc package manager', function () {
-  this.timeout(60000)
-  before(() => {
+describe('Yalc package manager', () => {
+  beforeAll(() => {
     fs.removeSync(tmpDir)
     fs.copySync(fixtureDir, tmpDir)
   })
-  describe('Package publish', function () {
-    this.timeout(5000)
-    before(() => {
+  describe('Package publish', () => {
+    beforeAll(async () => {
       console.time('Package publish')
-      return publishPackage({
+      await publishPackage({
         workingDir: depPackageDir,
         signature: true,
         workspaceResolve: true,
-      }).then(() => {
-        console.timeEnd('Package publish')
       })
+      console.timeEnd('Package publish')
     })
 
     it('publishes package to store', () => {
@@ -154,28 +150,28 @@ describe('Yalc package manager', function () {
     it('it creates signature file', () => {
       const sigFileName = join(publishedPackagePath, 'yalc.sig')
       checkExists(sigFileName)
-      ok(fs.statSync(sigFileName).size === 32, 'signature file size')
+      expect(fs.statSync(sigFileName).size).toBe(32)
     })
 
     it('Adds signature to package.json version', () => {
       const pkg = readPackageManifest(publishedPackagePath)!
       const versionLength =
         values.depPackageVersion.length + shortSignatureLength + 1
-      ok(pkg.version.length === versionLength)
+      expect(pkg.version.length).toBe(versionLength)
     })
 
     it('does not respect .gitignore, if .npmignore presents', () => {})
 
     describe('signature consistency', () => {
       let expectedSignature: string
-      before(() => {
+      beforeAll(() => {
         expectedSignature = fs
           .readFileSync(join(publishedPackagePath, 'yalc.sig'))
           .toString()
       })
 
-      beforeEach(() => {
-        return publishPackage({
+      beforeEach(async () => {
+        await publishPackage({
           workingDir: depPackageDir,
           signature: true,
           workspaceResolve: true,
@@ -187,62 +183,62 @@ describe('Yalc package manager', function () {
           const sigFileName = join(publishedPackagePath, 'yalc.sig')
           const signature = fs.readFileSync(sigFileName).toString()
 
-          deepEqual(signature, expectedSignature)
+          expect(signature).toEqual(expectedSignature)
         })
       }
     })
 
     it('resolves "workspace:*" for dependencies', () => {
       const pkg = readPackageManifest(publishedPackagePath)
-      ok(pkg?.dependencies)
+      expect(pkg?.dependencies).toBeTruthy()
 
       const publishedVersion = pkg?.dependencies?.[values.wksDepPkg]
 
-      strictEqual(publishedVersion, values.wksResolvedVersion)
+      expect(publishedVersion).toBe(values.wksResolvedVersion)
     })
 
     it('resolves "workspace:^" for dependencies', () => {
       const pkg = readPackageManifest(publishedPackagePath)
-      ok(pkg?.dependencies)
+      expect(pkg?.dependencies).toBeTruthy()
 
       const publishedVersion = pkg?.dependencies?.[values.wksDepMinorAlias]
 
-      strictEqual(publishedVersion, values.wksMinorAliasVersion)
+      expect(publishedVersion).toBe(values.wksMinorAliasVersion)
     })
 
     it('resolves "workspace:~" for dependencies', () => {
       const pkg = readPackageManifest(publishedPackagePath)
-      ok(pkg?.dependencies)
+      expect(pkg?.dependencies).toBeTruthy()
 
       const publishedVersion = pkg?.dependencies?.[values.wksDepPatchAlias]
 
-      strictEqual(publishedVersion, values.wksPatchAliasVersion)
+      expect(publishedVersion).toBe(values.wksPatchAliasVersion)
     })
 
     it('substitutes workspace version aliases ("*", "^", "~") with "*" if unresolvable', () => {
       const pkg = readPackageManifest(publishedPackagePath)
-      ok(pkg)
-      ok(pkg?.dependencies)
+      expect(pkg).toBeTruthy()
+      expect(pkg?.dependencies).toBeTruthy()
 
       const publishedVersion = pkg?.dependencies?.[values.wksUnresolvedPackage]
-      strictEqual(publishedVersion, '*')
+      expect(publishedVersion).toBe('*')
 
       const publishedMinorAliasVersion =
         pkg?.dependencies?.[values.wksUnresolvedMinorAlias]
-      strictEqual(publishedMinorAliasVersion, '*')
+      expect(publishedMinorAliasVersion).toBe('*')
 
       const publishedPatchAliasVersion =
         pkg?.dependencies?.[values.wksUnresolvedPatchAlias]
-      strictEqual(publishedPatchAliasVersion, '*')
+      expect(publishedPatchAliasVersion).toBe('*')
     })
 
     it('extracts version of workspace dependencies if specified', () => {
       const pkg = readPackageManifest(publishedPackagePath)
-      ok(pkg)
-      ok(pkg?.dependencies)
+      expect(pkg).toBeTruthy()
+      expect(pkg?.dependencies).toBeTruthy()
 
       const publishedVersion = pkg?.dependencies?.[values.wksDepQualified]
-      strictEqual(publishedVersion, values.wksPkgQualifiedVersion)
+      expect(publishedVersion).toBe(values.wksPkgQualifiedVersion)
     })
   })
 
@@ -250,13 +246,12 @@ describe('Yalc package manager', function () {
     const publishedFilePath = join(publishedPackage2Path, 'file.txt')
 
     const originalFilePath = join(depPackage2Dir, 'file.txt')
-    before(() => {
+    beforeAll(async () => {
       console.time('Package2 publish')
-      return publishPackage({
+      await publishPackage({
         workingDir: depPackage2Dir,
-      }).then(() => {
-        console.timeEnd('Package2 publish')
       })
+      console.timeEnd('Package2 publish')
     })
 
     it('publishes package to store', () => {
@@ -266,8 +261,8 @@ describe('Yalc package manager', function () {
   })
 
   describe('Add package', () => {
-    before(() => {
-      return addPackages([values.depPackage], {
+    beforeAll(async () => {
+      await addPackages([values.depPackage], {
         workingDir: projectDir,
       })
     })
@@ -282,7 +277,7 @@ describe('Yalc package manager', function () {
     })
     it('places yalc.lock correct info about file', () => {
       const lockFile = readLockfile({ workingDir: projectDir })
-      deepEqual(lockFile.packages, {
+      expect(lockFile.packages).toEqual({
         [values.depPackage]: {
           file: true,
           replaced: '1.0.0',
@@ -292,19 +287,19 @@ describe('Yalc package manager', function () {
     })
     it('updates package.json', () => {
       const pkg = readPackageManifest(projectDir)!
-      deepEqual(pkg.dependencies, {
+      expect(pkg.dependencies).toEqual({
         [values.depPackage]: 'file:.yalc/' + values.depPackage,
       })
     })
     it('create and updates installations file', () => {
       const installations = readInstallationsFile()
-      deepEqual(installations, {
+      expect(installations).toEqual({
         [values.depPackage]: [projectDir],
       })
     })
     it('preserves indent after installation', () => {
       const pkg = readPackageManifest(projectDir)!
-      strictEqual(pkg.__Indent, '  ')
+      expect(pkg.__Indent).toBe('  ')
     })
   })
 
@@ -315,9 +310,9 @@ describe('Yalc package manager', function () {
       values.depPackage,
       'node_modules/file.txt',
     )
-    before(() => {
+    beforeAll(async () => {
       fs.ensureFileSync(innerNodeModulesFile)
-      return updatePackages([values.depPackage], {
+      await updatePackages([values.depPackage], {
         workingDir: projectDir,
       })
     })
@@ -325,7 +320,7 @@ describe('Yalc package manager', function () {
     it('does not change yalc.lock', () => {
       const lockFile = readLockfile({ workingDir: projectDir })
       console.log('lockFile', lockFile)
-      deepEqual(lockFile.packages, {
+      expect(lockFile.packages).toEqual({
         [values.depPackage]: {
           file: true,
           replaced: '1.0.0',
@@ -339,14 +334,14 @@ describe('Yalc package manager', function () {
   })
 
   describe('Remove not existing package', () => {
-    before(() => {
-      return removePackages(['xxxx'], {
+    beforeAll(async () => {
+      await removePackages(['xxxx'], {
         workingDir: projectDir,
       })
     })
     it('does not updates yalc.lock', () => {
       const lockFile = readLockfile({ workingDir: projectDir })
-      deepEqual(lockFile.packages, {
+      expect(lockFile.packages).toEqual({
         [values.depPackage]: {
           file: true,
           replaced: '1.0.0',
@@ -357,8 +352,8 @@ describe('Yalc package manager', function () {
   })
 
   describe('Retreat package', () => {
-    before(() => {
-      return removePackages([values.depPackage], {
+    beforeAll(async () => {
+      await removePackages([values.depPackage], {
         workingDir: projectDir,
         retreat: true,
       })
@@ -366,7 +361,7 @@ describe('Yalc package manager', function () {
 
     it('does not updates yalc.lock', () => {
       const lockFile = readLockfile({ workingDir: projectDir })
-      deepEqual(lockFile.packages, {
+      expect(lockFile.packages).toEqual({
         [values.depPackage]: {
           file: true,
           replaced: '1.0.0',
@@ -377,14 +372,14 @@ describe('Yalc package manager', function () {
 
     it('updates package.json', () => {
       const pkg = readPackageManifest(projectDir)!
-      deepEqual(pkg.dependencies, {
+      expect(pkg.dependencies).toEqual({
         [values.depPackage]: values.depPackageVersion,
       })
     })
 
     it('does not update installations file', () => {
       const installtions = readInstallationsFile()
-      deepEqual(installtions, {
+      expect(installtions).toEqual({
         [values.depPackage]: [projectDir],
       })
     })
@@ -399,42 +394,42 @@ describe('Yalc package manager', function () {
   })
 
   describe('Update (restore after retreat) package', () => {
-    before(() => {
-      return updatePackages([values.depPackage], {
+    beforeAll(async () => {
+      await updatePackages([values.depPackage], {
         workingDir: projectDir,
       })
     })
 
     it('updates package.json', () => {
       const pkg = readPackageManifest(projectDir)!
-      deepEqual(pkg.dependencies, {
+      expect(pkg.dependencies).toEqual({
         [values.depPackage]: 'file:.yalc/' + values.depPackage,
       })
     })
   })
 
   describe('Remove package', () => {
-    before(() => {
-      return removePackages([values.depPackage], {
+    beforeAll(async () => {
+      await removePackages([values.depPackage], {
         workingDir: projectDir,
       })
     })
 
     it('updates yalc.lock', () => {
       const lockFile = readLockfile({ workingDir: projectDir })
-      deepEqual(lockFile.packages, {})
+      expect(lockFile.packages).toEqual({})
     })
 
     it('updates package.json', () => {
       const pkg = readPackageManifest(projectDir)!
-      deepEqual(pkg.dependencies, {
+      expect(pkg.dependencies).toEqual({
         [values.depPackage]: values.depPackageVersion,
       })
     })
 
     it('updates installations file', () => {
       const installtions = readInstallationsFile()
-      deepEqual(installtions, {})
+      expect(installtions).toEqual({})
     })
     it('should remove package from .yalc', () => {
       checkNotExists(join(projectDir, '.ylc', values.depPackage))
@@ -446,8 +441,8 @@ describe('Yalc package manager', function () {
   })
 
   describe('Add package (--link)', () => {
-    before(() => {
-      return addPackages([values.depPackage], {
+    beforeAll(async () => {
+      await addPackages([values.depPackage], {
         workingDir: projectDir,
         linkDep: true,
       })
@@ -463,7 +458,7 @@ describe('Yalc package manager', function () {
     })
     it('places yalc.lock correct info about file', () => {
       const lockFile = readLockfile({ workingDir: projectDir })
-      deepEqual(lockFile.packages, {
+      expect(lockFile.packages).toEqual({
         [values.depPackage]: {
           link: true,
           replaced: '1.0.0',
@@ -473,27 +468,27 @@ describe('Yalc package manager', function () {
     })
     it('updates package.json', () => {
       const pkg = readPackageManifest(projectDir)!
-      deepEqual(pkg.dependencies, {
+      expect(pkg.dependencies).toEqual({
         [values.depPackage]: 'link:.yalc/' + values.depPackage,
       })
     })
     it('create and updates installations file', () => {
       const installtions = readInstallationsFile()
-      deepEqual(installtions, {
+      expect(installtions).toEqual({
         [values.depPackage]: [projectDir],
       })
     })
   })
 
   describe('Updated linked (--link) package', () => {
-    before(() => {
-      return updatePackages([values.depPackage], {
+    beforeAll(async () => {
+      await updatePackages([values.depPackage], {
         workingDir: projectDir,
       })
     })
     it('places yalc.lock correct info about file', () => {
       const lockFile = readLockfile({ workingDir: projectDir })
-      deepEqual(lockFile.packages, {
+      expect(lockFile.packages).toEqual({
         [values.depPackage]: {
           link: true,
           replaced: '1.0.0',
@@ -503,13 +498,13 @@ describe('Yalc package manager', function () {
     })
     it('updates package.json', () => {
       const pkg = readPackageManifest(projectDir)!
-      deepEqual(pkg.dependencies, {
+      expect(pkg.dependencies).toEqual({
         [values.depPackage]: 'link:.yalc/' + values.depPackage,
       })
     })
     it('create and updates installations file', () => {
       const installtions = readInstallationsFile()
-      deepEqual(installtions, {
+      expect(installtions).toEqual({
         [values.depPackage]: [projectDir],
       })
     })

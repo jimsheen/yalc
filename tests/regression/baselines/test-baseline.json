@@ -1,6 +1,6 @@
 {
   "version": "2.0.0-alpha.1",
-  "timestamp": "2025-11-13T20:28:21.942Z",
+  "timestamp": "2025-11-14T10:38:20.657Z",
   "node_version": "v23.10.0",
   "npm_version": "11.4.1",
   "platform": "darwin",
@@ -11,9 +11,9 @@
       "exitCode": 0,
       "stdout": "yalc [command] [options] [package1 [package2...]]\n\nCommands:\n  yalc.js publish        Publish package in yalc local repo\n  yalc.js push           Publish package in yalc local repo and push to all\n                         installations\n  yalc.js installations  Work with installations file: show/clean\n  yalc.js add            Add package from yalc repo to the project\n  yalc.js link           Link package from yalc repo to the project\n  yalc.js update         Update packages from yalc repo\n  yalc.js restore        Restore retreated packages\n  yalc.js remove         Remove packages from the project\n  yalc.js retreat        Remove packages from project, but leave in lock file\n                         (to be restored later)\n  yalc.js check          Check package.json for yalc packages\n  yalc.js dir            Show yalc system directory\n\nOptions:\n  --version  Show version number                                       [boolean]\n  --help     Show help                                                 [boolean]\n",
       "stderr": "",
-      "timestamp": "2025-11-13T20:28:21.730Z",
+      "timestamp": "2025-11-14T10:38:20.375Z",
       "hash": "2a56e1d022ab495d",
-      "duration": 51
+      "duration": 75
     },
     {
       "command": "yalc",
@@ -21,9 +21,9 @@
       "exitCode": 0,
       "stdout": "2.0.0-alpha.1\n",
       "stderr": "",
-      "timestamp": "2025-11-13T20:28:21.779Z",
+      "timestamp": "2025-11-14T10:38:20.443Z",
       "hash": "0b9db3f96131ef1e",
-      "duration": 49
+      "duration": 67
     },
     {
       "command": "yalc",
@@ -31,9 +31,9 @@
       "exitCode": 0,
       "stdout": "/Users/jamessheen/.yalc\n",
       "stderr": "",
-      "timestamp": "2025-11-13T20:28:21.832Z",
+      "timestamp": "2025-11-14T10:38:20.517Z",
       "hash": "0648139d3117f723",
-      "duration": 52
+      "duration": 74
     },
     {
       "command": "yalc",
@@ -41,9 +41,9 @@
       "exitCode": 0,
       "stdout": "Installations of package create-barrel-folder:\n  /Users/jamessheen/Documents/Projects/cbf-test-1\nInstallations of package @jimsheen/create-barrel-folder:\n  /Users/jamessheen/Documents/Projects/cbf-test-1\nInstallations of package rollup-ts-json-test:\n  /Users/jamessheen/Documents/Projects/cbf-test-1\n",
       "stderr": "",
-      "timestamp": "2025-11-13T20:28:21.889Z",
+      "timestamp": "2025-11-14T10:38:20.587Z",
       "hash": "6e752cba8e461258",
-      "duration": 57
+      "duration": 70
     },
     {
       "command": "yalc",
@@ -51,9 +51,9 @@
       "exitCode": 0,
       "stdout": "check usage here\n\nOptions:\n  --version  Show version number                                       [boolean]\n  --help     Show help                                                 [boolean]\n",
       "stderr": "",
-      "timestamp": "2025-11-13T20:28:21.942Z",
+      "timestamp": "2025-11-14T10:38:20.657Z",
       "hash": "21fdccfe3b10d46f",
-      "duration": 53
+      "duration": 70
     }
   ]
 }

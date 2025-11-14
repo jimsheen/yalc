@@ -66,7 +66,7 @@ export const copyDirSafe = async (
 
   const dirsInDest: { [file: string]: boolean } = {}
 
-  for await (const file of commonFiles) {
+  for (const file of commonFiles) {
     srcCached[file] = srcCached[file] || {}
     const srcFilePath = resolve(srcDir, file)
     const destFilePath = resolve(destDir, file)

@@ -9,3 +9,7 @@ yalc.lock
 *.log
 dist
 test-results
+# Test temporary directories
+tests/**/tmp/
+tests/**/tmp-*/
+**/tmp-*

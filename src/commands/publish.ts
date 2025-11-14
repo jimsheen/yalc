@@ -1,17 +1,12 @@
-import { exec, execSync } from 'child_process'
+import { execSync } from 'child_process'
 import { join } from 'path'
 
 import {
   execLoudOptions,
   getStorePackagesDir,
   updatePackages,
-  values,
 } from '../core/config/index'
-import {
-  PackageManifest,
-  PackageScripts,
-  readPackageManifest,
-} from '../package/manifest/pkg'
+import { PackageScripts, readPackageManifest } from '../package/manifest/pkg'
 import { getPackageManager, pmRunScriptCmd } from '../package/manager/pm'
 import { copyPackageToStore } from '../core/utils/copy'
 import {
@@ -89,10 +84,12 @@ export const publishPackage = async (options: PublishPackageOptions) => {
   postScripts.forEach(runPmScript)
 
   const publishedPackageDir = join(getStorePackagesDir(), pkg.name, pkg.version)
-  const publishedPkg = readPackageManifest(publishedPackageDir)!
-  console.log(
-    `${publishedPkg.name}@${publishedPkg.version} published in store.`,
-  )
+  const publishedPkg = readPackageManifest(publishedPackageDir)
+  if (publishedPkg) {
+    console.log(
+      `${publishedPkg.name}@${publishedPkg.version} published in store.`,
+    )
+  }
 
   if (options.push) {
     const installationsConfig = readInstallationsFile()

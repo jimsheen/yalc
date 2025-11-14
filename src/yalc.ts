@@ -36,20 +36,17 @@ import {
   removePackages,
   getStoreMainDir,
   yalcGlobal,
-} from '../core/config/index'
+} from './core/config/index'
 
 import {
   showInstallations,
   cleanInstallations,
-} from '../package/installations/installations'
+} from './package/installations/installations'
 
-import { checkManifest } from './check'
-import {
-  makeConsoleColored,
-  disabledConsoleOutput,
-} from '../core/utils/console'
-import { PublishPackageOptions } from './publish'
-import { readRcConfig } from '../core/config/rc'
+import { checkManifest } from './commands/check'
+import { makeConsoleColored, disabledConsoleOutput } from './core/utils/console'
+import { PublishPackageOptions } from './commands/publish'
+import { readRcConfig } from './core/config/rc'
 
 const updateFlags = ['update', 'upgrade', 'up']
 
@@ -313,6 +310,6 @@ yargs(hideBin(process.argv))
   .help('help')
   .parseAsync()
   .catch((error: unknown) => {
-    console.error('Error parsing command line arguments:', error)
+    console.error(error)
     process.exit(1)
   })

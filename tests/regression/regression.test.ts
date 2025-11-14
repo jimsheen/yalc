@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll } from 'vitest'
-import { BaselineCapture } from './baseline-capture'
+import { BaselineCapture } from './baseline-capture.class'
 import { existsSync } from 'fs'
 
 describe('YALC Regression Tests', () => {
@@ -19,7 +19,7 @@ describe('YALC Regression Tests', () => {
 
       // Verify all critical commands captured
       const commands = suite.results.map(
-        (r) => `${r.command} ${r.args.join(' ')}`
+        (r) => `${r.command} ${r.args.join(' ')}`,
       )
       expect(commands).toContain('yalc --help')
       expect(commands).toContain('yalc --version')
@@ -42,7 +42,7 @@ describe('YALC Regression Tests', () => {
     it('should have consistent help output', async () => {
       const suite = await capture.captureAllBaselines()
       const helpResult = suite.results.find(
-        (r) => r.command === 'yalc' && r.args.includes('--help')
+        (r) => r.command === 'yalc' && r.args.includes('--help'),
       )
 
       expect(helpResult).toBeDefined()
@@ -55,7 +55,7 @@ describe('YALC Regression Tests', () => {
     it('should have consistent version output', async () => {
       const suite = await capture.captureAllBaselines()
       const versionResult = suite.results.find(
-        (r) => r.command === 'yalc' && r.args.includes('--version')
+        (r) => r.command === 'yalc' && r.args.includes('--version'),
       )
 
       expect(versionResult).toBeDefined()
@@ -66,7 +66,7 @@ describe('YALC Regression Tests', () => {
     it('should have consistent directory output', async () => {
       const suite = await capture.captureAllBaselines()
       const dirResult = suite.results.find(
-        (r) => r.command === 'yalc' && r.args.includes('dir')
+        (r) => r.command === 'yalc' && r.args.includes('dir'),
       )
 
       expect(dirResult).toBeDefined()

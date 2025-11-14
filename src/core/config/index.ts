@@ -1,4 +1,4 @@
-import { ExecSyncOptions } from 'child_process'
+import type { ExecSyncOptions } from 'child_process'
 import * as fs from 'fs-extra'
 import { homedir } from 'os'
 import { join } from 'path'
@@ -64,7 +64,7 @@ export const readSignatureFile = (workingDir: string) => {
   try {
     const fileData = fs.readFileSync(signatureFilePath, 'utf-8')
     return fileData
-  } catch (e) {
+  } catch {
     return ''
   }
 }
@@ -74,7 +74,7 @@ export const readIgnoreFile = (workingDir: string) => {
   try {
     const fileData = fs.readFileSync(filePath, 'utf-8')
     return fileData
-  } catch (e) {
+  } catch {
     return ''
   }
 }
@@ -83,8 +83,8 @@ export const writeSignatureFile = (workingDir: string, signature: string) => {
   const signatureFilePath = join(workingDir, signatureFileName)
   try {
     fs.writeFileSync(signatureFilePath, signature)
-  } catch (e) {
+  } catch (error) {
     console.error('Could not write signature file')
-    throw e
+    throw error
   }
 }

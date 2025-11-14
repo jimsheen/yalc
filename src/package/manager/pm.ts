@@ -1,4 +1,4 @@
-import { execSync, ExecSyncOptions } from 'child_process'
+import { execSync } from 'child_process'
 import * as fs from 'fs-extra'
 import { join } from 'path'
 import { execLoudOptions } from '../../core/config/index'

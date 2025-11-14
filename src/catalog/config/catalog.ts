@@ -1,6 +1,9 @@
 import * as fs from 'fs-extra'
 import { join } from 'path'
-import { readPackageManifest } from '../../package/manifest/pkg'
+import {
+  readPackageManifest,
+  PackageManifest,
+} from '../../package/manifest/pkg'
 
 export interface CatalogConfig {
   catalog?: { [depName: string]: string }
@@ -131,10 +134,10 @@ class CatalogCache {
         if (catalogConfig.catalogs) {
           result.named = catalogConfig.catalogs
         }
-      } catch (e) {
+      } catch (error) {
         console.warn(
           'Could not parse pnpm-workspace.yaml for catalog configuration:',
-          e,
+          error,
         )
         // Continue execution - don't fail completely on malformed YAML
       }
@@ -143,19 +146,28 @@ class CatalogCache {
     // Also check package.json for catalog definitions
     try {
       const pkg = readPackageManifest(workingDir)
-      if (pkg && (pkg as any).catalog) {
-        // Only merge if there are entries to avoid unnecessary object creation
-        if (Object.keys((pkg as any).catalog).length > 0) {
-          result.default = { ...result.default, ...(pkg as any).catalog }
+      if (pkg) {
+        const pkgData = pkg as PackageManifest & {
+          catalog?: Record<string, string>
+          catalogs?: Record<string, Record<string, string>>
+        }
+        if (pkgData.catalog) {
+          // Only merge if there are entries to avoid unnecessary object creation
+          if (Object.keys(pkgData.catalog).length > 0) {
+            result.default = { ...result.default, ...pkgData.catalog }
+          }
+        }
+        if (pkgData.catalogs) {
+          if (Object.keys(pkgData.catalogs).length > 0) {
+            result.named = { ...result.named, ...pkgData.catalogs }
+          }
         }
       }
-      if (pkg && (pkg as any).catalogs) {
-        if (Object.keys((pkg as any).catalogs).length > 0) {
-          result.named = { ...result.named, ...(pkg as any).catalogs }
-        }
-      }
-    } catch (e) {
-      console.warn('Could not read package.json for catalog configuration:', e)
+    } catch (error) {
+      console.warn(
+        'Could not read package.json for catalog configuration:',
+        error,
+      )
       // Continue execution
     }
 
@@ -253,7 +265,7 @@ class CatalogCache {
         if (catalogName) {
           currentCatalogName = catalogName
           currentSection = 'catalog-named'
-          if (!result.catalogs) result.catalogs = {}
+          result.catalogs ??= {}
           result.catalogs[currentCatalogName] = {}
         }
         continue
@@ -272,7 +284,7 @@ class CatalogCache {
           .trim()
         if (catalogName) {
           currentCatalogName = catalogName
-          if (!result.catalogs) result.catalogs = {}
+          result.catalogs ??= {}
           result.catalogs[currentCatalogName] = {}
         }
         continue
@@ -347,7 +359,13 @@ export const resolveCatalogDependency = (
   catalogConfig: ParsedCatalog,
 ): string => {
   // Input validation
-  if (!catalogVersion || !depName || !catalogConfig) {
+  if (
+    !catalogVersion ||
+    !depName ||
+    !catalogConfig ||
+    !catalogVersion.trim() ||
+    !depName.trim()
+  ) {
     console.warn(
       `Invalid input for catalog resolution: catalogVersion="${catalogVersion}", depName="${depName}"`,
     )
@@ -375,7 +393,11 @@ export const resolveCatalogDependency = (
 
   // Look up in named catalog
   const namedCatalog = catalogConfig.named[catalogRef]
-  if (!namedCatalog) {
+  if (
+    !namedCatalog ||
+    typeof namedCatalog !== 'object' ||
+    Object.keys(namedCatalog).length === 0
+  ) {
     console.warn(
       `Named catalog "${catalogRef}" not found, using ${cleanCatalogVersion} as fallback`,
     )

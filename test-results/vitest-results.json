@@ -1,10 +1,10 @@
 {
-  "numTotalTestSuites": 40,
-  "numPassedTestSuites": 40,
+  "numTotalTestSuites": 66,
+  "numPassedTestSuites": 66,
   "numFailedTestSuites": 0,
   "numPendingTestSuites": 0,
-  "numTotalTests": 107,
-  "numPassedTests": 107,
+  "numTotalTests": 179,
+  "numPassedTests": 179,
   "numFailedTests": 0,
   "numPendingTests": 0,
   "numTodoTests": 0,
@@ -24,9 +24,830 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1763107187162,
+  "startTime": 1763116209899,
   "success": true,
   "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "Comprehensive Catalog Tests",
+            "Advanced YAML Parsing"
+          ],
+          "fullName": "Comprehensive Catalog Tests Advanced YAML Parsing should handle complex nested YAML with comments",
+          "status": "passed",
+          "title": "should handle complex nested YAML with comments",
+          "duration": 2.815957999999995,
+          "failureMessages": [],
+          "location": { "line": 30, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Comprehensive Catalog Tests",
+            "Advanced YAML Parsing"
+          ],
+          "fullName": "Comprehensive Catalog Tests Advanced YAML Parsing should handle quoted package names correctly",
+          "status": "passed",
+          "title": "should handle quoted package names correctly",
+          "duration": 0.8809169999999824,
+          "failureMessages": [],
+          "location": { "line": 76, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Comprehensive Catalog Tests",
+            "Advanced YAML Parsing"
+          ],
+          "fullName": "Comprehensive Catalog Tests Advanced YAML Parsing should handle malformed YAML gracefully",
+          "status": "passed",
+          "title": "should handle malformed YAML gracefully",
+          "duration": 0.6128329999999949,
+          "failureMessages": [],
+          "location": { "line": 100, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Comprehensive Catalog Tests",
+            "Caching Performance"
+          ],
+          "fullName": "Comprehensive Catalog Tests Caching Performance should cache reads for performance improvement",
+          "status": "passed",
+          "title": "should cache reads for performance improvement",
+          "duration": 0.8172500000000014,
+          "failureMessages": [],
+          "location": { "line": 126, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Comprehensive Catalog Tests",
+            "Caching Performance"
+          ],
+          "fullName": "Comprehensive Catalog Tests Caching Performance should invalidate cache when file changes",
+          "status": "passed",
+          "title": "should invalidate cache when file changes",
+          "duration": 11.66987499999999,
+          "failureMessages": [],
+          "location": { "line": 166, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Comprehensive Catalog Tests", "Error Handling"],
+          "fullName": "Comprehensive Catalog Tests Error Handling should handle missing pnpm-workspace.yaml file",
+          "status": "passed",
+          "title": "should handle missing pnpm-workspace.yaml file",
+          "duration": 0.20120799999997985,
+          "failureMessages": [],
+          "location": { "line": 199, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Comprehensive Catalog Tests", "Error Handling"],
+          "fullName": "Comprehensive Catalog Tests Error Handling should handle input validation in resolveCatalogDependency",
+          "status": "passed",
+          "title": "should handle input validation in resolveCatalogDependency",
+          "duration": 0.5309169999999881,
+          "failureMessages": [],
+          "location": { "line": 207, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Comprehensive Catalog Tests", "Error Handling"],
+          "fullName": "Comprehensive Catalog Tests Error Handling should validate isCatalogDependency inputs",
+          "status": "passed",
+          "title": "should validate isCatalogDependency inputs",
+          "duration": 0.1932910000000163,
+          "failureMessages": [],
+          "location": { "line": 238, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Comprehensive Catalog Tests",
+            "Integration with package.json"
+          ],
+          "fullName": "Comprehensive Catalog Tests Integration with package.json should merge package.json catalog with pnpm-workspace.yaml",
+          "status": "passed",
+          "title": "should merge package.json catalog with pnpm-workspace.yaml",
+          "duration": 1.1228330000000142,
+          "failureMessages": [],
+          "location": { "line": 248, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Comprehensive Catalog Tests",
+            "Integration with package.json"
+          ],
+          "fullName": "Comprehensive Catalog Tests Integration with package.json should handle package.json read errors gracefully",
+          "status": "passed",
+          "title": "should handle package.json read errors gracefully",
+          "duration": 0.8142079999999794,
+          "failureMessages": [],
+          "location": { "line": 282, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Comprehensive Catalog Tests",
+            "Real-world Scenarios"
+          ],
+          "fullName": "Comprehensive Catalog Tests Real-world Scenarios should handle large catalogs efficiently",
+          "status": "passed",
+          "title": "should handle large catalogs efficiently",
+          "duration": 1.3494170000000167,
+          "failureMessages": [],
+          "location": { "line": 304, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Comprehensive Catalog Tests",
+            "Real-world Scenarios"
+          ],
+          "fullName": "Comprehensive Catalog Tests Real-world Scenarios should resolve complex catalog dependencies correctly",
+          "status": "passed",
+          "title": "should resolve complex catalog dependencies correctly",
+          "duration": 0.2492499999999893,
+          "failureMessages": [],
+          "location": { "line": 349, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Comprehensive Catalog Tests", "Cache Management"],
+          "fullName": "Comprehensive Catalog Tests Cache Management should provide cache statistics",
+          "status": "passed",
+          "title": "should provide cache statistics",
+          "duration": 0.12520899999998392,
+          "failureMessages": [],
+          "location": { "line": 402, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Comprehensive Catalog Tests", "Cache Management"],
+          "fullName": "Comprehensive Catalog Tests Cache Management should clear cache completely",
+          "status": "passed",
+          "title": "should clear cache completely",
+          "duration": 1.0194999999999936,
+          "failureMessages": [],
+          "location": { "line": 410, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Comprehensive Catalog Tests", "Cache Management"],
+          "fullName": "Comprehensive Catalog Tests Cache Management should handle bounded cache size correctly",
+          "status": "passed",
+          "title": "should handle bounded cache size correctly",
+          "duration": 4.706375000000008,
+          "failureMessages": [],
+          "location": { "line": 425, "column": 5 },
+          "meta": {}
+        }
+      ],
+      "startTime": 1763116210054,
+      "endTime": 1763116210081.7063,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/jamessheen/Documents/Projects/yalc-1/tests/integration/catalog-comprehensive-test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Yalc package manager", "Package publish"],
+          "fullName": "Yalc package manager Package publish publishes package to store",
+          "status": "passed",
+          "title": "publishes package to store",
+          "duration": 0.785082999999986,
+          "failureMessages": [],
+          "location": { "line": 116, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Package publish"],
+          "fullName": "Yalc package manager Package publish copies package.json npm includes",
+          "status": "passed",
+          "title": "copies package.json npm includes",
+          "duration": 0.08333400000000779,
+          "failureMessages": [],
+          "location": { "line": 120, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Package publish"],
+          "fullName": "Yalc package manager Package publish ignores standard non-code",
+          "status": "passed",
+          "title": "ignores standard non-code",
+          "duration": 0.07829100000000722,
+          "failureMessages": [],
+          "location": { "line": 124, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Package publish"],
+          "fullName": "Yalc package manager Package publish ignores .gitignore",
+          "status": "passed",
+          "title": "ignores .gitignore",
+          "duration": 0.10233299999998735,
+          "failureMessages": [],
+          "location": { "line": 128, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Package publish"],
+          "fullName": "Yalc package manager Package publish handles \"files:\" manifest entry correctly",
+          "status": "passed",
+          "title": "handles \"files:\" manifest entry correctly",
+          "duration": 0.5337080000000185,
+          "failureMessages": [],
+          "location": { "line": 132, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Package publish"],
+          "fullName": "Yalc package manager Package publish does not respect .npmignore, if package.json \"files\" present",
+          "status": "passed",
+          "title": "does not respect .npmignore, if package.json \"files\" present",
+          "duration": 0.06820799999999849,
+          "failureMessages": [],
+          "location": { "line": 146, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Package publish"],
+          "fullName": "Yalc package manager Package publish it creates signature file",
+          "status": "passed",
+          "title": "it creates signature file",
+          "duration": 0.13479200000000446,
+          "failureMessages": [],
+          "location": { "line": 150, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Package publish"],
+          "fullName": "Yalc package manager Package publish Adds signature to package.json version",
+          "status": "passed",
+          "title": "Adds signature to package.json version",
+          "duration": 0.0746249999999975,
+          "failureMessages": [],
+          "location": { "line": 156, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Package publish"],
+          "fullName": "Yalc package manager Package publish does not respect .gitignore, if .npmignore presents",
+          "status": "passed",
+          "title": "does not respect .gitignore, if .npmignore presents",
+          "duration": 0.09920900000000188,
+          "failureMessages": [],
+          "location": { "line": 163, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Yalc package manager",
+            "Package publish",
+            "signature consistency"
+          ],
+          "fullName": "Yalc package manager Package publish signature consistency should have a consistent signature after every publish (attempt 1)",
+          "status": "passed",
+          "title": "should have a consistent signature after every publish (attempt 1)",
+          "duration": 8.58175,
+          "failureMessages": [],
+          "location": { "line": 182, "column": 9 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Yalc package manager",
+            "Package publish",
+            "signature consistency"
+          ],
+          "fullName": "Yalc package manager Package publish signature consistency should have a consistent signature after every publish (attempt 2)",
+          "status": "passed",
+          "title": "should have a consistent signature after every publish (attempt 2)",
+          "duration": 6.56604200000001,
+          "failureMessages": [],
+          "location": { "line": 182, "column": 9 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Yalc package manager",
+            "Package publish",
+            "signature consistency"
+          ],
+          "fullName": "Yalc package manager Package publish signature consistency should have a consistent signature after every publish (attempt 3)",
+          "status": "passed",
+          "title": "should have a consistent signature after every publish (attempt 3)",
+          "duration": 6.141874999999999,
+          "failureMessages": [],
+          "location": { "line": 182, "column": 9 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Yalc package manager",
+            "Package publish",
+            "signature consistency"
+          ],
+          "fullName": "Yalc package manager Package publish signature consistency should have a consistent signature after every publish (attempt 4)",
+          "status": "passed",
+          "title": "should have a consistent signature after every publish (attempt 4)",
+          "duration": 6.420749999999998,
+          "failureMessages": [],
+          "location": { "line": 182, "column": 9 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Yalc package manager",
+            "Package publish",
+            "signature consistency"
+          ],
+          "fullName": "Yalc package manager Package publish signature consistency should have a consistent signature after every publish (attempt 5)",
+          "status": "passed",
+          "title": "should have a consistent signature after every publish (attempt 5)",
+          "duration": 5.469791999999984,
+          "failureMessages": [],
+          "location": { "line": 182, "column": 9 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Package publish"],
+          "fullName": "Yalc package manager Package publish resolves \"workspace:*\" for dependencies",
+          "status": "passed",
+          "title": "resolves \"workspace:*\" for dependencies",
+          "duration": 0.08987500000000637,
+          "failureMessages": [],
+          "location": { "line": 191, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Package publish"],
+          "fullName": "Yalc package manager Package publish resolves \"workspace:^\" for dependencies",
+          "status": "passed",
+          "title": "resolves \"workspace:^\" for dependencies",
+          "duration": 0.05475000000001273,
+          "failureMessages": [],
+          "location": { "line": 200, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Package publish"],
+          "fullName": "Yalc package manager Package publish resolves \"workspace:~\" for dependencies",
+          "status": "passed",
+          "title": "resolves \"workspace:~\" for dependencies",
+          "duration": 0.047834000000023025,
+          "failureMessages": [],
+          "location": { "line": 209, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Package publish"],
+          "fullName": "Yalc package manager Package publish substitutes workspace version aliases (\"*\", \"^\", \"~\") with \"*\" if unresolvable",
+          "status": "passed",
+          "title": "substitutes workspace version aliases (\"*\", \"^\", \"~\") with \"*\" if unresolvable",
+          "duration": 0.06070799999997689,
+          "failureMessages": [],
+          "location": { "line": 218, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Package publish"],
+          "fullName": "Yalc package manager Package publish extracts version of workspace dependencies if specified",
+          "status": "passed",
+          "title": "extracts version of workspace dependencies if specified",
+          "duration": 0.09529199999997218,
+          "failureMessages": [],
+          "location": { "line": 235, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Yalc package manager",
+            "Package 2 (without `files` in manifest) publish"
+          ],
+          "fullName": "Yalc package manager Package 2 (without `files` in manifest) publish publishes package to store",
+          "status": "passed",
+          "title": "publishes package to store",
+          "duration": 0.10391699999996717,
+          "failureMessages": [],
+          "location": { "line": 257, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Add package"],
+          "fullName": "Yalc package manager Add package copies package to .yalc folder",
+          "status": "passed",
+          "title": "copies package to .yalc folder",
+          "duration": 0.08804099999997561,
+          "failureMessages": [],
+          "location": { "line": 269, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Add package"],
+          "fullName": "Yalc package manager Add package copies remove package to node_modules",
+          "status": "passed",
+          "title": "copies remove package to node_modules",
+          "duration": 0.05808300000001054,
+          "failureMessages": [],
+          "location": { "line": 272, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Add package"],
+          "fullName": "Yalc package manager Add package creates to yalc.lock",
+          "status": "passed",
+          "title": "creates to yalc.lock",
+          "duration": 0.04545899999999392,
+          "failureMessages": [],
+          "location": { "line": 275, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Add package"],
+          "fullName": "Yalc package manager Add package places yalc.lock correct info about file",
+          "status": "passed",
+          "title": "places yalc.lock correct info about file",
+          "duration": 0.21224999999998317,
+          "failureMessages": [],
+          "location": { "line": 278, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Add package"],
+          "fullName": "Yalc package manager Add package updates package.json",
+          "status": "passed",
+          "title": "updates package.json",
+          "duration": 0.07125000000002046,
+          "failureMessages": [],
+          "location": { "line": 288, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Add package"],
+          "fullName": "Yalc package manager Add package create and updates installations file",
+          "status": "passed",
+          "title": "create and updates installations file",
+          "duration": 0.1615409999999997,
+          "failureMessages": [],
+          "location": { "line": 294, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Add package"],
+          "fullName": "Yalc package manager Add package preserves indent after installation",
+          "status": "passed",
+          "title": "preserves indent after installation",
+          "duration": 0.05649999999997135,
+          "failureMessages": [],
+          "location": { "line": 300, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Update package"],
+          "fullName": "Yalc package manager Update package does not change yalc.lock",
+          "status": "passed",
+          "title": "does not change yalc.lock",
+          "duration": 0.30129199999998946,
+          "failureMessages": [],
+          "location": { "line": 320, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Update package"],
+          "fullName": "Yalc package manager Update package does not remove inner node_modules",
+          "status": "passed",
+          "title": "does not remove inner node_modules",
+          "duration": 0.06816700000001674,
+          "failureMessages": [],
+          "location": { "line": 331, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Yalc package manager",
+            "Remove not existing package"
+          ],
+          "fullName": "Yalc package manager Remove not existing package does not updates yalc.lock",
+          "status": "passed",
+          "title": "does not updates yalc.lock",
+          "duration": 0.07937499999997044,
+          "failureMessages": [],
+          "location": { "line": 342, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Retreat package"],
+          "fullName": "Yalc package manager Retreat package does not updates yalc.lock",
+          "status": "passed",
+          "title": "does not updates yalc.lock",
+          "duration": 0.07833300000004328,
+          "failureMessages": [],
+          "location": { "line": 362, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Retreat package"],
+          "fullName": "Yalc package manager Retreat package updates package.json",
+          "status": "passed",
+          "title": "updates package.json",
+          "duration": 0.0671249999999759,
+          "failureMessages": [],
+          "location": { "line": 373, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Retreat package"],
+          "fullName": "Yalc package manager Retreat package does not update installations file",
+          "status": "passed",
+          "title": "does not update installations file",
+          "duration": 0.07233300000001464,
+          "failureMessages": [],
+          "location": { "line": 380, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Retreat package"],
+          "fullName": "Yalc package manager Retreat package should not remove package from .yalc",
+          "status": "passed",
+          "title": "should not remove package from .yalc",
+          "duration": 0.04691700000000765,
+          "failureMessages": [],
+          "location": { "line": 387, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Retreat package"],
+          "fullName": "Yalc package manager Retreat package should remove package from node_modules",
+          "status": "passed",
+          "title": "should remove package from node_modules",
+          "duration": 0.049791999999968084,
+          "failureMessages": [],
+          "location": { "line": 391, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Yalc package manager",
+            "Update (restore after retreat) package"
+          ],
+          "fullName": "Yalc package manager Update (restore after retreat) package updates package.json",
+          "status": "passed",
+          "title": "updates package.json",
+          "duration": 0.08695899999997891,
+          "failureMessages": [],
+          "location": { "line": 403, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Remove package"],
+          "fullName": "Yalc package manager Remove package updates yalc.lock",
+          "status": "passed",
+          "title": "updates yalc.lock",
+          "duration": 0.06945799999999736,
+          "failureMessages": [],
+          "location": { "line": 418, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Remove package"],
+          "fullName": "Yalc package manager Remove package updates package.json",
+          "status": "passed",
+          "title": "updates package.json",
+          "duration": 0.06274999999999409,
+          "failureMessages": [],
+          "location": { "line": 423, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Remove package"],
+          "fullName": "Yalc package manager Remove package updates installations file",
+          "status": "passed",
+          "title": "updates installations file",
+          "duration": 0.053334000000006654,
+          "failureMessages": [],
+          "location": { "line": 430, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Remove package"],
+          "fullName": "Yalc package manager Remove package should remove package from .yalc",
+          "status": "passed",
+          "title": "should remove package from .yalc",
+          "duration": 0.057708999999988464,
+          "failureMessages": [],
+          "location": { "line": 434, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Remove package"],
+          "fullName": "Yalc package manager Remove package should remove package from node_modules",
+          "status": "passed",
+          "title": "should remove package from node_modules",
+          "duration": 0.04916600000001381,
+          "failureMessages": [],
+          "location": { "line": 438, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Add package (--link)"],
+          "fullName": "Yalc package manager Add package (--link) copies package to .yalc folder",
+          "status": "passed",
+          "title": "copies package to .yalc folder",
+          "duration": 0.08437500000002274,
+          "failureMessages": [],
+          "location": { "line": 450, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Add package (--link)"],
+          "fullName": "Yalc package manager Add package (--link) copies remove package to node_modules",
+          "status": "passed",
+          "title": "copies remove package to node_modules",
+          "duration": 0.056042000000047665,
+          "failureMessages": [],
+          "location": { "line": 453, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Add package (--link)"],
+          "fullName": "Yalc package manager Add package (--link) creates to yalc.lock",
+          "status": "passed",
+          "title": "creates to yalc.lock",
+          "duration": 0.03579100000001745,
+          "failureMessages": [],
+          "location": { "line": 456, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Add package (--link)"],
+          "fullName": "Yalc package manager Add package (--link) places yalc.lock correct info about file",
+          "status": "passed",
+          "title": "places yalc.lock correct info about file",
+          "duration": 0.0680409999999938,
+          "failureMessages": [],
+          "location": { "line": 459, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Add package (--link)"],
+          "fullName": "Yalc package manager Add package (--link) updates package.json",
+          "status": "passed",
+          "title": "updates package.json",
+          "duration": 0.05379200000004403,
+          "failureMessages": [],
+          "location": { "line": 469, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["Yalc package manager", "Add package (--link)"],
+          "fullName": "Yalc package manager Add package (--link) create and updates installations file",
+          "status": "passed",
+          "title": "create and updates installations file",
+          "duration": 0.05262499999997772,
+          "failureMessages": [],
+          "location": { "line": 475, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Yalc package manager",
+            "Updated linked (--link) package"
+          ],
+          "fullName": "Yalc package manager Updated linked (--link) package places yalc.lock correct info about file",
+          "status": "passed",
+          "title": "places yalc.lock correct info about file",
+          "duration": 0.09550000000001546,
+          "failureMessages": [],
+          "location": { "line": 489, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Yalc package manager",
+            "Updated linked (--link) package"
+          ],
+          "fullName": "Yalc package manager Updated linked (--link) package updates package.json",
+          "status": "passed",
+          "title": "updates package.json",
+          "duration": 0.059459000000003925,
+          "failureMessages": [],
+          "location": { "line": 499, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "Yalc package manager",
+            "Updated linked (--link) package"
+          ],
+          "fullName": "Yalc package manager Updated linked (--link) package create and updates installations file",
+          "status": "passed",
+          "title": "create and updates installations file",
+          "duration": 0.056042000000047665,
+          "failureMessages": [],
+          "location": { "line": 505, "column": 5 },
+          "meta": {}
+        }
+      ],
+      "startTime": 1763116210142,
+      "endTime": 1763116210209.0955,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/jamessheen/Documents/Projects/yalc-1/tests/integration/index.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["YALC Regression Tests", "Baseline Capture"],
+          "fullName": "YALC Regression Tests Baseline Capture should capture baseline commands successfully",
+          "status": "passed",
+          "title": "should capture baseline commands successfully",
+          "duration": 426.90870800000005,
+          "failureMessages": [],
+          "location": { "line": 13, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["YALC Regression Tests", "Baseline Capture"],
+          "fullName": "YALC Regression Tests Baseline Capture should save and load baselines correctly",
+          "status": "passed",
+          "title": "should save and load baselines correctly",
+          "duration": 392.76250000000005,
+          "failureMessages": [],
+          "location": { "line": 29, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "YALC Regression Tests",
+            "Command Output Validation"
+          ],
+          "fullName": "YALC Regression Tests Command Output Validation should have consistent help output",
+          "status": "passed",
+          "title": "should have consistent help output",
+          "duration": 378.04758300000003,
+          "failureMessages": [],
+          "location": { "line": 42, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "YALC Regression Tests",
+            "Command Output Validation"
+          ],
+          "fullName": "YALC Regression Tests Command Output Validation should have consistent version output",
+          "status": "passed",
+          "title": "should have consistent version output",
+          "duration": 383.1907919999999,
+          "failureMessages": [],
+          "location": { "line": 55, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": [
+            "YALC Regression Tests",
+            "Command Output Validation"
+          ],
+          "fullName": "YALC Regression Tests Command Output Validation should have consistent directory output",
+          "status": "passed",
+          "title": "should have consistent directory output",
+          "duration": 386.4553330000001,
+          "failureMessages": [],
+          "location": { "line": 66, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["YALC Regression Tests", "Regression Detection"],
+          "fullName": "YALC Regression Tests Regression Detection should detect no regressions when comparing identical baselines",
+          "status": "passed",
+          "title": "should detect no regressions when comparing identical baselines",
+          "duration": 758.1544160000003,
+          "failureMessages": [],
+          "location": { "line": 79, "column": 5 },
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["YALC Regression Tests", "Regression Detection"],
+          "fullName": "YALC Regression Tests Regression Detection should create baseline file for future comparisons",
+          "status": "passed",
+          "title": "should create baseline file for future comparisons",
+          "duration": 382.56899999999996,
+          "failureMessages": [],
+          "location": { "line": 89, "column": 5 },
+          "meta": {}
+        }
+      ],
+      "startTime": 1763116210039,
+      "endTime": 1763116213148.569,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/jamessheen/Documents/Projects/yalc-1/tests/regression/regression.test.ts"
+    },
     {
       "assertionResults": [
         {
@@ -37,7 +858,7 @@
           "fullName": "Core Configuration and Utilities values configuration should have correct default values",
           "status": "passed",
           "title": "should have correct default values",
-          "duration": 1.399124999999998,
+          "duration": 1.300167000000016,
           "failureMessages": [],
           "location": { "line": 55, "column": 5 },
           "meta": {}
@@ -50,7 +871,7 @@
           "fullName": "Core Configuration and Utilities getStoreMainDir should return global yalcStoreMainDir when set",
           "status": "passed",
           "title": "should return global yalcStoreMainDir when set",
-          "duration": 0.4398750000000007,
+          "duration": 0.428875000000005,
           "failureMessages": [],
           "location": { "line": 68, "column": 5 },
           "meta": {}
@@ -63,7 +884,7 @@
           "fullName": "Core Configuration and Utilities getStoreMainDir should return Windows AppData path when on Windows with LOCALAPPDATA",
           "status": "passed",
           "title": "should return Windows AppData path when on Windows with LOCALAPPDATA",
-          "duration": 0.4300829999999962,
+          "duration": 0.49866700000001174,
           "failureMessages": [],
           "location": { "line": 77, "column": 5 },
           "meta": {}
@@ -76,7 +897,7 @@
           "fullName": "Core Configuration and Utilities getStoreMainDir should return home directory path on non-Windows platforms",
           "status": "passed",
           "title": "should return home directory path on non-Windows platforms",
-          "duration": 0.4432080000000269,
+          "duration": 0.4077920000000006,
           "failureMessages": [],
           "location": { "line": 92, "column": 5 },
           "meta": {}
@@ -89,7 +910,7 @@
           "fullName": "Core Configuration and Utilities getStoreMainDir should return home directory path on Windows without LOCALAPPDATA",
           "status": "passed",
           "title": "should return home directory path on Windows without LOCALAPPDATA",
-          "duration": 0.41816700000001106,
+          "duration": 0.3478749999999877,
           "failureMessages": [],
           "location": { "line": 106, "column": 5 },
           "meta": {}
@@ -102,7 +923,7 @@
           "fullName": "Core Configuration and Utilities getStorePackagesDir should return packages subdirectory of store main dir",
           "status": "passed",
           "title": "should return packages subdirectory of store main dir",
-          "duration": 0.24099999999998545,
+          "duration": 0.32329200000000924,
           "failureMessages": [],
           "location": { "line": 124, "column": 5 },
           "meta": {}
@@ -115,7 +936,7 @@
           "fullName": "Core Configuration and Utilities getPackageStoreDir should return package directory without version",
           "status": "passed",
           "title": "should return package directory without version",
-          "duration": 0.338374999999985,
+          "duration": 0.4912089999999978,
           "failureMessages": [],
           "location": { "line": 135, "column": 5 },
           "meta": {}
@@ -128,7 +949,7 @@
           "fullName": "Core Configuration and Utilities getPackageStoreDir should return package directory with version",
           "status": "passed",
           "title": "should return package directory with version",
-          "duration": 0.23291600000001722,
+          "duration": 0.3445000000000107,
           "failureMessages": [],
           "location": { "line": 144, "column": 5 },
           "meta": {}
@@ -141,7 +962,7 @@
           "fullName": "Core Configuration and Utilities getPackageStoreDir should handle scoped packages",
           "status": "passed",
           "title": "should handle scoped packages",
-          "duration": 0.6505829999999833,
+          "duration": 0.8435830000000237,
           "failureMessages": [],
           "location": { "line": 153, "column": 5 },
           "meta": {}
@@ -154,7 +975,7 @@
           "fullName": "Core Configuration and Utilities readSignatureFile should read signature file when it exists",
           "status": "passed",
           "title": "should read signature file when it exists",
-          "duration": 0.8006249999999966,
+          "duration": 1.2108750000000157,
           "failureMessages": [],
           "location": { "line": 164, "column": 5 },
           "meta": {}
@@ -167,7 +988,7 @@
           "fullName": "Core Configuration and Utilities readSignatureFile should return empty string when signature file does not exist",
           "status": "passed",
           "title": "should return empty string when signature file does not exist",
-          "duration": 0.2865409999999997,
+          "duration": 0.3702920000000063,
           "failureMessages": [],
           "location": { "line": 175, "column": 5 },
           "meta": {}
@@ -180,7 +1001,7 @@
           "fullName": "Core Configuration and Utilities readSignatureFile should return empty string when signature file is unreadable",
           "status": "passed",
           "title": "should return empty string when signature file is unreadable",
-          "duration": 0.37350000000000705,
+          "duration": 0.3102079999999887,
           "failureMessages": [],
           "location": { "line": 181, "column": 5 },
           "meta": {}
@@ -193,7 +1014,7 @@
           "fullName": "Core Configuration and Utilities readIgnoreFile should read yalc ignore file when it exists",
           "status": "passed",
           "title": "should read yalc ignore file when it exists",
-          "duration": 0.6294999999999789,
+          "duration": 1.4002920000000074,
           "failureMessages": [],
           "location": { "line": 193, "column": 5 },
           "meta": {}
@@ -206,7 +1027,7 @@
           "fullName": "Core Configuration and Utilities readIgnoreFile should return empty string when ignore file does not exist",
           "status": "passed",
           "title": "should return empty string when ignore file does not exist",
-          "duration": 0.25729200000000674,
+          "duration": 0.453125,
           "failureMessages": [],
           "location": { "line": 204, "column": 5 },
           "meta": {}
@@ -219,7 +1040,7 @@
           "fullName": "Core Configuration and Utilities readIgnoreFile should return empty string when ignore file is unreadable",
           "status": "passed",
           "title": "should return empty string when ignore file is unreadable",
-          "duration": 0.21358299999999986,
+          "duration": 0.539166999999992,
           "failureMessages": [],
           "location": { "line": 210, "column": 5 },
           "meta": {}
@@ -232,7 +1053,7 @@
           "fullName": "Core Configuration and Utilities writeSignatureFile should write signature file successfully",
           "status": "passed",
           "title": "should write signature file successfully",
-          "duration": 0.7319999999999993,
+          "duration": 1.312833000000012,
           "failureMessages": [],
           "location": { "line": 221, "column": 5 },
           "meta": {}
@@ -245,14 +1066,14 @@
           "fullName": "Core Configuration and Utilities writeSignatureFile should throw error when write fails",
           "status": "passed",
           "title": "should throw error when write fails",
-          "duration": 1.3605839999999887,
+          "duration": 1.4437919999999735,
           "failureMessages": [],
           "location": { "line": 232, "column": 5 },
           "meta": {}
         }
       ],
-      "startTime": 1763107187343,
-      "endTime": 1763107187352.3606,
+      "startTime": 1763116210098,
+      "endTime": 1763116210111.4438,
       "status": "passed",
       "message": "",
       "name": "/Users/jamessheen/Documents/Projects/yalc-1/src/core/__tests__/configuration.test.ts"
@@ -267,7 +1088,7 @@
           "fullName": "Catalog Configuration Management readCatalogConfig should return empty catalogs when no pnpm-workspace.yaml exists",
           "status": "passed",
           "title": "should return empty catalogs when no pnpm-workspace.yaml exists",
-          "duration": 1.9134579999999914,
+          "duration": 2.835916999999995,
           "failureMessages": [],
           "location": { "line": 40, "column": 5 },
           "meta": {}
@@ -280,7 +1101,7 @@
           "fullName": "Catalog Configuration Management readCatalogConfig should parse default catalog from pnpm-workspace.yaml",
           "status": "passed",
           "title": "should parse default catalog from pnpm-workspace.yaml",
-          "duration": 1.5818749999999966,
+          "duration": 1.999083000000013,
           "failureMessages": [],
           "location": { "line": 49, "column": 5 },
           "meta": {}
@@ -293,7 +1114,7 @@
           "fullName": "Catalog Configuration Management readCatalogConfig should parse named catalogs from pnpm-workspace.yaml",
           "status": "passed",
           "title": "should parse named catalogs from pnpm-workspace.yaml",
-          "duration": 1.4861669999999947,
+          "duration": 1.5883750000000134,
           "failureMessages": [],
           "location": { "line": 72, "column": 5 },
           "meta": {}
@@ -306,7 +1127,7 @@
           "fullName": "Catalog Configuration Management readCatalogConfig should merge catalog from package.json when available",
           "status": "passed",
           "title": "should merge catalog from package.json when available",
-          "duration": 1.0985830000000192,
+          "duration": 1.5553340000000162,
           "failureMessages": [],
           "location": { "line": 110, "column": 5 },
           "meta": {}
@@ -319,7 +1140,7 @@
           "fullName": "Catalog Configuration Management readCatalogConfig should handle malformed YAML gracefully",
           "status": "passed",
           "title": "should handle malformed YAML gracefully",
-          "duration": 1.2379169999999817,
+          "duration": 2.694749999999999,
           "failureMessages": [],
           "location": { "line": 140, "column": 5 },
           "meta": {}
@@ -332,7 +1153,7 @@
           "fullName": "Catalog Configuration Management readCatalogConfig should cache results for performance",
           "status": "passed",
           "title": "should cache results for performance",
-          "duration": 1.0229170000000067,
+          "duration": 1.6446660000000008,
           "failureMessages": [],
           "location": { "line": 167, "column": 5 },
           "meta": {}
@@ -345,7 +1166,7 @@
           "fullName": "Catalog Configuration Management readCatalogConfig should invalidate cache when file changes",
           "status": "passed",
           "title": "should invalidate cache when file changes",
-          "duration": 12.745792000000023,
+          "duration": 11.883332999999993,
           "failureMessages": [],
           "location": { "line": 190, "column": 5 },
           "meta": {}
@@ -358,9 +1179,9 @@
           "fullName": "Catalog Configuration Management resolveCatalogDependency should resolve default catalog dependency",
           "status": "passed",
           "title": "should resolve default catalog dependency",
-          "duration": 0.3661249999999825,
+          "duration": 0.40629200000000765,
           "failureMessages": [],
-          "location": { "line": 237, "column": 5 },
+          "location": { "line": 243, "column": 5 },
           "meta": {}
         },
         {
@@ -371,9 +1192,9 @@
           "fullName": "Catalog Configuration Management resolveCatalogDependency should resolve named catalog dependency",
           "status": "passed",
           "title": "should resolve named catalog dependency",
-          "duration": 0.4977079999999887,
+          "duration": 0.45729199999999537,
           "failureMessages": [],
-          "location": { "line": 242, "column": 5 },
+          "location": { "line": 252, "column": 5 },
           "meta": {}
         },
         {
@@ -384,9 +1205,9 @@
           "fullName": "Catalog Configuration Management resolveCatalogDependency should return fallback when package not found in default catalog",
           "status": "passed",
           "title": "should return fallback when package not found in default catalog",
-          "duration": 1.0962499999999977,
+          "duration": 1.0477089999999976,
           "failureMessages": [],
-          "location": { "line": 247, "column": 5 },
+          "location": { "line": 261, "column": 5 },
           "meta": {}
         },
         {
@@ -397,9 +1218,9 @@
           "fullName": "Catalog Configuration Management resolveCatalogDependency should return fallback when named catalog not found",
           "status": "passed",
           "title": "should return fallback when named catalog not found",
-          "duration": 0.4347500000000082,
+          "duration": 0.7152089999999873,
           "failureMessages": [],
-          "location": { "line": 260, "column": 5 },
+          "location": { "line": 280, "column": 5 },
           "meta": {}
         },
         {
@@ -410,9 +1231,9 @@
           "fullName": "Catalog Configuration Management resolveCatalogDependency should return fallback when package not found in named catalog",
           "status": "passed",
           "title": "should return fallback when package not found in named catalog",
-          "duration": 0.2863750000000209,
+          "duration": 0.40783300000001077,
           "failureMessages": [],
-          "location": { "line": 273, "column": 5 },
+          "location": { "line": 297, "column": 5 },
           "meta": {}
         },
         {
@@ -423,9 +1244,9 @@
           "fullName": "Catalog Configuration Management resolveCatalogDependency should handle invalid input gracefully",
           "status": "passed",
           "title": "should handle invalid input gracefully",
-          "duration": 0.3622919999999965,
+          "duration": 0.5947500000000048,
           "failureMessages": [],
-          "location": { "line": 286, "column": 5 },
+          "location": { "line": 314, "column": 5 },
           "meta": {}
         },
         {
@@ -436,9 +1257,9 @@
           "fullName": "Catalog Configuration Management resolveCatalogDependency should clean quoted package names",
           "status": "passed",
           "title": "should clean quoted package names",
-          "duration": 0.18579199999999219,
+          "duration": 0.2691250000000025,
           "failureMessages": [],
-          "location": { "line": 306, "column": 5 },
+          "location": { "line": 342, "column": 5 },
           "meta": {}
         },
         {
@@ -449,9 +1270,9 @@
           "fullName": "Catalog Configuration Management isCatalogDependency should return true for catalog protocol dependencies",
           "status": "passed",
           "title": "should return true for catalog protocol dependencies",
-          "duration": 0.24279100000001108,
+          "duration": 0.36712499999998727,
           "failureMessages": [],
-          "location": { "line": 313, "column": 5 },
+          "location": { "line": 353, "column": 5 },
           "meta": {}
         },
         {
@@ -462,9 +1283,9 @@
           "fullName": "Catalog Configuration Management isCatalogDependency should return false for regular dependencies",
           "status": "passed",
           "title": "should return false for regular dependencies",
-          "duration": 0.9665410000000065,
+          "duration": 0.3046669999999949,
           "failureMessages": [],
-          "location": { "line": 319, "column": 5 },
+          "location": { "line": 359, "column": 5 },
           "meta": {}
         },
         {
@@ -475,9 +1296,9 @@
           "fullName": "Catalog Configuration Management isCatalogDependency should handle invalid input gracefully",
           "status": "passed",
           "title": "should handle invalid input gracefully",
-          "duration": 0.32775000000000887,
+          "duration": 0.2874999999999943,
           "failureMessages": [],
-          "location": { "line": 326, "column": 5 },
+          "location": { "line": 366, "column": 5 },
           "meta": {}
         },
         {
@@ -488,9 +1309,9 @@
           "fullName": "Catalog Configuration Management isCatalogDependency should handle whitespace correctly",
           "status": "passed",
           "title": "should handle whitespace correctly",
-          "duration": 0.25387500000002206,
+          "duration": 0.47137499999999477,
           "failureMessages": [],
-          "location": { "line": 333, "column": 5 },
+          "location": { "line": 373, "column": 5 },
           "meta": {}
         },
         {
@@ -501,9 +1322,9 @@
           "fullName": "Catalog Configuration Management catalogCacheManager should provide cache statistics",
           "status": "passed",
           "title": "should provide cache statistics",
-          "duration": 0.3442919999999958,
+          "duration": 0.400416000000007,
           "failureMessages": [],
-          "location": { "line": 340, "column": 5 },
+          "location": { "line": 380, "column": 5 },
           "meta": {}
         },
         {
@@ -514,14 +1335,14 @@
           "fullName": "Catalog Configuration Management catalogCacheManager should clear cache when requested",
           "status": "passed",
           "title": "should clear cache when requested",
-          "duration": 0.850625000000008,
+          "duration": 0.9633750000000134,
           "failureMessages": [],
-          "location": { "line": 349, "column": 5 },
+          "location": { "line": 389, "column": 5 },
           "meta": {}
         }
       ],
-      "startTime": 1763107187309,
-      "endTime": 1763107187336.8506,
+      "startTime": 1763116210054,
+      "endTime": 1763116210084.9634,
       "status": "passed",
       "message": "",
       "name": "/Users/jamessheen/Documents/Projects/yalc-1/src/catalog/config/__tests__/config.test.ts"
@@ -533,7 +1354,7 @@
           "fullName": "File Copy Operations getFileHash should generate consistent hash for same file content",
           "status": "passed",
           "title": "should generate consistent hash for same file content",
-          "duration": 3.4375420000000076,
+          "duration": 3.260834000000017,
           "failureMessages": [],
           "location": { "line": 21, "column": 5 },
           "meta": {}
@@ -543,7 +1364,7 @@
           "fullName": "File Copy Operations getFileHash should generate different hashes for different content",
           "status": "passed",
           "title": "should generate different hashes for different content",
-          "duration": 1.5330830000000049,
+          "duration": 2.289874999999995,
           "failureMessages": [],
           "location": { "line": 34, "column": 5 },
           "meta": {}
@@ -553,7 +1374,7 @@
           "fullName": "File Copy Operations getFileHash should incorporate relative path into hash",
           "status": "passed",
           "title": "should incorporate relative path into hash",
-          "duration": 1.396415999999988,
+          "duration": 1.5091250000000116,
           "failureMessages": [],
           "location": { "line": 47, "column": 5 },
           "meta": {}
@@ -563,7 +1384,7 @@
           "fullName": "File Copy Operations getFileHash should handle Windows backslashes in relative paths",
           "status": "passed",
           "title": "should handle Windows backslashes in relative paths",
-          "duration": 1.0055830000000014,
+          "duration": 1.5891249999999957,
           "failureMessages": [],
           "location": { "line": 59, "column": 5 },
           "meta": {}
@@ -573,7 +1394,7 @@
           "fullName": "File Copy Operations getFileHash should handle file read errors gracefully",
           "status": "passed",
           "title": "should handle file read errors gracefully",
-          "duration": 1.1010829999999885,
+          "duration": 1.294667000000004,
           "failureMessages": [],
           "location": { "line": 70, "column": 5 },
           "meta": {}
@@ -583,7 +1404,7 @@
           "fullName": "File Copy Operations getFileHash should handle empty files",
           "status": "passed",
           "title": "should handle empty files",
-          "duration": 1.0412919999999986,
+          "duration": 1.0894169999999974,
           "failureMessages": [],
           "location": { "line": 76, "column": 5 },
           "meta": {}
@@ -593,7 +1414,7 @@
           "fullName": "File Copy Operations getFileHash should handle binary files",
           "status": "passed",
           "title": "should handle binary files",
-          "duration": 0.9698750000000018,
+          "duration": 1.4616670000000056,
           "failureMessages": [],
           "location": { "line": 86, "column": 5 },
           "meta": {}
@@ -603,14 +1424,14 @@
           "fullName": "File Copy Operations getFileHash should produce deterministic hashes for same content and path",
           "status": "passed",
           "title": "should produce deterministic hashes for same content and path",
-          "duration": 0.8392500000000211,
+          "duration": 1.1597920000000101,
           "failureMessages": [],
           "location": { "line": 98, "column": 5 },
           "meta": {}
         }
       ],
-      "startTime": 1763107187344,
-      "endTime": 1763107187355.8394,
+      "startTime": 1763116210099,
+      "endTime": 1763116210112.16,
       "status": "passed",
       "message": "",
       "name": "/Users/jamessheen/Documents/Projects/yalc-1/src/core/utils/__tests__/copy.test.ts"
@@ -625,7 +1446,7 @@
           "fullName": "Package Installation Tracking readInstallationsFile should return empty object when installations file does not exist",
           "status": "passed",
           "title": "should return empty object when installations file does not exist",
-          "duration": 1.3380420000000015,
+          "duration": 1.3353329999999914,
           "failureMessages": [],
           "location": { "line": 42, "column": 5 },
           "meta": {}
@@ -638,7 +1459,7 @@
           "fullName": "Package Installation Tracking readInstallationsFile should read existing installations file",
           "status": "passed",
           "title": "should read existing installations file",
-          "duration": 1.2122500000000116,
+          "duration": 1.2070410000000038,
           "failureMessages": [],
           "location": { "line": 47, "column": 5 },
           "meta": {}
@@ -651,7 +1472,7 @@
           "fullName": "Package Installation Tracking readInstallationsFile should handle malformed JSON gracefully",
           "status": "passed",
           "title": "should handle malformed JSON gracefully",
-          "duration": 1.7097920000000215,
+          "duration": 1.573582999999985,
           "failureMessages": [],
           "location": { "line": 61, "column": 5 },
           "meta": {}
@@ -664,7 +1485,7 @@
           "fullName": "Package Installation Tracking saveInstallationsFile should create installations file with data",
           "status": "passed",
           "title": "should create installations file with data",
-          "duration": 1.0535409999999956,
+          "duration": 1.6657500000000027,
           "failureMessages": [],
           "location": { "line": 81, "column": 5 },
           "meta": {}
@@ -677,7 +1498,7 @@
           "fullName": "Package Installation Tracking saveInstallationsFile should overwrite existing installations file",
           "status": "passed",
           "title": "should overwrite existing installations file",
-          "duration": 0.9904999999999973,
+          "duration": 1.4536249999999882,
           "failureMessages": [],
           "location": { "line": 96, "column": 5 },
           "meta": {}
@@ -690,7 +1511,7 @@
           "fullName": "Package Installation Tracking addInstallations should add first installation for a package",
           "status": "passed",
           "title": "should add first installation for a package",
-          "duration": 0.8049579999999992,
+          "duration": 0.848165999999992,
           "failureMessages": [],
           "location": { "line": 116, "column": 5 },
           "meta": {}
@@ -703,7 +1524,7 @@
           "fullName": "Package Installation Tracking addInstallations should add installation to existing package",
           "status": "passed",
           "title": "should add installation to existing package",
-          "duration": 0.8627079999999978,
+          "duration": 1.38954099999998,
           "failureMessages": [],
           "location": { "line": 130, "column": 5 },
           "meta": {}
@@ -716,7 +1537,7 @@
           "fullName": "Package Installation Tracking addInstallations should not duplicate existing installation paths",
           "status": "passed",
           "title": "should not duplicate existing installation paths",
-          "duration": 0.952416999999997,
+          "duration": 1.6514999999999986,
           "failureMessages": [],
           "location": { "line": 150, "column": 5 },
           "meta": {}
@@ -729,7 +1550,7 @@
           "fullName": "Package Installation Tracking addInstallations should preserve other packages when adding installation",
           "status": "passed",
           "title": "should preserve other packages when adding installation",
-          "duration": 1.1593330000000037,
+          "duration": 1.6929580000000044,
           "failureMessages": [],
           "location": { "line": 172, "column": 5 },
           "meta": {}
@@ -742,7 +1563,7 @@
           "fullName": "Package Installation Tracking removeInstallations should remove specific installation path for a package",
           "status": "passed",
           "title": "should remove specific installation path for a package",
-          "duration": 1.3029579999999896,
+          "duration": 1.8944999999999936,
           "failureMessages": [],
           "location": { "line": 193, "column": 5 },
           "meta": {}
@@ -755,7 +1576,7 @@
           "fullName": "Package Installation Tracking removeInstallations should remove all installations for a package when all paths are specified",
           "status": "passed",
           "title": "should remove all installations for a package when all paths are specified",
-          "duration": 0.8741669999999999,
+          "duration": 0.996625000000023,
           "failureMessages": [],
           "location": { "line": 210, "column": 5 },
           "meta": {}
@@ -768,7 +1589,7 @@
           "fullName": "Package Installation Tracking removeInstallations should handle removal of non-existent package gracefully",
           "status": "passed",
           "title": "should handle removal of non-existent package gracefully",
-          "duration": 0.26216700000000515,
+          "duration": 0.4815409999999929,
           "failureMessages": [],
           "location": { "line": 229, "column": 5 },
           "meta": {}
@@ -781,7 +1602,7 @@
           "fullName": "Package Installation Tracking removeInstallations should remove empty package entry when last installation is removed",
           "status": "passed",
           "title": "should remove empty package entry when last installation is removed",
-          "duration": 0.6700000000000159,
+          "duration": 0.9332499999999868,
           "failureMessages": [],
           "location": { "line": 245, "column": 5 },
           "meta": {}
@@ -794,7 +1615,7 @@
           "fullName": "Package Installation Tracking removeInstallations should handle removal of non-existent installation path",
           "status": "passed",
           "title": "should handle removal of non-existent installation path",
-          "duration": 0.532416999999981,
+          "duration": 0.8937079999999753,
           "failureMessages": [],
           "location": { "line": 264, "column": 5 },
           "meta": {}
@@ -804,7 +1625,7 @@
           "fullName": "Package Installation Tracking edge cases should handle packages with special characters in names",
           "status": "passed",
           "title": "should handle packages with special characters in names",
-          "duration": 0.480624999999975,
+          "duration": 0.687624999999997,
           "failureMessages": [],
           "location": { "line": 283, "column": 5 },
           "meta": {}
@@ -814,7 +1635,7 @@
           "fullName": "Package Installation Tracking edge cases should handle installation paths with spaces and special characters",
           "status": "passed",
           "title": "should handle installation paths with spaces and special characters",
-          "duration": 0.4343330000000094,
+          "duration": 0.6299580000000162,
           "failureMessages": [],
           "location": { "line": 297, "column": 5 },
           "meta": {}
@@ -824,14 +1645,14 @@
           "fullName": "Package Installation Tracking edge cases should handle very long installation paths",
           "status": "passed",
           "title": "should handle very long installation paths",
-          "duration": 0.36975000000001046,
+          "duration": 0.5543329999999855,
           "failureMessages": [],
           "location": { "line": 311, "column": 5 },
           "meta": {}
         }
       ],
-      "startTime": 1763107187343,
-      "endTime": 1763107187358.4343,
+      "startTime": 1763116210097,
+      "endTime": 1763116210117.63,
       "status": "passed",
       "message": "",
       "name": "/Users/jamessheen/Documents/Projects/yalc-1/src/package/installations/__tests__/installations.test.ts"
@@ -846,7 +1667,7 @@
           "fullName": "Package Manager Operations package manager detection constants should define correct mark files for each package manager",
           "status": "passed",
           "title": "should define correct mark files for each package manager",
-          "duration": 1.5187090000000012,
+          "duration": 1.5253749999999968,
           "failureMessages": [],
           "location": { "line": 50, "column": 5 },
           "meta": {}
@@ -859,7 +1680,7 @@
           "fullName": "Package Manager Operations package manager detection constants should define correct install commands for each package manager",
           "status": "passed",
           "title": "should define correct install commands for each package manager",
-          "duration": 0.4466669999999908,
+          "duration": 0.45333299999998644,
           "failureMessages": [],
           "location": { "line": 56, "column": 5 },
           "meta": {}
@@ -872,7 +1693,7 @@
           "fullName": "Package Manager Operations package manager detection constants should define correct update commands for each package manager",
           "status": "passed",
           "title": "should define correct update commands for each package manager",
-          "duration": 0.4930830000000128,
+          "duration": 0.4887080000000026,
           "failureMessages": [],
           "location": { "line": 62, "column": 5 },
           "meta": {}
@@ -885,7 +1706,7 @@
           "fullName": "Package Manager Operations package manager detection constants should define correct run script commands for each package manager",
           "status": "passed",
           "title": "should define correct run script commands for each package manager",
-          "duration": 0.4085410000000138,
+          "duration": 0.3203749999999843,
           "failureMessages": [],
           "location": { "line": 68, "column": 5 },
           "meta": {}
@@ -895,7 +1716,7 @@
           "fullName": "Package Manager Operations getPackageManager should return npm as default when no lock files exist",
           "status": "passed",
           "title": "should return npm as default when no lock files exist",
-          "duration": 0.3866250000000093,
+          "duration": 0.4530420000000106,
           "failureMessages": [],
           "location": { "line": 76, "column": 5 },
           "meta": {}
@@ -905,7 +1726,7 @@
           "fullName": "Package Manager Operations getPackageManager should detect pnpm when pnpm-lock.yaml exists",
           "status": "passed",
           "title": "should detect pnpm when pnpm-lock.yaml exists",
-          "duration": 0.7922920000000033,
+          "duration": 1.1523750000000064,
           "failureMessages": [],
           "location": { "line": 81, "column": 5 },
           "meta": {}
@@ -915,7 +1736,7 @@
           "fullName": "Package Manager Operations getPackageManager should detect yarn when yarn.lock exists",
           "status": "passed",
           "title": "should detect yarn when yarn.lock exists",
-          "duration": 0.8357499999999902,
+          "duration": 1.3468750000000114,
           "failureMessages": [],
           "location": { "line": 89, "column": 5 },
           "meta": {}
@@ -925,7 +1746,7 @@
           "fullName": "Package Manager Operations getPackageManager should detect npm when package-lock.json exists",
           "status": "passed",
           "title": "should detect npm when package-lock.json exists",
-          "duration": 0.5620000000000118,
+          "duration": 0.7648750000000177,
           "failureMessages": [],
           "location": { "line": 97, "column": 5 },
           "meta": {}
@@ -935,9 +1756,9 @@
           "fullName": "Package Manager Operations getPackageManager should prioritize first detected package manager when multiple lock files exist",
           "status": "passed",
           "title": "should prioritize first detected package manager when multiple lock files exist",
-          "duration": 1.244957999999997,
+          "duration": 1.9889579999999967,
           "failureMessages": [],
-          "location": { "line": 109, "column": 5 },
+          "location": { "line": 112, "column": 5 },
           "meta": {}
         },
         {
@@ -945,9 +1766,9 @@
           "fullName": "Package Manager Operations getPackageManager should handle non-existent directory gracefully",
           "status": "passed",
           "title": "should handle non-existent directory gracefully",
-          "duration": 0.2986659999999972,
+          "duration": 0.4006249999999909,
           "failureMessages": [],
-          "location": { "line": 119, "column": 5 },
+          "location": { "line": 125, "column": 5 },
           "meta": {}
         },
         {
@@ -958,9 +1779,9 @@
           "fullName": "Package Manager Operations getPackageManagerInstallCmd should return correct install command for detected package manager",
           "status": "passed",
           "title": "should return correct install command for detected package manager",
-          "duration": 0.4258749999999907,
+          "duration": 0.8597080000000119,
           "failureMessages": [],
-          "location": { "line": 128, "column": 5 },
+          "location": { "line": 134, "column": 5 },
           "meta": {}
         },
         {
@@ -971,9 +1792,9 @@
           "fullName": "Package Manager Operations getPackageManagerInstallCmd should return npm install as default",
           "status": "passed",
           "title": "should return npm install as default",
-          "duration": 0.1992919999999856,
+          "duration": 0.5043330000000026,
           "failureMessages": [],
-          "location": { "line": 135, "column": 5 },
+          "location": { "line": 141, "column": 5 },
           "meta": {}
         },
         {
@@ -984,9 +1805,9 @@
           "fullName": "Package Manager Operations getPackageManagerUpdateCmd should return correct update command for detected package manager",
           "status": "passed",
           "title": "should return correct update command for detected package manager",
-          "duration": 0.574040999999994,
+          "duration": 0.9579169999999806,
           "failureMessages": [],
-          "location": { "line": 142, "column": 5 },
+          "location": { "line": 148, "column": 5 },
           "meta": {}
         },
         {
@@ -997,9 +1818,9 @@
           "fullName": "Package Manager Operations getPackageManagerUpdateCmd should return npm update as default",
           "status": "passed",
           "title": "should return npm update as default",
-          "duration": 0.25304199999999355,
+          "duration": 0.6791670000000067,
           "failureMessages": [],
-          "location": { "line": 149, "column": 5 },
+          "location": { "line": 155, "column": 5 },
           "meta": {}
         },
         {
@@ -1007,9 +1828,9 @@
           "fullName": "Package Manager Operations getRunScriptCmd should return correct run script command for detected package manager",
           "status": "passed",
           "title": "should return correct run script command for detected package manager",
-          "duration": 0.7744999999999891,
+          "duration": 0.8845000000000027,
           "failureMessages": [],
-          "location": { "line": 156, "column": 5 },
+          "location": { "line": 162, "column": 5 },
           "meta": {}
         },
         {
@@ -1017,9 +1838,9 @@
           "fullName": "Package Manager Operations getRunScriptCmd should return npm install as default",
           "status": "passed",
           "title": "should return npm install as default",
-          "duration": 0.2646249999999952,
+          "duration": 0.5254999999999939,
           "failureMessages": [],
-          "location": { "line": 163, "column": 5 },
+          "location": { "line": 169, "column": 5 },
           "meta": {}
         },
         {
@@ -1027,9 +1848,9 @@
           "fullName": "Package Manager Operations isYarn should return true when yarn is detected",
           "status": "passed",
           "title": "should return true when yarn is detected",
-          "duration": 0.5663340000000119,
+          "duration": 0.9554170000000113,
           "failureMessages": [],
-          "location": { "line": 170, "column": 5 },
+          "location": { "line": 176, "column": 5 },
           "meta": {}
         },
         {
@@ -1037,9 +1858,9 @@
           "fullName": "Package Manager Operations isYarn should return false when other package managers are detected",
           "status": "passed",
           "title": "should return false when other package managers are detected",
-          "duration": 0.6431249999999977,
+          "duration": 0.651332999999994,
           "failureMessages": [],
-          "location": { "line": 177, "column": 5 },
+          "location": { "line": 183, "column": 5 },
           "meta": {}
         },
         {
@@ -1047,9 +1868,9 @@
           "fullName": "Package Manager Operations isYarn should return false for default npm",
           "status": "passed",
           "title": "should return false for default npm",
-          "duration": 0.23066699999998264,
+          "duration": 0.3215419999999938,
           "failureMessages": [],
-          "location": { "line": 184, "column": 5 },
+          "location": { "line": 190, "column": 5 },
           "meta": {}
         },
         {
@@ -1057,9 +1878,9 @@
           "fullName": "Package Manager Operations runPmUpdate should generate correct command and log for yarn",
           "status": "passed",
           "title": "should generate correct command and log for yarn",
-          "duration": 0.43229100000002063,
+          "duration": 0.6794170000000008,
           "failureMessages": [],
-          "location": { "line": 191, "column": 5 },
+          "location": { "line": 197, "column": 5 },
           "meta": {}
         },
         {
@@ -1067,9 +1888,9 @@
           "fullName": "Package Manager Operations runPmUpdate should generate correct command for npm when no lock file exists",
           "status": "passed",
           "title": "should generate correct command for npm when no lock file exists",
-          "duration": 0.24424999999999386,
+          "duration": 0.2457499999999868,
           "failureMessages": [],
-          "location": { "line": 207, "column": 5 },
+          "location": { "line": 213, "column": 5 },
           "meta": {}
         },
         {
@@ -1077,9 +1898,9 @@
           "fullName": "Package Manager Operations runPmUpdate should handle empty packages array in command generation",
           "status": "passed",
           "title": "should handle empty packages array in command generation",
-          "duration": 0.19162500000001614,
+          "duration": 0.35779199999998923,
           "failureMessages": [],
-          "location": { "line": 217, "column": 5 },
+          "location": { "line": 223, "column": 5 },
           "meta": {}
         },
         {
@@ -1087,9 +1908,9 @@
           "fullName": "Package Manager Operations runPmUpdate should generate correct command for pnpm",
           "status": "passed",
           "title": "should generate correct command for pnpm",
-          "duration": 0.36304199999997877,
+          "duration": 0.5464580000000012,
           "failureMessages": [],
-          "location": { "line": 224, "column": 5 },
+          "location": { "line": 230, "column": 5 },
           "meta": {}
         },
         {
@@ -1097,9 +1918,9 @@
           "fullName": "Package Manager Operations edge cases should handle directory with permission issues",
           "status": "passed",
           "title": "should handle directory with permission issues",
-          "duration": 0.1981659999999863,
+          "duration": 0.28016700000000583,
           "failureMessages": [],
-          "location": { "line": 237, "column": 5 },
+          "location": { "line": 243, "column": 5 },
           "meta": {}
         },
         {
@@ -1107,9 +1928,9 @@
           "fullName": "Package Manager Operations edge cases should handle very long package names in command generation",
           "status": "passed",
           "title": "should handle very long package names in command generation",
-          "duration": 0.24816699999999514,
+          "duration": 0.40179200000000037,
           "failureMessages": [],
-          "location": { "line": 245, "column": 5 },
+          "location": { "line": 251, "column": 5 },
           "meta": {}
         },
         {
@@ -1117,9 +1938,9 @@
           "fullName": "Package Manager Operations edge cases should handle special characters in package names",
           "status": "passed",
           "title": "should handle special characters in package names",
-          "duration": 0.17654199999998355,
+          "duration": 0.28600000000000136,
           "failureMessages": [],
-          "location": { "line": 259, "column": 5 },
+          "location": { "line": 269, "column": 5 },
           "meta": {}
         },
         {
@@ -1127,14 +1948,14 @@
           "fullName": "Package Manager Operations edge cases should detect package manager when lock file has unusual content",
           "status": "passed",
           "title": "should detect package manager when lock file has unusual content",
-          "duration": 0.336749999999995,
+          "duration": 0.4712079999999901,
           "failureMessages": [],
-          "location": { "line": 273, "column": 5 },
+          "location": { "line": 285, "column": 5 },
           "meta": {}
         }
       ],
-      "startTime": 1763107187344,
-      "endTime": 1763107187358.3367,
+      "startTime": 1763116210098,
+      "endTime": 1763116210117.4712,
       "status": "passed",
       "message": "",
       "name": "/Users/jamessheen/Documents/Projects/yalc-1/src/package/manager/__tests__/manager.test.ts"
@@ -1146,7 +1967,7 @@
           "fullName": "Package Manifest Operations parsePackageName should parse simple package name without version",
           "status": "passed",
           "title": "should parse simple package name without version",
-          "duration": 1.414874999999995,
+          "duration": 2.643749999999983,
           "failureMessages": [],
           "location": { "line": 28, "column": 5 },
           "meta": {}
@@ -1156,7 +1977,7 @@
           "fullName": "Package Manifest Operations parsePackageName should parse simple package name with version",
           "status": "passed",
           "title": "should parse simple package name with version",
-          "duration": 0.37179100000000176,
+          "duration": 0.6979159999999922,
           "failureMessages": [],
           "location": { "line": 36, "column": 5 },
           "meta": {}
@@ -1166,7 +1987,7 @@
           "fullName": "Package Manifest Operations parsePackageName should parse scoped package name without version",
           "status": "passed",
           "title": "should parse scoped package name without version",
-          "duration": 0.4508330000000029,
+          "duration": 0.6241660000000024,
           "failureMessages": [],
           "location": { "line": 44, "column": 5 },
           "meta": {}
@@ -1176,7 +1997,7 @@
           "fullName": "Package Manifest Operations parsePackageName should parse scoped package name with version",
           "status": "passed",
           "title": "should parse scoped package name with version",
-          "duration": 0.28991600000000517,
+          "duration": 0.6158330000000092,
           "failureMessages": [],
           "location": { "line": 52, "column": 5 },
           "meta": {}
@@ -1186,7 +2007,7 @@
           "fullName": "Package Manifest Operations parsePackageName should parse package name with complex version specifier",
           "status": "passed",
           "title": "should parse package name with complex version specifier",
-          "duration": 0.49875000000000114,
+          "duration": 0.6783329999999808,
           "failureMessages": [],
           "location": { "line": 60, "column": 5 },
           "meta": {}
@@ -1196,7 +2017,7 @@
           "fullName": "Package Manifest Operations parsePackageName should handle empty or invalid input",
           "status": "passed",
           "title": "should handle empty or invalid input",
-          "duration": 0.3109579999999994,
+          "duration": 0.44858399999998255,
           "failureMessages": [],
           "location": { "line": 68, "column": 5 },
           "meta": {}
@@ -1206,7 +2027,7 @@
           "fullName": "Package Manifest Operations parsePackageName should handle package name with multiple @ symbols",
           "status": "passed",
           "title": "should handle package name with multiple @ symbols",
-          "duration": 0.3015829999999937,
+          "duration": 0.4476659999999981,
           "failureMessages": [],
           "location": { "line": 76, "column": 5 },
           "meta": {}
@@ -1219,7 +2040,7 @@
           "fullName": "Package Manifest Operations readPackageManifest should read and parse a valid package.json file",
           "status": "passed",
           "title": "should read and parse a valid package.json file",
-          "duration": 1.4122080000000068,
+          "duration": 1.8443340000000035,
           "failureMessages": [],
           "location": { "line": 86, "column": 5 },
           "meta": {}
@@ -1232,7 +2053,7 @@
           "fullName": "Package Manifest Operations readPackageManifest should detect custom indentation",
           "status": "passed",
           "title": "should detect custom indentation",
-          "duration": 1.0240420000000086,
+          "duration": 2.4677499999999952,
           "failureMessages": [],
           "location": { "line": 110, "column": 5 },
           "meta": {}
@@ -1245,7 +2066,7 @@
           "fullName": "Package Manifest Operations readPackageManifest should return null for non-existent package.json",
           "status": "passed",
           "title": "should return null for non-existent package.json",
-          "duration": 0.7740000000000009,
+          "duration": 0.8182919999999854,
           "failureMessages": [],
           "location": { "line": 124, "column": 5 },
           "meta": {}
@@ -1258,7 +2079,7 @@
           "fullName": "Package Manifest Operations readPackageManifest should return null for invalid JSON",
           "status": "passed",
           "title": "should return null for invalid JSON",
-          "duration": 1.960000000000008,
+          "duration": 1.8680409999999767,
           "failureMessages": [],
           "location": { "line": 129, "column": 5 },
           "meta": {}
@@ -1271,7 +2092,7 @@
           "fullName": "Package Manifest Operations readPackageManifest should return null for package.json without name but with version",
           "status": "passed",
           "title": "should return null for package.json without name but with version",
-          "duration": 1.813999999999993,
+          "duration": 1.982167000000004,
           "failureMessages": [],
           "location": { "line": 143, "column": 5 },
           "meta": {}
@@ -1284,7 +2105,7 @@
           "fullName": "Package Manifest Operations readPackageManifest should return package for package.json without name and version",
           "status": "passed",
           "title": "should return package for package.json without name and version",
-          "duration": 0.8228330000000028,
+          "duration": 0.8367910000000052,
           "failureMessages": [],
           "location": { "line": 164, "column": 5 },
           "meta": {}
@@ -1297,9 +2118,9 @@
           "fullName": "Package Manifest Operations writePackageManifest should write package.json with proper formatting",
           "status": "passed",
           "title": "should write package.json with proper formatting",
-          "duration": 1.1278330000000096,
+          "duration": 1.2735000000000127,
           "failureMessages": [],
-          "location": { "line": 180, "column": 5 },
+          "location": { "line": 182, "column": 5 },
           "meta": {}
         },
         {
@@ -1310,9 +2131,9 @@
           "fullName": "Package Manifest Operations writePackageManifest should preserve custom indentation",
           "status": "passed",
           "title": "should preserve custom indentation",
-          "duration": 0.7245000000000061,
+          "duration": 0.7122500000000116,
           "failureMessages": [],
-          "location": { "line": 214, "column": 5 },
+          "location": { "line": 220, "column": 5 },
           "meta": {}
         },
         {
@@ -1323,9 +2144,9 @@
           "fullName": "Package Manifest Operations writePackageManifest should handle missing dependencies gracefully",
           "status": "passed",
           "title": "should handle missing dependencies gracefully",
-          "duration": 0.9542909999999836,
+          "duration": 0.8916250000000048,
           "failureMessages": [],
-          "location": { "line": 231, "column": 5 },
+          "location": { "line": 237, "column": 5 },
           "meta": {}
         },
         {
@@ -1336,9 +2157,9 @@
           "fullName": "Package Manifest Operations writePackageManifest should handle write errors gracefully",
           "status": "passed",
           "title": "should handle write errors gracefully",
-          "duration": 0.6137090000000001,
+          "duration": 0.4000000000000057,
           "failureMessages": [],
-          "location": { "line": 244, "column": 5 },
+          "location": { "line": 250, "column": 5 },
           "meta": {}
         },
         {
@@ -1349,14 +2170,14 @@
           "fullName": "Package Manifest Operations writePackageManifest should not mutate the original package object",
           "status": "passed",
           "title": "should not mutate the original package object",
-          "duration": 0.5980419999999924,
+          "duration": 0.6412079999999776,
           "failureMessages": [],
-          "location": { "line": 264, "column": 5 },
+          "location": { "line": 270, "column": 5 },
           "meta": {}
         }
       ],
-      "startTime": 1763107187298,
-      "endTime": 1763107187314.5981,
+      "startTime": 1763116210054,
+      "endTime": 1763116210074.641,
       "status": "passed",
       "message": "",
       "name": "/Users/jamessheen/Documents/Projects/yalc-1/src/package/manifest/__tests__/manifest.test.ts"

@@ -1,19 +1,17 @@
 import * as fs from 'fs-extra'
 import { join } from 'path'
-import { strictEqual, deepEqual, ok, throws, doesNotThrow } from 'assert'
+import { describe, it, beforeEach, afterEach, expect } from 'vitest'
 import {
   readCatalogConfig,
   resolveCatalogDependency,
   isCatalogDependency,
   catalogCacheManager,
   ParsedCatalog,
-} from '../src/catalog'
+} from '../../src/catalog/config/catalog'
 
 const testDir = join(__dirname, 'tmp-catalog-comprehensive-test')
 
-describe('Comprehensive Catalog Tests', function () {
-  this.timeout(10000)
-
+describe('Comprehensive Catalog Tests', () => {
   beforeEach(() => {
     // Clean up test directory and cache before each test
     fs.removeSync(testDir)
@@ -67,11 +65,11 @@ scripts:
       const catalogConfig = readCatalogConfig(testDir)
 
       // Should parse correctly despite comments and other sections
-      strictEqual(catalogConfig.default.react, '^18.3.1')
-      strictEqual(catalogConfig.default['react-dom'], '^18.3.1')
-      strictEqual(catalogConfig.default.typescript, '^5.0.0')
-      strictEqual(catalogConfig.named.ui['@mui/material'], '^5.14.0')
-      strictEqual(catalogConfig.named.testing.vitest, '^1.0.0')
+      expect(catalogConfig.default.react, '^18.3.1')
+      expect(catalogConfig.default['react-dom'], '^18.3.1')
+      expect(catalogConfig.default.typescript, '^5.0.0')
+      expect(catalogConfig.named.ui['@mui/material'], '^5.14.0')
+      expect(catalogConfig.named.testing.vitest, '^1.0.0')
     })
 
     it('should handle quoted package names correctly', async () => {
@@ -92,10 +90,10 @@ catalogs:
       const catalogConfig = readCatalogConfig(testDir)
 
       // Should properly clean quotes
-      strictEqual(catalogConfig.default.react, '^18.3.1')
-      strictEqual(catalogConfig.default['@types/node'], '^18.0.0')
-      strictEqual(catalogConfig.named.ui['@mui/material'], '^5.14.0')
-      strictEqual(catalogConfig.named.ui['styled-components'], '^6.0.0')
+      expect(catalogConfig.default.react, '^18.3.1')
+      expect(catalogConfig.default['@types/node'], '^18.0.0')
+      expect(catalogConfig.named.ui['@mui/material'], '^5.14.0')
+      expect(catalogConfig.named.ui['styled-components'], '^6.0.0')
     })
 
     it('should handle malformed YAML gracefully', async () => {
@@ -113,12 +111,12 @@ catalogs:
       await fs.writeFile(workspacePath, malformedYaml)
 
       // Should not throw but skip malformed entries
-      doesNotThrow(() => {
+      expect(() => {
         const result = readCatalogConfig(testDir)
         // Should parse valid entries and skip malformed ones
-        strictEqual(result.default.react, '^18.3.1')
-        strictEqual(result.default.typescript, undefined) // Skipped malformed entry
-        strictEqual(result.named.ui['@mui/material'], '^5.14.0')
+        expect(result.default.react, '^18.3.1')
+        expect(result.default.typescript, undefined) // Skipped malformed entry
+        expect(result.named.ui['@mui/material'], '^5.14.0')
       })
     })
   })
@@ -153,15 +151,15 @@ ${uiCatalogEntries}
       const result2 = readCatalogConfig(testDir)
 
       // Results should be identical
-      deepEqual(result1, result2)
+      expect(result1, result2)
 
       // Verify structure
-      strictEqual(Object.keys(result1.default).length, 50)
-      strictEqual(Object.keys(result1.named.ui).length, 50)
+      expect(Object.keys(result1.default).length, 50)
+      expect(Object.keys(result1.named.ui).length, 50)
 
       // Verify cache statistics
       const stats = catalogCacheManager.getStats()
-      strictEqual(stats.size, 1)
+      expect(stats.size, 1)
     })
 
     it('should invalidate cache when file changes', async () => {
@@ -177,7 +175,7 @@ catalog:
       )
 
       const result1 = readCatalogConfig(testDir)
-      strictEqual(result1.default.react, '^18.3.1')
+      expect(result1.default.react, '^18.3.1')
 
       // Simulate small delay for mtime difference
       await new Promise((resolve) => setTimeout(resolve, 10))
@@ -192,16 +190,16 @@ catalog:
       )
 
       const result2 = readCatalogConfig(testDir)
-      strictEqual(result2.default.react, '^19.0.0')
+      expect(result2.default.react, '^19.0.0')
     })
   })
 
   describe('Error Handling', () => {
     it('should handle missing pnpm-workspace.yaml file', () => {
       // No workspace file created
-      doesNotThrow(() => {
+      expect(() => {
         const result = readCatalogConfig(testDir)
-        deepEqual(result, { default: {}, named: {} })
+        expect(result, { default: {}, named: {} })
       })
     })
 
@@ -212,36 +210,33 @@ catalog:
       }
 
       // Test invalid inputs
-      strictEqual(
-        resolveCatalogDependency('', 'react', catalogConfig),
-        'catalog:',
-      )
-      strictEqual(
+      expect(resolveCatalogDependency('', 'react', catalogConfig), 'catalog:')
+      expect(
         resolveCatalogDependency('catalog:', '', catalogConfig),
         'catalog:',
       )
-      strictEqual(
+      expect(
         resolveCatalogDependency(null as any, 'react', catalogConfig),
         'catalog:',
       )
-      strictEqual(
+      expect(
         resolveCatalogDependency('catalog:', 'react', null as any),
         'catalog:',
       )
 
       // Test whitespace handling
-      strictEqual(
+      expect(
         resolveCatalogDependency('  catalog:  ', '  react  ', catalogConfig),
         '^18.0.0',
       )
     })
 
     it('should validate isCatalogDependency inputs', () => {
-      strictEqual(isCatalogDependency(''), false)
-      strictEqual(isCatalogDependency(null as any), false)
-      strictEqual(isCatalogDependency(undefined as any), false)
-      strictEqual(isCatalogDependency('  catalog:  '), true)
-      strictEqual(isCatalogDependency('  catalog  '), true)
+      expect(isCatalogDependency(''), false)
+      expect(isCatalogDependency(null as any), false)
+      expect(isCatalogDependency(undefined as any), false)
+      expect(isCatalogDependency('  catalog:  '), true)
+      expect(isCatalogDependency('  catalog  '), true)
     })
   })
 
@@ -275,9 +270,9 @@ catalog:
       const result = readCatalogConfig(testDir)
 
       // Should merge both sources, with package.json taking precedence
-      strictEqual(result.default.react, '^18.2.0') // From package.json
-      strictEqual(result.default.typescript, '^5.0.0') // From package.json
-      strictEqual(result.named.ui['@mui/material'], '^5.14.0') // From package.json
+      expect(result.default.react, '^18.2.0') // From package.json
+      expect(result.default.typescript, '^5.0.0') // From package.json
+      expect(result.named.ui['@mui/material'], '^5.14.0') // From package.json
     })
 
     it('should handle package.json read errors gracefully', async () => {
@@ -293,10 +288,10 @@ catalog:
       await fs.writeFile(workspacePath, workspaceContent)
       await fs.writeFile(packagePath, '{ invalid json }')
 
-      doesNotThrow(() => {
+      expect(() => {
         const result = readCatalogConfig(testDir)
         // Should still get workspace catalog despite package.json error
-        strictEqual(result.default.react, '^18.3.1')
+        expect(result.default.react, '^18.3.1')
       })
     })
   })
@@ -336,12 +331,12 @@ ${testCatalogEntries}
       const parseTime = Date.now() - start
 
       // Should parse all entries
-      strictEqual(Object.keys(result.default).length, 200)
-      strictEqual(Object.keys(result.named.ui).length, 200)
-      strictEqual(Object.keys(result.named.testing).length, 200)
+      expect(Object.keys(result.default).length, 200)
+      expect(Object.keys(result.named.ui).length, 200)
+      expect(Object.keys(result.named.testing).length, 200)
 
       // Should be reasonable performance even for large catalogs
-      ok(
+      expect(
         parseTime < 100,
         `Large catalog parse time (${parseTime}ms) should be reasonable`,
       )
@@ -366,33 +361,33 @@ ${testCatalogEntries}
       }
 
       // Test various catalog references
-      strictEqual(
+      expect(
         resolveCatalogDependency('catalog:', 'react', catalogConfig),
         '^18.3.1',
       )
-      strictEqual(
+      expect(
         resolveCatalogDependency('catalog:', '@types/react', catalogConfig),
         '^18.0.0',
       )
-      strictEqual(
+      expect(
         resolveCatalogDependency('catalog:ui', '@mui/material', catalogConfig),
         '^5.14.0',
       )
-      strictEqual(
+      expect(
         resolveCatalogDependency('catalog:testing', 'vitest', catalogConfig),
         '^1.0.0',
       )
 
       // Test fallback behavior
-      strictEqual(
+      expect(
         resolveCatalogDependency('catalog:', 'nonexistent', catalogConfig),
         'catalog:',
       )
-      strictEqual(
+      expect(
         resolveCatalogDependency('catalog:nonexistent', 'react', catalogConfig),
         'catalog:nonexistent',
       )
-      strictEqual(
+      expect(
         resolveCatalogDependency('catalog:ui', 'nonexistent', catalogConfig),
         'catalog:ui',
       )
@@ -402,10 +397,10 @@ ${testCatalogEntries}
   describe('Cache Management', () => {
     it('should provide cache statistics', () => {
       const stats = catalogCacheManager.getStats()
-      ok(typeof stats.size === 'number')
-      ok(typeof stats.maxSize === 'number')
-      ok(stats.size >= 0)
-      ok(stats.maxSize > 0)
+      expect(typeof stats.size === 'number')
+      expect(typeof stats.maxSize === 'number')
+      expect(stats.size >= 0)
+      expect(stats.maxSize > 0)
     })
 
     it('should clear cache completely', async () => {
@@ -415,12 +410,12 @@ ${testCatalogEntries}
       readCatalogConfig(testDir) // Add to cache
 
       let stats = catalogCacheManager.getStats()
-      ok(stats.size > 0, 'Cache should have entries')
+      expect(stats.size > 0, 'Cache should have entries')
 
       catalogCacheManager.clearCache()
 
       stats = catalogCacheManager.getStats()
-      strictEqual(stats.size, 0, 'Cache should be empty after clear')
+      expect(stats.size, 0, 'Cache should be empty after clear')
     })
 
     it('should handle bounded cache size correctly', async () => {
@@ -443,7 +438,7 @@ catalog:
       }
 
       const stats = catalogCacheManager.getStats()
-      ok(
+      expect(
         stats.size <= stats.maxSize,
         `Cache size (${stats.size}) should not exceed max (${stats.maxSize})`,
       )

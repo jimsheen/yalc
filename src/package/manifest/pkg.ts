@@ -70,7 +70,7 @@ export function readPackageManifest(workingDir: string) {
     const indent = getIndent(fileData) || '  '
     pkg.__Indent = indent
     return pkg
-  } catch (e) {
+  } catch {
     console.error('Could not read', packagePath)
     return null
   }
@@ -98,7 +98,7 @@ export function writePackageManifest(workingDir: string, pkg: PackageManifest) {
   const packagePath = join(workingDir, 'package.json')
   try {
     fs.writeFileSync(packagePath, JSON.stringify(pkg, null, indent) + '\n')
-  } catch (e) {
+  } catch {
     console.error('Could not write ', packagePath)
   }
 }

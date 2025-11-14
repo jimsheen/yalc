@@ -12,10 +12,7 @@ import {
   values,
   writePackageManifest,
 } from '../core/config/index'
-import {
-  addInstallations,
-  removeInstallations,
-} from '../package/installations/installations'
+import { addInstallations } from '../package/installations/installations'
 import { addPackageToLockfile } from './lockfile'
 import { PackageScripts } from '../package/manifest/pkg'
 import { getPackageManager, pmRunScriptCmd } from '../package/manager/pm'
@@ -52,7 +49,7 @@ const getLatestPackageVersion = (packageName: string) => {
 const isSymlink = (path: string) => {
   try {
     return !!fs.readlinkSync(path)
-  } catch (e) {
+  } catch {
     return false
   }
 }
@@ -228,9 +225,9 @@ export const addPackages = async (
           try {
             ensureSymlinkSync(srcPath, destPath)
             fs.chmodSync(srcPath, 0o755)
-          } catch (e) {
+          } catch (error) {
             console.warn('Could not create bin symlink.')
-            console.error(e)
+            console.error(error)
           }
         }
         if (typeof pkg.bin === 'string') {

@@ -9,9 +9,9 @@ export default defineConfig({
 
     // Test files
     include: [
-      'test/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
-      'tests/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
       'src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
+      'tests/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
+      'tests/**/*.ts', // Include all .ts files in tests/ for integration tests
     ],
 
     // Exclude files
@@ -20,6 +20,10 @@ export default defineConfig({
       '**/dist/**',
       '**/lib/**',
       '**/.{git,cache,output,temp}/**',
+      'tests/integration/fixture/**',
+      'tests/integration/tmp/**',
+      'tests/regression/baselines/**',
+      'tests/**/*.class.ts', // Exclude utility classes
     ],
 
     // Coverage configuration
@@ -57,6 +61,7 @@ export default defineConfig({
     // Timeout configuration
     testTimeout: 30000,
     hookTimeout: 30000,
+    teardownTimeout: 10000,
 
     // Disable watch mode for CI environments
     watch: false,

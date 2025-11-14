@@ -1,6 +1,6 @@
 import { addPackages } from '../core/config/index'
 import { parsePackageName } from '../package/manifest/pkg'
-import { AddPackagesOptions } from '../add'
+import { AddPackagesOptions } from './add'
 import {
   PackageInstallation,
   removeInstallations,

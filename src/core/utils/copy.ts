@@ -19,13 +19,12 @@ import {
   readCatalogConfig,
   resolveCatalogDependency,
   isCatalogDependency,
-  ParsedCatalog,
 } from '../../catalog/config/catalog'
 
 const shortSignatureLength = 8
 
 export const getFileHash = (srcPath: string, relPath: string = '') => {
-  return new Promise<string>(async (resolve, reject) => {
+  return new Promise<string>((resolve, reject) => {
     const stream = fs.createReadStream(srcPath)
     const md5sum = crypto.createHash('md5')
     md5sum.update(relPath.replace(/\\/g, '/'))
@@ -76,11 +75,13 @@ const resolveWorkspaceDepVersion = (
       paths: [workingDir],
     })
     if (!pkgPath) {
+      console.warn('Could not find package path for', pkgName)
+      return '*'
     }
     const resolved = readPackageManifest(dirname(pkgPath))?.version
 
-    return `${prefix}${resolved}` || '*'
-  } catch (e) {
+    return resolved ? `${prefix}${resolved}` : '*'
+  } catch {
     console.warn('Could not resolve workspace package location for', pkgName)
     return '*'
   }
@@ -164,7 +165,7 @@ export const copyPackageToStore = async (options: {
   const pkg = readPackageManifest(workingDir)
 
   if (!pkg) {
-    throw 'Error copying package to store.'
+    throw new Error('Error copying package to store.')
   }
   const copyFromDir = options.workingDir
   const storePackageStoreDir = join(
@@ -188,7 +189,7 @@ export const copyPackageToStore = async (options: {
     }
     const result = await npmPacklist(tree)
     npmList = result.map(fixScopedRelativeName)
-  } catch (walkError) {
+  } catch (walkError: unknown) {
     console.warn('npm-packlist error:', walkError)
     // Fallback: if npm-packlist fails, use a basic file list
     const { glob } = await import('glob')
@@ -199,7 +200,7 @@ export const copyPackageToStore = async (options: {
         nodir: true,
       })
       npmList = globResult.map(fixScopedRelativeName)
-    } catch (globError) {
+    } catch (globError: unknown) {
       console.warn('Fallback glob error:', globError)
       npmList = []
     }
@@ -211,7 +212,7 @@ export const copyPackageToStore = async (options: {
     filesToCopy.sort().forEach((f) => {
       console.log(`- ${f}`)
     })
-    console.info(`Total ${filesToCopy.length} files.`)
+    console.info(`Total ${filesToCopy.length.toString()} files.`)
   }
   const copyFilesToStore = async () => {
     await fs.remove(storePackageStoreDir)
@@ -251,7 +252,7 @@ export const copyPackageToStore = async (options: {
 
   writeSignatureFile(storePackageStoreDir, signature)
   const versionPre = options.signature
-    ? '+' + signature.substr(0, shortSignatureLength)
+    ? '+' + signature.substring(0, shortSignatureLength)
     : ''
 
   const resolveDeps = (pkg: PackageManifest): PackageManifest =>

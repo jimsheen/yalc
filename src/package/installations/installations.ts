@@ -24,11 +24,15 @@ export const readInstallationsFile = (): InstallationsFile => {
     fs.accessSync(installationFilePath)
     try {
       installationsConfig = fs.readJsonSync(installationFilePath)
-    } catch (e) {
-      console.error('Error reading installations file', installationFilePath, e)
+    } catch (error) {
+      console.error(
+        'Error reading installations file',
+        installationFilePath,
+        error,
+      )
       installationsConfig = {}
     }
-  } catch (e) {
+  } catch {
     installationsConfig = {}
   }
 

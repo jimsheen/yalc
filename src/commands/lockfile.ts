@@ -69,7 +69,7 @@ export const readLockfile = (options: { workingDir: string }) => {
   }
   try {
     lockfile = getLockFileCurrentConfig(fs.readJSONSync(lockfilePath))
-  } catch (e) {
+  } catch {
     return lockfile
   }
   return lockfile

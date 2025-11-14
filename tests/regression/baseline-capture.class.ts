@@ -29,7 +29,7 @@ export class BaselineCapture {
 
   constructor(baselineDir: string = './tests/regression/baselines') {
     this.baselineDir = resolve(baselineDir)
-    this.yalcPath = resolve('./src/yalc.js')
+    this.yalcPath = resolve('./dist/yalc.js')
 
     if (!existsSync(this.baselineDir)) {
       mkdirSync(this.baselineDir, { recursive: true })
@@ -84,7 +84,7 @@ export class BaselineCapture {
    */
   private async captureCommand(
     command: string,
-    args: string[]
+    args: string[],
   ): Promise<BaselineResult> {
     const startTime = Date.now()
 
@@ -120,7 +120,7 @@ export class BaselineCapture {
         stderr: error.stderr?.toString() || error.message,
         timestamp: new Date().toISOString(),
         hash: this.createHash(
-          (error.stdout || '') + (error.stderr || error.message)
+          (error.stdout || '') + (error.stderr || error.message),
         ),
         duration,
       }
@@ -134,7 +134,7 @@ export class BaselineCapture {
    */
   saveBaseline(
     suite: BaselineSuite,
-    filename: string = 'baseline.json'
+    filename: string = 'baseline.json',
   ): string {
     const filepath = join(this.baselineDir, filename)
     writeFileSync(filepath, JSON.stringify(suite, null, 2))
@@ -165,7 +165,7 @@ export class BaselineCapture {
    */
   compareBaselines(
     baseline: BaselineSuite,
-    current: BaselineSuite
+    current: BaselineSuite,
   ): ComparisonResult {
     const differences: CommandDifference[] = []
 
@@ -173,7 +173,7 @@ export class BaselineCapture {
       const currentResult = current.results.find(
         (r) =>
           r.command === baselineResult.command &&
-          JSON.stringify(r.args) === JSON.stringify(baselineResult.args)
+          JSON.stringify(r.args) === JSON.stringify(baselineResult.args),
       )
 
       if (!currentResult) {
