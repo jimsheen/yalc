@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- semantic-release -->
 
+## <small>2.0.3 (2025-11-18)</small>
+
+* fix: improve version resolution for published package ([2fcb6e019dabda686c63b2165a14d2e6d6165fcb](https://github.com/jimsheen/yalc/commit/2fcb6e019dabda686c63b2165a14d2e6d6165fcb))
+
 ## <small>2.0.2 (2025-11-18)</small>
 
 * fix: add publishConfig to make scoped package public ([a906aba12d1b6dca70c45f83b5d78f718de4450e](https://github.com/jimsheen/yalc/commit/a906aba12d1b6dca70c45f83b5d78f718de4450e))
