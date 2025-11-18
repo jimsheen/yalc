@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- semantic-release -->
 
+## <small>1.0.3 (2025-11-18)</small>
+
+* docs: add comprehensive interactive CLI documentation ([2b4bdd60718dc1c2bff0118c35a7513b75c9d90e](https://github.com/jimsheen/yalc/commit/2b4bdd60718dc1c2bff0118c35a7513b75c9d90e))
+* docs: add Quick Start section with npx command at top ([8b679e82030143f72b5967a5f979abe46c510c4f](https://github.com/jimsheen/yalc/commit/8b679e82030143f72b5967a5f979abe46c510c4f))
+
 ## <small>1.0.2 (2025-11-18)</small>
 
 * docs: comprehensive README update for modernized @jimsheen/yalc fork ([e75344d74f5f4962880f0b51a5a0cb35072fcc2a](https://github.com/jimsheen/yalc/commit/e75344d74f5f4962880f0b51a5a0cb35072fcc2a))

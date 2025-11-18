@@ -1,6 +1,6 @@
 {
   "name": "@jimsheen/yalc",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Local package development tool, modernized and supercharged. Drop-in replacement for yalc with better performance and modern features.",
   "engines": {
     "node": ">=20.0.0"
