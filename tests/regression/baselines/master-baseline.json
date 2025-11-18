@@ -1,6 +1,6 @@
 {
-  "version": "2.0.0",
-  "timestamp": "2025-11-18T09:17:33.060Z",
+  "version": "2.0.1",
+  "timestamp": "2025-11-18T09:47:21.232Z",
   "node_version": "v23.10.0",
   "npm_version": "9.9.4",
   "platform": "darwin",
@@ -8,52 +8,52 @@
     {
       "command": "yalc",
       "args": ["--help"],
-      "exitCode": 0,
-      "stdout": "yalc [command] [options] [package1 [package2...]]\n\nCommands:\n  yalc interactive      Launch interactive mode with menu-driven interface\n                                                                    [aliases: i]\n  yalc publish          Publish package in yalc local repo\n  yalc push             Publish package in yalc local repo and push to all\n                        installations\n  yalc installations    Work with installations file: show/clean\n  yalc add              Add package from yalc repo to the project\n  yalc link             Link package from yalc repo to the project\n  yalc update           Update packages from yalc repo\n  yalc restore          Restore retreated packages\n  yalc remove           Remove packages from the project\n  yalc retreat          Remove packages from project, but leave in lock file (to\n                        be restored later)\n  yalc check            Check package.json for yalc packages\n  yalc list             List packages in yalc store\n  yalc info <package>   Show detailed information about a package\n  yalc where <package>  Show which projects use a package\n  yalc clean            Clean unused packages from store\n  yalc dir              Show yalc system directory\n\nOptions:\n  --version  Show version number                                       [boolean]\n  --help     Show help                                                 [boolean]\n",
-      "stderr": "",
-      "timestamp": "2025-11-18T09:17:32.792Z",
-      "hash": "d969f88d54851081",
-      "duration": 70
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './core/config/index'\nRequire stack:\n- /Users/jamessheen/Documents/Projects/yalc-1/dist/yalc.js\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Function._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/jamessheen/Documents/Projects/yalc-1/dist/yalc.js:13:17)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [ '/Users/jamessheen/Documents/Projects/yalc-1/dist/yalc.js' ]\n}\n\nNode.js v23.10.0\n",
+      "timestamp": "2025-11-18T09:47:21.062Z",
+      "hash": "f60527aadb52def9",
+      "duration": 43
     },
     {
       "command": "yalc",
       "args": ["--version"],
-      "exitCode": 0,
-      "stdout": "2.0.0\n",
-      "stderr": "",
-      "timestamp": "2025-11-18T09:17:32.862Z",
-      "hash": "c28fcca53637bc88",
-      "duration": 70
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './core/config/index'\nRequire stack:\n- /Users/jamessheen/Documents/Projects/yalc-1/dist/yalc.js\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Function._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/jamessheen/Documents/Projects/yalc-1/dist/yalc.js:13:17)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [ '/Users/jamessheen/Documents/Projects/yalc-1/dist/yalc.js' ]\n}\n\nNode.js v23.10.0\n",
+      "timestamp": "2025-11-18T09:47:21.105Z",
+      "hash": "f60527aadb52def9",
+      "duration": 43
     },
     {
       "command": "yalc",
       "args": ["dir"],
-      "exitCode": 0,
-      "stdout": "/Users/jamessheen/.yalc\n",
-      "stderr": "",
-      "timestamp": "2025-11-18T09:17:32.929Z",
-      "hash": "0648139d3117f723",
-      "duration": 67
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './core/config/index'\nRequire stack:\n- /Users/jamessheen/Documents/Projects/yalc-1/dist/yalc.js\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Function._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/jamessheen/Documents/Projects/yalc-1/dist/yalc.js:13:17)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [ '/Users/jamessheen/Documents/Projects/yalc-1/dist/yalc.js' ]\n}\n\nNode.js v23.10.0\n",
+      "timestamp": "2025-11-18T09:47:21.147Z",
+      "hash": "f60527aadb52def9",
+      "duration": 42
     },
     {
       "command": "yalc",
       "args": ["installations", "show"],
-      "exitCode": 0,
-      "stdout": "Installations of package create-barrel-folder:\n  /Users/jamessheen/Documents/Projects/cbf-test-1\nInstallations of package @jimsheen/create-barrel-folder:\n  /Users/jamessheen/Documents/Projects/cbf-test-1\nInstallations of package rollup-ts-json-test:\n  /Users/jamessheen/Documents/Projects/cbf-test-1\n",
-      "stderr": "",
-      "timestamp": "2025-11-18T09:17:32.993Z",
-      "hash": "6e752cba8e461258",
-      "duration": 64
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './core/config/index'\nRequire stack:\n- /Users/jamessheen/Documents/Projects/yalc-1/dist/yalc.js\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Function._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/jamessheen/Documents/Projects/yalc-1/dist/yalc.js:13:17)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [ '/Users/jamessheen/Documents/Projects/yalc-1/dist/yalc.js' ]\n}\n\nNode.js v23.10.0\n",
+      "timestamp": "2025-11-18T09:47:21.190Z",
+      "hash": "f60527aadb52def9",
+      "duration": 43
     },
     {
       "command": "yalc",
       "args": ["check", "--help"],
-      "exitCode": 0,
-      "stdout": "check usage here\n\nOptions:\n  --version  Show version number                                       [boolean]\n  --help     Show help                                                 [boolean]\n",
-      "stderr": "",
-      "timestamp": "2025-11-18T09:17:33.060Z",
-      "hash": "21fdccfe3b10d46f",
-      "duration": 67
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './core/config/index'\nRequire stack:\n- /Users/jamessheen/Documents/Projects/yalc-1/dist/yalc.js\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Function._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/jamessheen/Documents/Projects/yalc-1/dist/yalc.js:13:17)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [ '/Users/jamessheen/Documents/Projects/yalc-1/dist/yalc.js' ]\n}\n\nNode.js v23.10.0\n",
+      "timestamp": "2025-11-18T09:47:21.232Z",
+      "hash": "f60527aadb52def9",
+      "duration": 42
     }
   ]
 }

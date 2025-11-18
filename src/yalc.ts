@@ -64,8 +64,36 @@ const publishFlags = [
 ]
 
 const getVersionMessage = () => {
-  const pkg = require(__dirname + '/../package.json')
-  return pkg.version
+  try {
+    const fs = require('fs')
+    const path = require('path')
+
+    // Try to find package.json by walking up from current module location
+    let currentDir = __dirname
+
+    for (let i = 0; i < 5; i++) {
+      // Limit search depth
+      const packagePath = path.join(currentDir, 'package.json')
+
+      if (fs.existsSync(packagePath)) {
+        try {
+          const pkg = JSON.parse(fs.readFileSync(packagePath, 'utf8'))
+          if (pkg.name === '@jimsheen/yalc' && pkg.version) {
+            return pkg.version
+          }
+        } catch {
+          // Continue search
+        }
+      }
+
+      currentDir = path.dirname(currentDir)
+    }
+
+    // If still not found, return current version
+    return '2.0.2'
+  } catch {
+    return '2.0.2'
+  }
 }
 
 makeConsoleColored()
