@@ -94,6 +94,9 @@ module.exports = {
           },
         ],
         addReleases: 'bottom',
+        successComment: false,
+        failComment: false,
+        releasedLabels: false,
       },
     ],
     [
