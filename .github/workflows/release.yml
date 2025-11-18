@@ -1,7 +1,9 @@
 name: Release
 
 on:
-  push:
+  workflow_run:
+    workflows: ['CI']
+    types: [completed]
     branches: [main, master]
   workflow_dispatch: # Manual trigger for testing
     inputs:
@@ -18,7 +20,7 @@ jobs:
   release:
     name: Release & Publish
     runs-on: ubuntu-latest
-    if: github.repository_owner == 'jimsheen' || inputs.dry_run
+    if: (github.repository_owner == 'jimsheen' && github.event.workflow_run.conclusion == 'success') || inputs.dry_run
     permissions:
       contents: write # for creating GitHub releases
       issues: write # for commenting on released issues
@@ -46,12 +48,8 @@ jobs:
         if: ${{ !env.ACT && !inputs.dry_run }}
         run: npm audit signatures
 
-      - name: Run quality gates
-        run: |
-          npm run typecheck
-          npm run lint:check
-          npm test
-          npm run build
+      - name: Build for release
+        run: npm run build
 
       - name: Semantic Release (Dry Run)
         if: ${{ inputs.dry_run }}
