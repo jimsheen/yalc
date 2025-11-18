@@ -9,6 +9,7 @@ tmp
 yalc.lock
 *.log
 dist
+!tests/integration/fixture/**/dist/
 test-results
 # Test temporary directories
 tests/**/tmp/
