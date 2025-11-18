@@ -27,97 +27,16 @@ export async function interactiveMode(): Promise<void> {
 
   try {
     let packages = listStorePackages()
-    const stats = getStoreStats()
+    let stats = getStoreStats()
 
-    // Show store overview
-    if (packages.length === 0) {
-      clack.note(
-        'No packages found in store. Use `yalc publish` to add packages.',
-        '📦 Empty Store',
-      )
-    } else {
-      const storeOverview = [
-        `📦 ${stats.totalPackages} packages`,
-        `💾 ${formatSize(stats.totalSize)}`,
-        stats.unusedPackages > 0 ? `⚠️  ${stats.unusedPackages} unused` : '',
-        stats.lastActivity
-          ? `🕒 Last activity: ${formatRelativeTime(stats.lastActivity)}`
-          : '',
-      ]
-        .filter(Boolean)
-        .join('  •  ')
-
-      clack.note(storeOverview, '📊 Store Overview')
-    }
+    // Show context information
+    showProjectContext()
+    showStoreOverview(packages, stats)
 
     // Main menu loop
     let shouldExit = false
     while (!shouldExit) {
-      const action = await clack.select({
-        message: 'What would you like to do?',
-        options: [
-          {
-            value: 'publish',
-            label: '📦 Publish package',
-            hint: 'Publish current project to local store',
-          },
-          {
-            value: 'add',
-            label: '➕ Add packages',
-            hint:
-              packages.length > 0
-                ? `Add packages from store to current project`
-                : 'No packages available to add',
-          },
-          {
-            value: 'list',
-            label: '📋 Browse packages',
-            hint:
-              packages.length > 0
-                ? `View all ${packages.length} packages in store`
-                : 'No packages in store',
-          },
-          {
-            value: 'clean',
-            label: '🧹 Clean unused packages',
-            hint:
-              stats.unusedPackages > 0
-                ? `Remove ${stats.unusedPackages} unused packages`
-                : 'No unused packages to clean',
-          },
-          {
-            value: 'info',
-            label: '🔍 Package details',
-            hint:
-              packages.length > 0
-                ? 'Get detailed information about a package'
-                : 'No packages available',
-          },
-          {
-            value: 'where',
-            label: '📍 Find package usage',
-            hint:
-              packages.length > 0
-                ? 'See which projects use a package'
-                : 'No packages available',
-          },
-          {
-            value: 'help',
-            label: '📖 Show help',
-            hint: 'View all available yalc commands',
-          },
-          {
-            value: 'store',
-            label: '📂 Open store directory',
-            hint: 'Open store folder in file manager',
-          },
-          {
-            value: 'exit',
-            label: '👋 Exit',
-            hint: 'Return to command line',
-          },
-        ],
-      })
+      const action = await mainMenu(packages, stats)
 
       if (clack.isCancel(action)) {
         shouldExit = true
@@ -127,38 +46,32 @@ export async function interactiveMode(): Promise<void> {
       switch (action) {
         case 'publish':
           await interactivePublish()
-          // Refresh packages after publish
           packages = listStorePackages()
+          stats = getStoreStats()
           break
 
         case 'add':
           await interactiveAdd(packages)
           break
 
-        case 'list':
-          await browsePackages(packages)
-          break
-
         case 'clean':
           await cleanUnusedPackages(packages)
-          // Refresh packages after cleanup
           packages = listStorePackages()
+          stats = getStoreStats()
           break
 
-        case 'info':
-          await showPackageInfo(packages)
+        case 'explore':
+          await exploreStoreSubmenu(packages)
           break
 
-        case 'where':
-          await showPackageUsage(packages)
+        case 'manage':
+          await manageStoreSubmenu(packages, stats)
+          packages = listStorePackages()
+          stats = getStoreStats()
           break
 
         case 'help':
-          await showHelp()
-          break
-
-        case 'store':
-          await openStoreDirectory()
+          await helpSubmenu()
           break
 
         case 'exit':
@@ -173,28 +86,6 @@ export async function interactiveMode(): Promise<void> {
     console.error(error)
     process.exit(1)
   }
-}
-
-/**
- * Browse packages in store with pagination
- */
-async function browsePackages(packages: StorePackageInfo[]): Promise<void> {
-  if (packages.length === 0) {
-    clack.note('No packages found in store', '📦 Empty')
-    return
-  }
-
-  // Format packages for display
-  const packageOptions = packages.map((pkg) => ({
-    value: pkg.name,
-    label: `${pkg.name}@${pkg.version}`,
-    hint: `${formatSize(pkg.size)} • ${formatRelativeTime(pkg.publishedAt)} • ${pkg.usedInProjects.length > 0 ? `🔗 ${pkg.usedInProjects.length} projects` : '⚠️ unused'}`,
-  }))
-
-  await clack.select({
-    message: `📋 Browse packages (${packages.length} total)`,
-    options: packageOptions,
-  })
 }
 
 /**
@@ -254,7 +145,7 @@ async function cleanUnusedPackages(
         removedCount++
         freedSize += pkg.size
         clack.log.info(`✅ Removed ${pkg.name}@${pkg.version}`)
-      } catch (error) {
+      } catch {
         clack.log.warn(`⚠️  Failed to remove ${pkg.name}@${pkg.version}`)
       }
     }
@@ -366,7 +257,7 @@ async function showPackageUsage(packages: StorePackageInfo[]): Promise<void> {
 /**
  * Show help information
  */
-async function showHelp(): Promise<void> {
+function showHelp(): void {
   const helpText = `
 📦 YALC Commands:
 
@@ -433,7 +324,7 @@ async function openStoreDirectory(): Promise<void> {
 
     spawn(command, args, { detached: true, stdio: 'ignore' })
     clack.log.success('📂 Opened store directory in file manager')
-  } catch (error) {
+  } catch {
     clack.log.error('Failed to open store directory')
     clack.note(`Please manually navigate to: ${storeDir}`, '📂 Store Path')
   }
@@ -548,4 +439,481 @@ async function interactiveAdd(packages: StorePackageInfo[]): Promise<void> {
     clack.log.error('Failed to add packages')
     console.error(error)
   }
+}
+
+/**
+ * Show current project context
+ */
+function showProjectContext(): void {
+  const workingDir = process.cwd()
+  const pkg = readPackageManifest(workingDir)
+
+  if (pkg) {
+    const contextInfo = `📂 ${pkg.name}@${pkg.version}  •  ${workingDir}`
+    clack.note(contextInfo, '🎯 Current Project')
+  } else {
+    clack.note(`📂 ${workingDir} (not a package)`, '⚠️ Current Directory')
+  }
+}
+
+/**
+ * Show store overview with enhanced context
+ */
+function showStoreOverview(packages: StorePackageInfo[], stats: any): void {
+  if (packages.length === 0) {
+    clack.note(
+      'No packages found in store. Use `yalc publish` to add packages.',
+      '📦 Empty Store',
+    )
+  } else {
+    const storeOverview = [
+      `📦 ${stats.totalPackages} packages`,
+      `💾 ${formatSize(stats.totalSize)}`,
+      stats.unusedPackages > 0 ? `⚠️  ${stats.unusedPackages} unused` : '',
+      stats.lastActivity
+        ? `🕒 Last activity: ${formatRelativeTime(stats.lastActivity)}`
+        : '',
+    ]
+      .filter(Boolean)
+      .join('  •  ')
+
+    clack.note(storeOverview, '📊 Store Overview')
+  }
+}
+
+/**
+ * Main menu with improved hierarchy
+ */
+async function mainMenu(packages: StorePackageInfo[], stats: any) {
+  const workingDir = process.cwd()
+  const pkg = readPackageManifest(workingDir)
+  const hasProject = !!pkg
+  const hasPackages = packages.length > 0
+  const hasUnused = stats.unusedPackages > 0
+
+  return await clack.select({
+    message: 'What would you like to do?',
+    options: [
+      // Quick Actions Section
+      {
+        value: 'publish',
+        label: '📦 Publish current project',
+        hint: hasProject
+          ? `Publish ${pkg.name}@${pkg.version} to store`
+          : 'No package.json found',
+      },
+      {
+        value: 'add',
+        label: '➕ Add packages to project',
+        hint:
+          hasProject && hasPackages
+            ? `Add packages to ${pkg.name}`
+            : !hasProject
+              ? 'No project directory'
+              : 'No packages available',
+      },
+      {
+        value: 'clean',
+        label: '🧹 Clean unused packages',
+        hint: hasUnused
+          ? `Remove ${stats.unusedPackages} unused packages (${formatSize(stats.totalSize - stats.usedSize || 0)} freed)`
+          : 'No unused packages',
+      },
+
+      // Exploration Section
+      {
+        value: 'explore',
+        label: '🔍 Explore store',
+        hint: hasPackages
+          ? `Browse, search, and get info on ${packages.length} packages`
+          : 'No packages to explore',
+      },
+
+      // Management Section
+      {
+        value: 'manage',
+        label: '🛠️ Manage store',
+        hint: 'Store statistics, settings, and directory access',
+      },
+
+      // Help Section
+      {
+        value: 'help',
+        label: '📖 Help & info',
+        hint: 'Commands, quick start guide, and documentation',
+      },
+
+      {
+        value: 'exit',
+        label: '👋 Exit',
+        hint: 'Return to command line',
+      },
+    ],
+  })
+}
+
+/**
+ * Explore store submenu
+ */
+async function exploreStoreSubmenu(
+  packages: StorePackageInfo[],
+): Promise<void> {
+  if (packages.length === 0) {
+    clack.note(
+      'No packages found in store. Use `yalc publish` to add packages first.',
+      '📦 Empty Store',
+    )
+    return
+  }
+
+  let shouldReturn = false
+  while (!shouldReturn) {
+    const action = await clack.select({
+      message: '🔍 Explore Store',
+      options: [
+        {
+          value: 'browse',
+          label: '📋 Browse all packages',
+          hint: `View and select from all ${packages.length} packages`,
+        },
+        {
+          value: 'info',
+          label: '🔍 Package details',
+          hint: 'Get detailed information about a specific package',
+        },
+        {
+          value: 'where',
+          label: '📍 Find package usage',
+          hint: 'See which projects use a specific package',
+        },
+        {
+          value: 'back',
+          label: '◀️ Back to main menu',
+          hint: 'Return to main menu',
+        },
+      ],
+    })
+
+    if (clack.isCancel(action)) {
+      shouldReturn = true
+      continue
+    }
+
+    switch (action) {
+      case 'browse':
+        await browsePackagesEnhanced(packages)
+        break
+      case 'info':
+        await showPackageInfo(packages)
+        break
+      case 'where':
+        await showPackageUsage(packages)
+        break
+      case 'back':
+        shouldReturn = true
+        break
+    }
+  }
+}
+
+/**
+ * Manage store submenu
+ */
+async function manageStoreSubmenu(
+  packages: StorePackageInfo[],
+  stats: any,
+): Promise<void> {
+  let shouldReturn = false
+  while (!shouldReturn) {
+    const action = await clack.select({
+      message: '🛠️ Manage Store',
+      options: [
+        {
+          value: 'stats',
+          label: '📊 Store statistics',
+          hint: 'Detailed breakdown of store contents and usage',
+        },
+        {
+          value: 'directory',
+          label: '📂 Open store directory',
+          hint: 'Open store folder in file manager',
+        },
+        {
+          value: 'back',
+          label: '◀️ Back to main menu',
+          hint: 'Return to main menu',
+        },
+      ],
+    })
+
+    if (clack.isCancel(action)) {
+      shouldReturn = true
+      continue
+    }
+
+    switch (action) {
+      case 'stats':
+        showStoreStatistics(packages, stats)
+        break
+      case 'directory':
+        await openStoreDirectory()
+        break
+      case 'back':
+        shouldReturn = true
+        break
+    }
+  }
+}
+
+/**
+ * Help submenu
+ */
+async function helpSubmenu(): Promise<void> {
+  let shouldReturn = false
+  while (!shouldReturn) {
+    const action = await clack.select({
+      message: '📖 Help & Info',
+      options: [
+        {
+          value: 'commands',
+          label: '📖 Command reference',
+          hint: 'Complete list of all YALC commands',
+        },
+        {
+          value: 'quickstart',
+          label: '🚀 Quick start guide',
+          hint: 'Step-by-step guide for new users',
+        },
+        {
+          value: 'back',
+          label: '◀️ Back to main menu',
+          hint: 'Return to main menu',
+        },
+      ],
+    })
+
+    if (clack.isCancel(action)) {
+      shouldReturn = true
+      continue
+    }
+
+    switch (action) {
+      case 'commands':
+        showHelp()
+        break
+      case 'quickstart':
+        showQuickStartGuide()
+        break
+      case 'back':
+        shouldReturn = true
+        break
+    }
+  }
+}
+
+/**
+ * Enhanced browse packages with actions
+ */
+async function browsePackagesEnhanced(
+  packages: StorePackageInfo[],
+): Promise<void> {
+  const packageOptions = packages.map((pkg) => ({
+    value: pkg.name,
+    label: `${pkg.name}@${pkg.version}`,
+    hint: `${formatSize(pkg.size)} • ${formatRelativeTime(pkg.publishedAt)} • ${pkg.usedInProjects.length > 0 ? `🔗 ${pkg.usedInProjects.length} projects` : '⚠️ unused'}`,
+  }))
+
+  const selectedPackage = await clack.select({
+    message: `📋 Select package (${packages.length} total)`,
+    options: [
+      ...packageOptions,
+      {
+        value: '__back__',
+        label: '◀️ Back',
+        hint: 'Return to explore menu',
+      },
+    ],
+  })
+
+  if (clack.isCancel(selectedPackage) || selectedPackage === '__back__') {
+    return
+  }
+
+  const pkg = packages.find((p) => p.name === selectedPackage)
+  if (pkg) {
+    await packageActionMenu(pkg)
+  }
+}
+
+/**
+ * Package action menu after selecting a package
+ */
+async function packageActionMenu(pkg: StorePackageInfo): Promise<void> {
+  const workingDir = process.cwd()
+  const currentProject = readPackageManifest(workingDir)
+  const canAdd = !!currentProject
+
+  const action = await clack.select({
+    message: `Actions for ${pkg.name}@${pkg.version}`,
+    options: [
+      {
+        value: 'info',
+        label: '🔍 Show details',
+        hint: 'View complete package information',
+      },
+      {
+        value: 'add',
+        label: '➕ Add to current project',
+        hint: canAdd ? `Add to ${currentProject.name}` : 'No project directory',
+      },
+      {
+        value: 'usage',
+        label: '📍 Show usage',
+        hint:
+          pkg.usedInProjects.length > 0
+            ? `Used in ${pkg.usedInProjects.length} projects`
+            : 'Not used anywhere',
+      },
+      {
+        value: 'back',
+        label: '◀️ Back to package list',
+        hint: 'Return to package selection',
+      },
+    ],
+  })
+
+  if (clack.isCancel(action) || action === 'back') {
+    return
+  }
+
+  switch (action) {
+    case 'info':
+      showPackageDetails(pkg)
+      break
+    case 'add':
+      if (canAdd) {
+        await addSinglePackage(pkg.name)
+      }
+      break
+    case 'usage':
+      showSinglePackageUsage(pkg)
+      break
+  }
+}
+
+/**
+ * Show detailed package information for a single package
+ */
+function showPackageDetails(pkg: StorePackageInfo): void {
+  const details = [
+    `📦 Name: ${pkg.name}`,
+    `🏷️  Version: ${pkg.version}`,
+    `💾 Size: ${formatSize(pkg.size)}`,
+    `📅 Published: ${formatRelativeTime(pkg.publishedAt)}`,
+    `📂 Store path: ${pkg.storePath}`,
+    '',
+    pkg.usedInProjects.length > 0
+      ? `🔗 Used in ${pkg.usedInProjects.length} projects:\n${pkg.usedInProjects.map((p) => `   • ${p}`).join('\n')}`
+      : '⚠️ Not used in any projects',
+  ].join('\n')
+
+  clack.note(details, `📋 ${pkg.name}@${pkg.version}`)
+}
+
+/**
+ * Show usage for a single package
+ */
+function showSinglePackageUsage(pkg: StorePackageInfo): void {
+  if (pkg.usedInProjects.length === 0) {
+    clack.note(
+      `Package ${pkg.name}@${pkg.version} is not used in any projects`,
+      '⚠️ Unused Package',
+    )
+    return
+  }
+
+  const usageInfo = pkg.usedInProjects
+    .map((project) => `📂 ${project}`)
+    .join('\n')
+
+  clack.note(
+    usageInfo,
+    `📍 ${pkg.name}@${pkg.version} (${pkg.usedInProjects.length} projects)`,
+  )
+}
+
+/**
+ * Add a single package to current project
+ */
+async function addSinglePackage(packageName: string): Promise<void> {
+  const spinner = clack.spinner()
+  spinner.start(`Adding ${packageName}...`)
+
+  try {
+    await addPackages([packageName], { workingDir: process.cwd() })
+    spinner.stop(`✅ Added ${packageName}`)
+  } catch (error) {
+    spinner.stop(`❌ Failed to add ${packageName}`)
+    clack.log.error('Add failed')
+    console.error(error)
+  }
+}
+
+/**
+ * Show store statistics
+ */
+function showStoreStatistics(packages: StorePackageInfo[], stats: any): void {
+  const unusedPackages = packages.filter(
+    (pkg) => pkg.usedInProjects.length === 0,
+  )
+  const usedPackages = packages.filter((pkg) => pkg.usedInProjects.length > 0)
+
+  const statsInfo = [
+    `📦 Total packages: ${stats.totalPackages}`,
+    `💾 Total size: ${formatSize(stats.totalSize)}`,
+    ``,
+    `✅ Used packages: ${usedPackages.length}`,
+    `⚠️  Unused packages: ${unusedPackages.length}`,
+    `📊 Storage efficiency: ${Math.round((usedPackages.length / stats.totalPackages) * 100)}%`,
+    ``,
+    `📅 Last activity: ${stats.lastActivity ? formatRelativeTime(stats.lastActivity) : 'Never'}`,
+    `📂 Store location: ${getStoreMainDir()}`,
+  ].join('\n')
+
+  clack.note(statsInfo, '📊 Store Statistics')
+}
+
+/**
+ * Show quick start guide
+ */
+function showQuickStartGuide(): void {
+  const guide = `
+🚀 YALC Quick Start Guide:
+
+1️⃣  Publish a package:
+   cd your-package-directory
+   yalc publish
+
+2️⃣  Add package to another project:
+   cd your-project-directory
+   yalc add package-name
+
+3️⃣  Update package after changes:
+   cd your-package-directory
+   yalc push
+
+4️⃣  Remove package from project:
+   cd your-project-directory
+   yalc remove package-name
+
+5️⃣  Clean unused packages:
+   yalc clean
+
+💡 Tips:
+   • Use 'yalc interactive' for guided workflows
+   • Use 'yalc list' to see all packages
+   • Use 'yalc info <package>' for details
+   `.trim()
+
+  clack.note(guide, '🚀 Quick Start Guide')
 }
