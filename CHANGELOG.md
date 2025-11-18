@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- semantic-release -->
 
+## <small>1.0.1 (2025-11-18)</small>
+
+* fix: disable semantic-release GitHub issue commenting ([2c243bd69a472d373ab8464b003ee2a76f92a19d](https://github.com/jimsheen/yalc/commit/2c243bd69a472d373ab8464b003ee2a76f92a19d))
+
 ## 1.0.0 (2025-11-18)
 
 * fix: `readPackageManifest` can detect indent correctly ([9622adb419fb639290844aa7d8128868bb14b8ad](https://github.com/jimsheen/yalc/commit/9622adb419fb639290844aa7d8128868bb14b8ad))
