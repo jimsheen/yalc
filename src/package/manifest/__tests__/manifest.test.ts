@@ -140,7 +140,7 @@ describe('Package Manifest Operations', () => {
       }
     })
 
-    it('should return null for package.json without name but with version', async () => {
+    it('should return null for package.json without name', async () => {
       const testPackage = {
         version: '1.0.0',
         description: 'A package with version but no name',
@@ -148,33 +148,97 @@ describe('Package Manifest Operations', () => {
 
       await fs.writeFile(packagePath, JSON.stringify(testPackage, null, 2))
 
-      const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {})
+      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
       const result = readPackageManifest(tempDir)
 
       expect(result).toBeNull()
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Package manifest'),
-        packagePath,
-        expect.stringContaining('should contain name and version'),
+        expect.stringMatching(/❌ Invalid package manifest/),
+        expect.stringMatching(/Missing or invalid name/),
       )
 
       consoleSpy.mockRestore()
     })
 
-    it('should return package for package.json without name and version', async () => {
+    it('should return null for package.json without version', async () => {
+      const testPackage = {
+        name: 'test-package',
+        description: 'A package with name but no version',
+      }
+
+      await fs.writeFile(packagePath, JSON.stringify(testPackage, null, 2))
+
+      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+      const result = readPackageManifest(tempDir)
+
+      expect(result).toBeNull()
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringMatching(/❌ Invalid package manifest/),
+        expect.stringMatching(/Missing or invalid.*version/),
+      )
+
+      consoleSpy.mockRestore()
+    })
+
+    it('should return null for package.json without name and version', async () => {
       const testPackage = {
         description: 'A package without name and version',
       }
 
       await fs.writeFile(packagePath, JSON.stringify(testPackage, null, 2))
 
+      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
       const result = readPackageManifest(tempDir)
 
-      // Should still return the package if neither name nor version (condition is !name && version)
-      expect(result).not.toBeNull()
-      expect((result as any)?.description).toBe(
-        'A package without name and version',
+      expect(result).toBeNull()
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringMatching(/❌ Invalid package manifest/),
+        expect.stringMatching(/Missing or invalid name.*or version/),
       )
+
+      consoleSpy.mockRestore()
+    })
+
+    it('should return null for package.json with empty string name', async () => {
+      const testPackage = {
+        name: '',
+        version: '1.0.0',
+        description: 'Package with empty name',
+      }
+
+      await fs.writeFile(packagePath, JSON.stringify(testPackage, null, 2))
+
+      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+      const result = readPackageManifest(tempDir)
+
+      expect(result).toBeNull()
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringMatching(/❌ Invalid package manifest/),
+        expect.stringMatching(/Missing or invalid name/),
+      )
+
+      consoleSpy.mockRestore()
+    })
+
+    it('should return null for package.json with empty string version', async () => {
+      const testPackage = {
+        name: 'test-package',
+        version: '',
+        description: 'Package with empty version',
+      }
+
+      await fs.writeFile(packagePath, JSON.stringify(testPackage, null, 2))
+
+      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+      const result = readPackageManifest(tempDir)
+
+      expect(result).toBeNull()
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringMatching(/❌ Invalid package manifest/),
+        expect.stringMatching(/Missing or invalid.*version/),
+      )
+
+      consoleSpy.mockRestore()
     })
   })
 

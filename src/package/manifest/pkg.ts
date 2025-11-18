@@ -59,19 +59,32 @@ export function readPackageManifest(workingDir: string) {
   try {
     const fileData = fs.readFileSync(packagePath, 'utf-8')
     pkg = JSON.parse(fileData) as PackageManifest
-    if (!pkg.name && pkg.version) {
-      console.log(
-        'Package manifest',
-        packagePath,
-        'should contain name and version.',
+
+    // ✅ FIXED: Validate that BOTH name AND version are present and non-empty
+    if (
+      !pkg.name ||
+      !pkg.version ||
+      typeof pkg.name !== 'string' ||
+      typeof pkg.version !== 'string'
+    ) {
+      console.error(
+        `❌ Invalid package manifest at ${packagePath}:`,
+        `Missing or invalid name (${pkg.name}) or version (${pkg.version})`,
+      )
+      console.error(
+        '   Package must have both "name" and "version" fields as non-empty strings',
       )
       return null
     }
+
     const indent = getIndent(fileData) || '  '
     pkg.__Indent = indent
     return pkg
-  } catch {
-    console.error('Could not read', packagePath)
+  } catch (error) {
+    console.error(
+      `❌ Could not read ${packagePath}:`,
+      error instanceof Error ? error.message : error,
+    )
     return null
   }
 }

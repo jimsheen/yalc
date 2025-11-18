@@ -54,35 +54,77 @@ export function listStorePackages(): StorePackageInfo[] {
 }
 
 /**
- * Get detailed information about a specific package
+ * Get detailed information about all versions of a specific package
  */
 function getPackageInfo(
   packageName: string,
   packagePath: string,
 ): StorePackageInfo | null {
   try {
-    const packageJsonPath = join(packagePath, 'package.json')
+    // ✅ FIXED: Look for version subdirectories instead of package.json directly
+    const versionDirs = readdirSync(packagePath, { withFileTypes: true })
+      .filter((dirent) => dirent.isDirectory())
+      .map((dirent) => dirent.name)
+      .sort((a, b) => {
+        // Sort versions - try semantic version sort, fallback to string sort
+        try {
+          const aParts = a.split('.').map(Number)
+          const bParts = b.split('.').map(Number)
+
+          for (let i = 0; i < Math.max(aParts.length, bParts.length); i++) {
+            const aPart = aParts[i] || 0
+            const bPart = bParts[i] || 0
+            if (aPart !== bPart) {
+              return bPart - aPart // Descending order (newest first)
+            }
+          }
+          return 0
+        } catch {
+          return b.localeCompare(a) // Fallback to string comparison
+        }
+      })
+
+    if (versionDirs.length === 0) {
+      console.warn(`⚠️ Package ${packageName} has no version directories`)
+      return null
+    }
+
+    // Get the latest version (first after sorting)
+    const latestVersion = versionDirs[0]
+    const versionPath = join(packagePath, latestVersion)
+    const packageJsonPath = join(versionPath, 'package.json')
 
     if (!existsSync(packageJsonPath)) {
+      console.warn(
+        `⚠️ Package ${packageName}@${latestVersion} missing package.json`,
+      )
       return null
     }
 
     const manifest = JSON.parse(readFileSync(packageJsonPath, 'utf-8'))
-    const stats = statSync(packagePath)
-    const size = getDirectorySize(packagePath)
+    const stats = statSync(versionPath)
+    const size = getDirectorySize(versionPath)
     const usedInProjects = getPackageUsage(packageName)
+
+    // Validate the manifest has required fields
+    if (!manifest.name || !manifest.version) {
+      console.warn(
+        `⚠️ Package ${packageName}@${latestVersion} has invalid manifest (missing name or version)`,
+      )
+      return null
+    }
 
     return {
       name: packageName,
-      version: manifest.version || '0.0.0',
+      version: manifest.version,
       publishedAt: stats.mtime,
       size,
       usedInProjects,
-      storePath: packagePath,
+      storePath: versionPath,
       manifest,
     }
-  } catch (_error) {
-    console.warn(`Failed to read package info for ${packageName}:`, _error)
+  } catch (error) {
+    console.warn(`❌ Failed to read package info for ${packageName}:`, error)
     return null
   }
 }

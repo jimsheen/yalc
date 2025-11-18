@@ -395,8 +395,31 @@ async function interactivePublish(): Promise<void> {
     clack.log.success(`📦 ${pkg.name}@${pkg.version} is now available in store`)
   } catch (error) {
     spinner.stop('❌ Publish failed')
-    clack.log.error('Failed to publish package')
-    console.error(error)
+
+    // ✅ BETTER ERROR HANDLING: Show specific error details
+    if (error instanceof Error) {
+      if (error.message.includes('Package validation failed')) {
+        clack.log.error('❌ Package validation failed')
+        clack.note(
+          'Please check that your package.json has valid "name" and "version" fields:\n\n' +
+            '• name: must be a non-empty string\n' +
+            '• version: must be a valid semver string (e.g., "1.0.0")\n\n' +
+            'Fix your package.json and try publishing again.',
+          '🔧 How to Fix',
+        )
+      } else {
+        clack.log.error(`❌ Publish failed: ${error.message}`)
+      }
+    } else {
+      clack.log.error('❌ Unknown error occurred during publishing')
+      console.error(error)
+    }
+
+    // Add some helpful context
+    clack.note(
+      `Working directory: ${workingDir}\nPackage: ${pkg.name}@${pkg.version}`,
+      '🔍 Debug Info',
+    )
   }
 }
 
