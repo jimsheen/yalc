@@ -29,6 +29,9 @@
     "semi": false,
     "singleQuote": true
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "bin": {
     "yalc": "dist/yalc.js"
   },
