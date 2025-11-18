@@ -7,6 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- semantic-release -->
 
+## 2.0.0 (2025-11-18)
+
+* fix: revert to simple, working CI/Release workflows ([9db8132d0c09ff7fcfdca2a50badd96974100ccf](https://github.com/jimsheen/yalc/commit/9db8132d0c09ff7fcfdca2a50badd96974100ccf))
+
+
+### BREAKING CHANGE
+
+* Revert overengineered workflow consolidation
+
+Issues with previous consolidation:
+- Duplicate npm publishing (semantic-release + manual publish)
+- Overly complex conditional logic
+- False efficiency claims (still installing deps 5x)
+- Added complexity without proportional benefit
+
+Solution: Keep it simple
+- Separate CI and Release workflows (clear separation of concerns)
+- CI runs on every push/PR for fast feedback
+- Release runs after CI passes on main branch
+- Maintain existing dry-run capabilities
+- Keep semantic-release date fix (the real issue that was solved)
+
+Architecture:
+- CI: typecheck + lint + build + test + security (~3min)
+- Release: build + semantic-release (~2min)
+- Total: ~5min (same as before, but reliable and maintainable)
+
+Principle: Simple, working solutions > premature optimization
+
 ## 1.0.0 (2025-11-18)
 
 * feat: add comprehensive catalog tests and improve caching mechanism ([f9ef81814ff63dfd6d626e1c412ce46e96d3b1da](https://github.com/jimsheen/yalc/commit/f9ef81814ff63dfd6d626e1c412ce46e96d3b1da))
