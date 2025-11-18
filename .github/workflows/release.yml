@@ -48,8 +48,8 @@ jobs:
         if: ${{ !env.ACT && !inputs.dry_run }}
         run: npm audit signatures
 
-      - name: Build for release
-        run: npm run build
+      - name: Clean and build for release
+        run: npm run clean && npm run build
 
       - name: Semantic Release (Dry Run)
         if: ${{ inputs.dry_run }}
