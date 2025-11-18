@@ -26,6 +26,9 @@ module.exports = {
           { type: 'breaking', release: 'major' },
           { breaking: true, release: 'major' },
         ],
+        parserOpts: {
+          noteKeywords: ['BREAKING CHANGE', 'BREAKING CHANGES'],
+        },
       },
     ],
     [
