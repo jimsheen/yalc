@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- semantic-release -->
 
+## <small>2.0.2 (2025-11-18)</small>
+
+* fix: add publishConfig to make scoped package public ([a906aba12d1b6dca70c45f83b5d78f718de4450e](https://github.com/jimsheen/yalc/commit/a906aba12d1b6dca70c45f83b5d78f718de4450e))
+
 ## <small>2.0.1 (2025-11-18)</small>
 
 * fix: disable prepublishOnly script in CI to prevent release workflow failures ([635f2e1e93946d308bdc24eb76238706e3330c88](https://github.com/jimsheen/yalc/commit/635f2e1e93946d308bdc24eb76238706e3330c88))
