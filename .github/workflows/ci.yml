@@ -40,11 +40,11 @@ jobs:
       - name: Run linting
         run: npm run lint:check
 
-      - name: Run tests
-        run: npm test
-
       - name: Build package
         run: npm run build
+
+      - name: Run tests
+        run: npm test
 
       - name: Test CLI functionality
         run: |
