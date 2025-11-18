@@ -89,8 +89,9 @@ yalc publish
 yalc add my-package
 yalc push --changed
 
-# Plus new interactive features
-yalc --interactive  # Coming soon: Interactive mode
+# Plus powerful new interactive features
+yalc interactive    # Launch rich interactive CLI menu
+yalc               # Auto-launches interactive mode when no args provided
 ```
 
 ### 📋 Migration from Original yalc
@@ -169,6 +170,104 @@ yalc add my-ui-package  # Fast catalog-aware installation
 
 # Performance improvement: 5x faster for large catalogs!
 ```
+
+## 🖥️ Interactive CLI Experience
+
+This modernized fork features a **rich interactive CLI** built with modern `@clack/prompts` that transforms package management into a guided, visual experience.
+
+### **Launch Interactive Mode**
+
+```bash
+# Launch the interactive menu
+yalc interactive
+
+# Or just run yalc without arguments (auto-detects interactive environments)
+yalc
+```
+
+### **📋 Interactive Features**
+
+#### **🎯 Smart Project Context**
+
+- **Automatic project detection** with package.json analysis
+- **Current directory awareness** for relevant action suggestions
+- **Real-time store status** with package counts and storage usage
+
+#### **📦 Visual Package Management**
+
+- **Package browser** with size, publish time, and usage indicators
+- **Interactive package selection** with search and filtering
+- **Detailed package information** with dependency tracking
+- **Usage tracking** showing where packages are installed
+
+#### **⚡ Guided Workflows**
+
+- **Interactive publishing** with configurable options (signatures, scripts, workspace resolution)
+- **Smart package addition** with dependency conflict detection
+- **Cleanup wizards** for unused package removal with size calculations
+- **Store management** with statistics and health monitoring
+
+#### **🛠️ Advanced Operations**
+
+- **Cross-platform file manager integration** for store directory access
+- **Real-time progress indicators** with spinners and success/error feedback
+- **Batch operations** for multiple package management
+- **Help system** with command reference and quick start guides
+
+### **Interactive Menu Structure**
+
+```
+📦 YALC Store Manager
+├── 📦 Publish current project        # Smart project detection
+├── ➕ Add packages to project        # Visual package selector
+├── 🧹 Clean unused packages         # Usage analysis & cleanup
+├── 🔍 Explore store                 # Package browser & search
+│   ├── 📋 Browse all packages
+│   ├── 🔍 Package details
+│   └── 📍 Find package usage
+├── 🛠️ Manage store                  # Store operations
+│   ├── 📊 Store statistics
+│   └── 📂 Open store directory
+├── 📖 Help & info                   # Documentation & guides
+│   ├── 📖 Command reference
+│   └── 🚀 Quick start guide
+└── 👋 Exit
+```
+
+### **Example Interactive Workflow**
+
+```bash
+$ yalc interactive
+
+📦 YALC Store Manager
+🎯 Current Project: my-app@1.0.0 • /Users/dev/projects/my-app
+📊 Store Overview: 5 packages • 12.4 MB • 1 unused • Last activity: 2 hours ago
+
+? What would you like to do?
+  📦 Publish current project → Publish my-app@1.0.0 to store
+  ➕ Add packages to project → Add packages to my-app
+  🧹 Clean unused packages → Remove 1 unused package (2.1 MB freed)
+❯ 🔍 Explore store → Browse, search, and get info on 5 packages
+  🛠️ Manage store → Store statistics, settings, and directory access
+  📖 Help & info → Commands, quick start guide, and documentation
+  👋 Exit → Return to command line
+
+? Select a package (5 total)
+❯ ui-components@2.1.0 → 4.2 MB • 3 hours ago • 🔗 2 projects
+  shared-utils@1.5.2 → 1.8 MB • 1 day ago • 🔗 1 project
+  design-tokens@1.0.0 → 856 KB • 2 days ago • ⚠️ unused
+  api-client@3.0.1 → 3.1 MB • 1 week ago • 🔗 3 projects
+  test-helpers@0.9.0 → 2.4 MB • 2 weeks ago • 🔗 1 project
+  ◀️ Back → Return to explore menu
+
+? Actions for ui-components@2.1.0
+❯ 🔍 Show details → View complete package information
+  ➕ Add to current project → Add to my-app
+  📍 Show usage → Used in 2 projects
+  ◀️ Back to package list → Return to package selection
+```
+
+This interactive experience makes yalc **accessible to developers of all experience levels** while providing power users with efficient workflows for complex monorepo management.
 
 ## Usage
 
