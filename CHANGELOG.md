@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- semantic-release -->
 
+## <small>1.0.2 (2025-11-18)</small>
+
+* docs: comprehensive README update for modernized @jimsheen/yalc fork ([e75344d74f5f4962880f0b51a5a0cb35072fcc2a](https://github.com/jimsheen/yalc/commit/e75344d74f5f4962880f0b51a5a0cb35072fcc2a))
+
 ## <small>1.0.1 (2025-11-18)</small>
 
 * fix: disable semantic-release GitHub issue commenting ([2c243bd69a472d373ab8464b003ee2a76f92a19d](https://github.com/jimsheen/yalc/commit/2c243bd69a472d373ab8464b003ee2a76f92a19d))
