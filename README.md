@@ -6,6 +6,22 @@
 [![Node.js](https://img.shields.io/node/v/@jimsheen/yalc.svg)](https://nodejs.org)
 [![CI Status](https://github.com/jimsheen/yalc/workflows/CI/badge.svg)](https://github.com/jimsheen/yalc/actions)
 
+## 🚀 Quick Start
+
+**Try it instantly without installation:**
+
+```bash
+npx @jimsheen/yalc interactive
+```
+
+**Or install globally:**
+
+```bash
+npm install -g @jimsheen/yalc
+```
+
+**Requirements:** Node.js 20 or later
+
 ## ⚡ Performance Breakthrough
 
 This modernized fork delivers **dramatic performance improvements**:
