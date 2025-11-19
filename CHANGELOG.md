@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- semantic-release -->
 
+## <small>1.2.1 (2025-11-19)</small>
+
+* fix(tests): update baseline JSON files for yalc command outputs and durations ([69d52f382742380bce9ffb82f5ec4e494fb038af](https://github.com/jimsheen/yalc/commit/69d52f382742380bce9ffb82f5ec4e494fb038af))
+
 ## 1.2.0 (2025-11-19)
 
 * fix: remove 'interactive' flag from quick start command in README ([29f7c322aaac0afa02a70d3ffeaa4f50366a1301](https://github.com/jimsheen/yalc/commit/29f7c322aaac0afa02a70d3ffeaa4f50366a1301))
