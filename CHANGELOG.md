@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- semantic-release -->
 
+## 1.2.0 (2025-11-19)
+
+* fix: remove 'interactive' flag from quick start command in README ([29f7c322aaac0afa02a70d3ffeaa4f50366a1301](https://github.com/jimsheen/yalc/commit/29f7c322aaac0afa02a70d3ffeaa4f50366a1301))
+* fix(tests): update baseline JSON files for interactive CLI tests and regression results ([c497baac043e4d1b317aa45a0537354512defae3](https://github.com/jimsheen/yalc/commit/c497baac043e4d1b317aa45a0537354512defae3))
+* feat: add monorepo support for catalog configuration and enhance test cases ([3ab4bd68c197e3045bf2d144ec44c16d6bb4fe69](https://github.com/jimsheen/yalc/commit/3ab4bd68c197e3045bf2d144ec44c16d6bb4fe69))
+* feat: enhance interactive publishing and package management features in README ([0fc18cd0676169b901b627cbb21bdbb05b9e3bbc](https://github.com/jimsheen/yalc/commit/0fc18cd0676169b901b627cbb21bdbb05b9e3bbc))
+* Refactor code structure for improved readability and maintainability ([2100eb8a702ce62c24a8f9c372ba92f13d64f1dc](https://github.com/jimsheen/yalc/commit/2100eb8a702ce62c24a8f9c372ba92f13d64f1dc))
+
 ## 1.1.0 (2025-11-19)
 
 * feat: enhance package validation and error handling in CLI commands ([924903887af472e7b11742cb9bee95d8a1f4caa8](https://github.com/jimsheen/yalc/commit/924903887af472e7b11742cb9bee95d8a1f4caa8))
