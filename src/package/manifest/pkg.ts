@@ -61,19 +61,38 @@ export function readPackageManifest(workingDir: string) {
     pkg = JSON.parse(fileData) as PackageManifest
 
     // ✅ FIXED: Validate that BOTH name AND version are present and non-empty
+    const missingFields = []
+
+    if (!pkg.name || typeof pkg.name !== 'string' || pkg.name.trim() === '') {
+      missingFields.push('name')
+    }
+
     if (
-      !pkg.name ||
       !pkg.version ||
-      typeof pkg.name !== 'string' ||
-      typeof pkg.version !== 'string'
+      typeof pkg.version !== 'string' ||
+      pkg.version.trim() === ''
     ) {
-      console.error(
-        `❌ Invalid package manifest at ${packagePath}:`,
-        `Missing or invalid name (${pkg.name}) or version (${pkg.version})`,
-      )
-      console.error(
-        '   Package must have both "name" and "version" fields as non-empty strings',
-      )
+      missingFields.push('version')
+    }
+
+    if (missingFields.length > 0) {
+      if (missingFields.includes('name') && missingFields.includes('version')) {
+        console.error(
+          `❌ Package manifest is missing required "name" and "version" fields`,
+        )
+        console.error(`   Found in: ${packagePath}`)
+        console.error(`   Please add both fields to your package.json`)
+      } else if (missingFields.includes('name')) {
+        console.error(`❌ Package manifest is missing required "name" field`)
+        console.error(`   Found in: ${packagePath}`)
+        console.error(
+          `   Please add "name": "your-package-name" to your package.json`,
+        )
+      } else if (missingFields.includes('version')) {
+        console.error(`❌ Package manifest is missing required "version" field`)
+        console.error(`   Found in: ${packagePath}`)
+        console.error(`   Please add "version": "1.0.0" to your package.json`)
+      }
       return null
     }
 

@@ -17,6 +17,7 @@ import {
 } from '../core/config/index.js'
 import { spawn } from 'child_process'
 import { readPackageManifest } from '../core/config/index.js'
+import { readRcConfig } from '../core/config/rc-modern.js'
 import * as fs from 'fs-extra'
 
 /**
@@ -62,6 +63,12 @@ export async function interactiveMode(): Promise<void> {
 
         case 'explore':
           await exploreStoreSubmenu(packages)
+          break
+
+        case 'remove':
+          await removeSpecificPackages(packages)
+          packages = listStorePackages()
+          stats = getStoreStats()
           break
 
         case 'manage':
@@ -344,40 +351,19 @@ async function interactivePublish(): Promise<void> {
 
   clack.note(`📦 ${pkg.name}@${pkg.version}`, 'Publishing Package')
 
-  const options = await clack.group(
-    {
-      sig: () =>
-        clack.confirm({
-          message: 'Generate integrity signature?',
-          initialValue: false,
-        }),
+  // Read user's .yalcrc config for defaults
+  const rcConfig = readRcConfig(workingDir)
 
-      scripts: () =>
-        clack.confirm({
-          message: 'Run lifecycle scripts?',
-          initialValue: true,
-        }),
+  // Just ask about push - use .yalcrc defaults for everything else
+  const push = await clack.confirm({
+    message: 'Push to all installations after publish?',
+    initialValue: false,
+  })
 
-      workspaceResolve: () =>
-        clack.confirm({
-          message: 'Resolve workspace dependencies?',
-          initialValue: true,
-        }),
-
-      push: () =>
-        clack.confirm({
-          message: 'Push to all installations after publish?',
-          initialValue: false,
-        }),
-    },
-    {
-      onCancel: () => {
-        clack.cancel('Publish cancelled')
-      },
-    },
-  )
-
-  if (!options) return
+  if (clack.isCancel(push)) {
+    clack.cancel('Publish cancelled')
+    return
+  }
 
   const spinner = clack.spinner()
   spinner.start('📦 Publishing package...')
@@ -385,10 +371,10 @@ async function interactivePublish(): Promise<void> {
   try {
     await publishPackage({
       workingDir,
-      signature: options.sig,
-      scripts: options.scripts,
-      workspaceResolve: options.workspaceResolve,
-      push: options.push,
+      signature: rcConfig.sig, // Respect .yalcrc config
+      scripts: rcConfig.scripts, // Respect .yalcrc config
+      workspaceResolve: rcConfig['workspace-resolve'], // Respect .yalcrc config
+      push, // Only thing we asked about
     })
 
     spinner.stop('✅ Package published successfully!')
@@ -520,14 +506,14 @@ async function mainMenu(packages: StorePackageInfo[], stats: any) {
       // Quick Actions Section
       {
         value: 'publish',
-        label: '📦 Publish current project',
+        label: '📦  Publish current project',
         hint: hasProject
           ? `Publish ${pkg.name}@${pkg.version} to store`
           : 'No package.json found',
       },
       {
         value: 'add',
-        label: '➕ Add packages to project',
+        label: '➕  Add packages to project',
         hint:
           hasProject && hasPackages
             ? `Add packages to ${pkg.name}`
@@ -536,8 +522,15 @@ async function mainMenu(packages: StorePackageInfo[], stats: any) {
               : 'No packages available',
       },
       {
+        value: 'remove',
+        label: '🗑️  Remove packages from store',
+        hint: hasPackages
+          ? `Remove specific packages or clear store`
+          : 'No packages to remove',
+      },
+      {
         value: 'clean',
-        label: '🧹 Clean unused packages',
+        label: '🧹  Clean unused packages',
         hint: hasUnused
           ? `Remove ${stats.unusedPackages} unused packages (${formatSize(stats.totalSize - stats.usedSize || 0)} freed)`
           : 'No unused packages',
@@ -546,7 +539,7 @@ async function mainMenu(packages: StorePackageInfo[], stats: any) {
       // Exploration Section
       {
         value: 'explore',
-        label: '🔍 Explore store',
+        label: '🔍  Explore store',
         hint: hasPackages
           ? `Browse, search, and get info on ${packages.length} packages`
           : 'No packages to explore',
@@ -555,20 +548,20 @@ async function mainMenu(packages: StorePackageInfo[], stats: any) {
       // Management Section
       {
         value: 'manage',
-        label: '🛠️ Manage store',
+        label: '🛠️  Manage store',
         hint: 'Store statistics, settings, and directory access',
       },
 
       // Help Section
       {
         value: 'help',
-        label: '📖 Help & info',
+        label: '📖  Help & info',
         hint: 'Commands, quick start guide, and documentation',
       },
 
       {
         value: 'exit',
-        label: '👋 Exit',
+        label: '👋  Exit',
         hint: 'Return to command line',
       },
     ],
@@ -611,7 +604,7 @@ async function exploreStoreSubmenu(
         },
         {
           value: 'back',
-          label: '◀️ Back to main menu',
+          label: '◀️  Back to main menu',
           hint: 'Return to main menu',
         },
       ],
@@ -653,17 +646,17 @@ async function manageStoreSubmenu(
       options: [
         {
           value: 'stats',
-          label: '📊 Store statistics',
+          label: '📊  Store statistics',
           hint: 'Detailed breakdown of store contents and usage',
         },
         {
           value: 'directory',
-          label: '📂 Open store directory',
+          label: '📂  Open store directory',
           hint: 'Open store folder in file manager',
         },
         {
           value: 'back',
-          label: '◀️ Back to main menu',
+          label: '◀️  Back to main menu',
           hint: 'Return to main menu',
         },
       ],
@@ -689,6 +682,112 @@ async function manageStoreSubmenu(
 }
 
 /**
+ * Remove specific packages from store with interactive selection
+ */
+async function removeSpecificPackages(
+  packages: StorePackageInfo[],
+): Promise<void> {
+  if (packages.length === 0) {
+    clack.note('No packages found in store to remove.', '📦 Empty Store')
+    return
+  }
+
+  const action = await clack.select({
+    message: 'Remove packages from store:',
+    options: [
+      {
+        value: 'select',
+        label: '🗑️  Select specific packages',
+        hint: `Choose from ${packages.length} packages`,
+      },
+      {
+        value: 'all',
+        label: '🗑️  Remove all packages',
+        hint: 'Clear entire store',
+      },
+      {
+        value: 'cancel',
+        label: '◀️  Cancel',
+        hint: 'Go back',
+      },
+    ],
+  })
+
+  if (clack.isCancel(action) || action === 'cancel') {
+    return
+  }
+
+  let packagesToRemove: StorePackageInfo[] = []
+
+  if (action === 'all') {
+    packagesToRemove = packages
+  } else {
+    // Select specific packages
+    const packageOptions = packages.map((pkg) => ({
+      value: pkg.name,
+      label: `${pkg.name}@${pkg.version}`,
+      hint: formatSize(pkg.size),
+    }))
+
+    const selectedPackageNames = await clack.multiselect({
+      message: `Select packages to remove:`,
+      options: packageOptions,
+      required: false,
+    })
+
+    if (
+      clack.isCancel(selectedPackageNames) ||
+      selectedPackageNames.length === 0
+    ) {
+      clack.note('No packages selected', '🚫 Cancelled')
+      return
+    }
+
+    packagesToRemove = packages.filter((pkg) =>
+      selectedPackageNames.includes(pkg.name),
+    )
+  }
+
+  // Confirmation
+  const totalSize = packagesToRemove.reduce((sum, pkg) => sum + pkg.size, 0)
+  const shouldRemove = await clack.confirm({
+    message: `Remove ${packagesToRemove.length} packages? (${formatSize(totalSize)} will be freed)`,
+    initialValue: false,
+  })
+
+  if (clack.isCancel(shouldRemove) || !shouldRemove) {
+    clack.note('Removal cancelled', '🚫 Cancelled')
+    return
+  }
+
+  // Remove packages
+  const spinner = clack.spinner()
+  spinner.start(`Removing ${packagesToRemove.length} packages...`)
+
+  let successCount = 0
+  let failedCount = 0
+
+  for (const pkg of packagesToRemove) {
+    try {
+      await fs.remove(pkg.storePath)
+      successCount++
+    } catch (error) {
+      failedCount++
+      console.error(`Failed to remove ${pkg.name}@${pkg.version}:`, error)
+    }
+  }
+
+  spinner.stop('Removal completed')
+
+  if (successCount > 0) {
+    clack.log.success(`Removed ${successCount} packages`)
+  }
+  if (failedCount > 0) {
+    clack.log.warn(`Failed to remove ${failedCount} packages`)
+  }
+}
+
+/**
  * Help submenu
  */
 async function helpSubmenu(): Promise<void> {
@@ -699,17 +798,17 @@ async function helpSubmenu(): Promise<void> {
       options: [
         {
           value: 'commands',
-          label: '📖 Command reference',
+          label: '📖  Command reference',
           hint: 'Complete list of all YALC commands',
         },
         {
           value: 'quickstart',
-          label: '🚀 Quick start guide',
+          label: '🚀  Quick start guide',
           hint: 'Step-by-step guide for new users',
         },
         {
           value: 'back',
-          label: '◀️ Back to main menu',
+          label: '◀️  Back to main menu',
           hint: 'Return to main menu',
         },
       ],

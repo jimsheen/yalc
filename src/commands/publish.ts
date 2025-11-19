@@ -34,15 +34,7 @@ export const publishPackage = async (options: PublishPackageOptions) => {
   const workingDir = options.workingDir
   const pkg = readPackageManifest(workingDir)
   if (!pkg) {
-    console.error('❌ Cannot publish: Invalid or missing package.json')
-    throw new Error('Package validation failed')
-  }
-
-  // ✅ ADDITIONAL VALIDATION: Double-check critical fields
-  if (!pkg.name || !pkg.version) {
-    console.error(`❌ Cannot publish: Package missing required fields`)
-    console.error(`   name: ${pkg.name || 'MISSING'}`)
-    console.error(`   version: ${pkg.version || 'MISSING'}`)
+    console.error('❌ Cannot publish package')
     throw new Error('Package validation failed')
   }
 

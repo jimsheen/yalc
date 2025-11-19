@@ -153,8 +153,9 @@ describe('Package Manifest Operations', () => {
 
       expect(result).toBeNull()
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringMatching(/❌ Invalid package manifest/),
-        expect.stringMatching(/Missing or invalid name/),
+        expect.stringMatching(
+          /❌ Package manifest is missing required "name" field/,
+        ),
       )
 
       consoleSpy.mockRestore()
@@ -173,8 +174,9 @@ describe('Package Manifest Operations', () => {
 
       expect(result).toBeNull()
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringMatching(/❌ Invalid package manifest/),
-        expect.stringMatching(/Missing or invalid.*version/),
+        expect.stringMatching(
+          /❌ Package manifest is missing required "version" field/,
+        ),
       )
 
       consoleSpy.mockRestore()
@@ -192,8 +194,9 @@ describe('Package Manifest Operations', () => {
 
       expect(result).toBeNull()
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringMatching(/❌ Invalid package manifest/),
-        expect.stringMatching(/Missing or invalid name.*or version/),
+        expect.stringMatching(
+          /❌ Package manifest is missing required "name" and "version" fields/,
+        ),
       )
 
       consoleSpy.mockRestore()
@@ -213,8 +216,9 @@ describe('Package Manifest Operations', () => {
 
       expect(result).toBeNull()
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringMatching(/❌ Invalid package manifest/),
-        expect.stringMatching(/Missing or invalid name/),
+        expect.stringMatching(
+          /❌ Package manifest is missing required "name" field/,
+        ),
       )
 
       consoleSpy.mockRestore()
@@ -234,8 +238,9 @@ describe('Package Manifest Operations', () => {
 
       expect(result).toBeNull()
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringMatching(/❌ Invalid package manifest/),
-        expect.stringMatching(/Missing or invalid.*version/),
+        expect.stringMatching(
+          /❌ Package manifest is missing required "version" field/,
+        ),
       )
 
       consoleSpy.mockRestore()
