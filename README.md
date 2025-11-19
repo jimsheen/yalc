@@ -218,8 +218,9 @@ yalc
 
 #### **⚡ Guided Workflows**
 
-- **Interactive publishing** with configurable options (signatures, scripts, workspace resolution)
+- **Interactive publishing** with push option (respects `.yalcrc` config for all other settings)
 - **Smart package addition** with dependency conflict detection
+- **Package removal** with multi-select and confirmation
 - **Cleanup wizards** for unused package removal with size calculations
 - **Store management** with statistics and health monitoring
 
@@ -234,20 +235,21 @@ yalc
 
 ```
 📦 YALC Store Manager
-├── 📦 Publish current project        # Smart project detection
-├── ➕ Add packages to project        # Visual package selector
-├── 🧹 Clean unused packages         # Usage analysis & cleanup
-├── 🔍 Explore store                 # Package browser & search
-│   ├── 📋 Browse all packages
-│   ├── 🔍 Package details
-│   └── 📍 Find package usage
-├── 🛠️ Manage store                  # Store operations
-│   ├── 📊 Store statistics
-│   └── 📂 Open store directory
-├── 📖 Help & info                   # Documentation & guides
-│   ├── 📖 Command reference
-│   └── 🚀 Quick start guide
-└── 👋 Exit
+├── 📦  Publish current project        # Smart project detection
+├── ➕  Add packages to project        # Visual package selector
+├── 🗑️  Remove packages from store    # Package removal with confirmation
+├── 🧹  Clean unused packages         # Usage analysis & cleanup
+├── 🔍  Explore store                 # Package browser & search
+│   ├── 📋  Browse all packages
+│   ├── 🔍  Package details
+│   └── 📍  Find package usage
+├── 🛠️  Manage store                  # Store operations
+│   ├── 📊  Store statistics
+│   └── 📂  Open store directory
+├── 📖  Help & info                   # Documentation & guides
+│   ├── 📖  Command reference
+│   └── 🚀  Quick start guide
+└── 👋  Exit
 ```
 
 ### **Example Interactive Workflow**
@@ -260,13 +262,14 @@ $ yalc interactive
 📊 Store Overview: 5 packages • 12.4 MB • 1 unused • Last activity: 2 hours ago
 
 ? What would you like to do?
-  📦 Publish current project → Publish my-app@1.0.0 to store
-  ➕ Add packages to project → Add packages to my-app
-  🧹 Clean unused packages → Remove 1 unused package (2.1 MB freed)
-❯ 🔍 Explore store → Browse, search, and get info on 5 packages
-  🛠️ Manage store → Store statistics, settings, and directory access
-  📖 Help & info → Commands, quick start guide, and documentation
-  👋 Exit → Return to command line
+  📦  Publish current project → Publish my-app@1.0.0 to store
+  ➕  Add packages to project → Add packages to my-app
+  🗑️  Remove packages from store → Remove specific packages or clear store
+  🧹  Clean unused packages → Remove 1 unused package (2.1 MB freed)
+❯ 🔍  Explore store → Browse, search, and get info on 5 packages
+  🛠️  Manage store → Store statistics, settings, and directory access
+  📖  Help & info → Commands, quick start guide, and documentation
+  👋  Exit → Return to command line
 
 ? Select a package (5 total)
 ❯ ui-components@2.1.0 → 4.2 MB • 3 hours ago • 🔗 2 projects
@@ -274,13 +277,13 @@ $ yalc interactive
   design-tokens@1.0.0 → 856 KB • 2 days ago • ⚠️ unused
   api-client@3.0.1 → 3.1 MB • 1 week ago • 🔗 3 projects
   test-helpers@0.9.0 → 2.4 MB • 2 weeks ago • 🔗 1 project
-  ◀️ Back → Return to explore menu
+  ◀️  Back → Return to explore menu
 
 ? Actions for ui-components@2.1.0
-❯ 🔍 Show details → View complete package information
-  ➕ Add to current project → Add to my-app
-  📍 Show usage → Used in 2 projects
-  ◀️ Back to package list → Return to package selection
+❯ 🔍  Show details → View complete package information
+  ➕  Add to current project → Add to my-app
+  📍  Show usage → Used in 2 projects
+  ◀️  Back to package list → Return to package selection
 ```
 
 This interactive experience makes yalc **accessible to developers of all experience levels** while providing power users with efficient workflows for complex monorepo management.
