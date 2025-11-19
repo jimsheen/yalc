@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- semantic-release -->
 
+## 1.1.0 (2025-11-19)
+
+* feat: enhance package validation and error handling in CLI commands ([924903887af472e7b11742cb9bee95d8a1f4caa8](https://github.com/jimsheen/yalc/commit/924903887af472e7b11742cb9bee95d8a1f4caa8))
+* feat: prevent interactive mode in non-TTY environments for add command ([c52d35e2e6a4292ccc922e70aa9a92f4849df0af](https://github.com/jimsheen/yalc/commit/c52d35e2e6a4292ccc922e70aa9a92f4849df0af))
+
 ## <small>1.0.3 (2025-11-18)</small>
 
 * docs: add comprehensive interactive CLI documentation ([2b4bdd60718dc1c2bff0118c35a7513b75c9d90e](https://github.com/jimsheen/yalc/commit/2b4bdd60718dc1c2bff0118c35a7513b75c9d90e))
