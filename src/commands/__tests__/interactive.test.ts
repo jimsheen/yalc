@@ -6,7 +6,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import * as fs from 'fs-extra'
 
 // Mock clack to simulate user interactions
-const mockClack = {
+vi.mock('@clack/prompts', () => ({
   intro: vi.fn(),
   outro: vi.fn(),
   note: vi.fn(),
@@ -24,9 +24,7 @@ const mockClack = {
     info: vi.fn(),
   },
   isCancel: vi.fn(),
-}
-
-vi.mock('@clack/prompts', () => mockClack)
+}))
 
 // Mock fs-extra
 vi.mock('fs-extra', () => ({
@@ -82,11 +80,21 @@ vi.mock('../../core/config/index.js', () => ({
 
 // Import the module after mocking
 import { interactiveMode } from '../interactive'
+import * as clack from '@clack/prompts'
+import { listStorePackages, getStoreStats } from '../../core/store/manager.js'
 
 describe('Interactive CLI - Package Removal', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     process.stdin.isTTY = true
+
+    vi.mocked(listStorePackages).mockReturnValue(mockStorePackages)
+    vi.mocked(getStoreStats).mockReturnValue({
+      totalPackages: 2,
+      totalSize: 3000,
+      unusedPackages: 1,
+      lastActivity: new Date(),
+    })
   })
 
   afterEach(() => {
@@ -95,18 +103,23 @@ describe('Interactive CLI - Package Removal', () => {
 
   describe('removeSpecificPackages', () => {
     it('should handle empty store gracefully', async () => {
-      // Mock empty store
-      const { listStorePackages } = await import('../../core/store/manager.js')
-      vi.mocked(listStorePackages).mockReturnValue([])
+      // Mock empty store for this test only
+      vi.mocked(listStorePackages).mockReturnValueOnce([])
+      vi.mocked(getStoreStats).mockReturnValueOnce({
+        totalPackages: 0,
+        totalSize: 0,
+        unusedPackages: 0,
+        lastActivity: new Date(),
+      })
 
       // Mock user choosing remove from main menu
-      mockClack.select
+      vi.mocked(clack.select)
         .mockResolvedValueOnce('remove') // main menu
         .mockResolvedValueOnce('exit') // exit
 
       await interactiveMode()
 
-      expect(mockClack.note).toHaveBeenCalledWith(
+      expect(vi.mocked(clack.note)).toHaveBeenCalledWith(
         'No packages found in store to remove.',
         '📦 Empty Store',
       )
@@ -114,19 +127,19 @@ describe('Interactive CLI - Package Removal', () => {
 
     it('should allow selecting specific packages for removal', async () => {
       // Mock user interactions
-      mockClack.select
+      vi.mocked(clack.select)
         .mockResolvedValueOnce('remove') // main menu
         .mockResolvedValueOnce('select') // select specific packages
         .mockResolvedValueOnce('exit') // exit
 
-      mockClack.multiselect.mockResolvedValueOnce(['test-package-1'])
-      mockClack.confirm.mockResolvedValueOnce(true)
+      vi.mocked(clack.multiselect).mockResolvedValueOnce(['test-package-1'])
+      vi.mocked(clack.confirm).mockResolvedValueOnce(true)
 
       vi.mocked(fs.remove).mockResolvedValue()
 
       await interactiveMode()
 
-      expect(mockClack.multiselect).toHaveBeenCalledWith({
+      expect(vi.mocked(clack.multiselect)).toHaveBeenCalledWith({
         message: 'Select packages to remove:',
         options: expect.arrayContaining([
           {
@@ -143,41 +156,45 @@ describe('Interactive CLI - Package Removal', () => {
         required: false,
       })
 
-      expect(mockClack.confirm).toHaveBeenCalledWith({
+      expect(vi.mocked(clack.confirm)).toHaveBeenCalledWith({
         message: 'Remove 1 packages? (1000 B will be freed)',
         initialValue: false,
       })
 
       expect(fs.remove).toHaveBeenCalledWith('/mock/store/test-package-1/1.0.0')
-      expect(mockClack.log.success).toHaveBeenCalledWith('Removed 1 packages')
+      expect(vi.mocked(clack.log.success)).toHaveBeenCalledWith(
+        'Removed 1 packages',
+      )
     })
 
     it('should allow removing all packages', async () => {
       // Mock user interactions
-      mockClack.select
+      vi.mocked(clack.select)
         .mockResolvedValueOnce('remove') // main menu
         .mockResolvedValueOnce('all') // remove all packages
         .mockResolvedValueOnce('exit') // exit
 
-      mockClack.confirm.mockResolvedValueOnce(true)
+      vi.mocked(clack.confirm).mockResolvedValueOnce(true)
 
       vi.mocked(fs.remove).mockResolvedValue()
 
       await interactiveMode()
 
-      expect(mockClack.confirm).toHaveBeenCalledWith({
+      expect(vi.mocked(clack.confirm)).toHaveBeenCalledWith({
         message: 'Remove 2 packages? (3000 B will be freed)',
         initialValue: false,
       })
 
       expect(fs.remove).toHaveBeenCalledWith('/mock/store/test-package-1/1.0.0')
       expect(fs.remove).toHaveBeenCalledWith('/mock/store/test-package-2/2.0.0')
-      expect(mockClack.log.success).toHaveBeenCalledWith('Removed 2 packages')
+      expect(vi.mocked(clack.log.success)).toHaveBeenCalledWith(
+        'Removed 2 packages',
+      )
     })
 
     it('should handle cancellation gracefully', async () => {
       // Mock user interactions - cancel at various points
-      mockClack.select
+      vi.mocked(clack.select)
         .mockResolvedValueOnce('remove') // main menu
         .mockResolvedValueOnce('cancel') // cancel removal
         .mockResolvedValueOnce('exit') // exit
@@ -189,16 +206,16 @@ describe('Interactive CLI - Package Removal', () => {
 
     it('should handle no packages selected', async () => {
       // Mock user interactions
-      mockClack.select
+      vi.mocked(clack.select)
         .mockResolvedValueOnce('remove') // main menu
         .mockResolvedValueOnce('select') // select specific packages
         .mockResolvedValueOnce('exit') // exit
 
-      mockClack.multiselect.mockResolvedValueOnce([]) // select no packages
+      vi.mocked(clack.multiselect).mockResolvedValueOnce([]) // select no packages
 
       await interactiveMode()
 
-      expect(mockClack.note).toHaveBeenCalledWith(
+      expect(vi.mocked(clack.note)).toHaveBeenCalledWith(
         'No packages selected',
         '🚫 Cancelled',
       )
@@ -207,17 +224,17 @@ describe('Interactive CLI - Package Removal', () => {
 
     it('should handle confirmation rejection', async () => {
       // Mock user interactions
-      mockClack.select
+      vi.mocked(clack.select)
         .mockResolvedValueOnce('remove') // main menu
         .mockResolvedValueOnce('select') // select specific packages
         .mockResolvedValueOnce('exit') // exit
 
-      mockClack.multiselect.mockResolvedValueOnce(['test-package-1'])
-      mockClack.confirm.mockResolvedValueOnce(false) // reject confirmation
+      vi.mocked(clack.multiselect).mockResolvedValueOnce(['test-package-1'])
+      vi.mocked(clack.confirm).mockResolvedValueOnce(false) // reject confirmation
 
       await interactiveMode()
 
-      expect(mockClack.note).toHaveBeenCalledWith(
+      expect(vi.mocked(clack.note)).toHaveBeenCalledWith(
         'Removal cancelled',
         '🚫 Cancelled',
       )
@@ -226,16 +243,16 @@ describe('Interactive CLI - Package Removal', () => {
 
     it('should handle file removal errors gracefully', async () => {
       // Mock user interactions
-      mockClack.select
+      vi.mocked(clack.select)
         .mockResolvedValueOnce('remove') // main menu
         .mockResolvedValueOnce('select') // select specific packages
         .mockResolvedValueOnce('exit') // exit
 
-      mockClack.multiselect.mockResolvedValueOnce([
+      vi.mocked(clack.multiselect).mockResolvedValueOnce([
         'test-package-1',
         'test-package-2',
       ])
-      mockClack.confirm.mockResolvedValueOnce(true)
+      vi.mocked(clack.confirm).mockResolvedValueOnce(true)
 
       // Mock one success, one failure
       vi.mocked(fs.remove)
@@ -247,8 +264,10 @@ describe('Interactive CLI - Package Removal', () => {
       await interactiveMode()
 
       expect(fs.remove).toHaveBeenCalledTimes(2)
-      expect(mockClack.log.success).toHaveBeenCalledWith('Removed 1 packages')
-      expect(mockClack.log.warn).toHaveBeenCalledWith(
+      expect(vi.mocked(clack.log.success)).toHaveBeenCalledWith(
+        'Removed 1 packages',
+      )
+      expect(vi.mocked(clack.log.warn)).toHaveBeenCalledWith(
         'Failed to remove 1 packages',
       )
       expect(consoleSpy).toHaveBeenCalledWith(
@@ -261,11 +280,11 @@ describe('Interactive CLI - Package Removal', () => {
 
     it('should handle clack cancellation', async () => {
       // Mock user interactions
-      mockClack.select.mockResolvedValueOnce('remove') // main menu
+      vi.mocked(clack.select).mockResolvedValueOnce('remove') // main menu
 
-      mockClack.isCancel.mockReturnValue(true)
+      vi.mocked(clack.isCancel).mockReturnValue(true)
 
-      mockClack.select.mockResolvedValueOnce('exit') // exit
+      vi.mocked(clack.select).mockResolvedValueOnce('exit') // exit
 
       await interactiveMode()
 
