@@ -11,7 +11,7 @@
 **Try it instantly without installation:**
 
 ```bash
-npx @jimsheen/yalc interactive
+npx @jimsheen/yalc
 ```
 
 **Or install globally:**
