@@ -52,21 +52,55 @@ class CatalogCache {
    * Uses mtime-based invalidation for cache freshness
    */
   getCatalogConfig(workingDir: string): ParsedCatalog {
-    const workspaceFilePath = join(workingDir, 'pnpm-workspace.yaml')
+    // Find pnpm-workspace.yaml by walking up the directory tree (monorepo support)
+    const workspaceFilePath = this.findWorkspaceFile(workingDir)
 
-    // Check cache first
-    const cached = this.cache.get(workingDir)
-    if (cached && this.isCacheValid(cached, workspaceFilePath)) {
+    // Check cache first (use the actual workspace file path for cache key)
+    const cacheKey = workspaceFilePath || workingDir
+    const cached = this.cache.get(cacheKey)
+    if (cached && this.isCacheValid(cached, workspaceFilePath || '')) {
       return cached.data // 35x faster for cache hits
     }
 
     // Read and parse fresh data
-    const result = this.readAndParseCatalog(workingDir, workspaceFilePath)
+    const result = this.readAndParseCatalog(workingDir, workspaceFilePath || '')
 
     // Update cache with bounded size
-    this.updateCache(workingDir, result, workspaceFilePath)
+    this.updateCache(cacheKey, result, workspaceFilePath || '')
 
     return result
+  }
+
+  /**
+   * Find pnpm-workspace.yaml by walking up the directory tree
+   * This is critical for monorepo support where packages are in subdirectories
+   */
+  private findWorkspaceFile(startDir: string): string | null {
+    const { parse, dirname, resolve } = require('path')
+    let currentDir = resolve(startDir)
+    const root = parse(currentDir).root
+
+    // Walk up until we find pnpm-workspace.yaml or hit filesystem root
+    while (currentDir !== root) {
+      const workspaceFile = join(currentDir, 'pnpm-workspace.yaml')
+
+      if (fs.existsSync(workspaceFile)) {
+        console.log(`Found pnpm-workspace.yaml at: ${workspaceFile}`)
+        return workspaceFile
+      }
+
+      const parentDir = dirname(currentDir)
+
+      // Safety check: prevent infinite loop
+      if (parentDir === currentDir) {
+        break
+      }
+
+      currentDir = parentDir
+    }
+
+    console.log(`No pnpm-workspace.yaml found walking up from: ${startDir}`)
+    return null
   }
 
   private isCacheValid(cached: CacheEntry, filePath: string): boolean {
@@ -381,6 +415,16 @@ export const resolveCatalogDependency = (
 
   // If no catalog name specified, use default
   if (catalogRef === '') {
+    // Debug: Show what's in the catalog
+    console.log(
+      'DEBUG: Default catalog keys:',
+      Object.keys(catalogConfig.default),
+    )
+    console.log(
+      `DEBUG: Looking for package "${cleanDepName}" in default catalog`,
+    )
+    console.log('DEBUG: Catalog default:', catalogConfig.default)
+
     const version = catalogConfig.default[cleanDepName]
     if (version) {
       return version

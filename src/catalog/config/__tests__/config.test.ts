@@ -217,6 +217,121 @@ catalog:
       expect(result2.default.react).toBe('^18.1.0')
       expect(result2.default.vue).toBe('^3.0.0')
     })
+
+    it('should find pnpm-workspace.yaml in monorepo root from nested package', async () => {
+      // Create monorepo structure:
+      // tempDir/
+      //   pnpm-workspace.yaml  <-- catalog is here
+      //   packages/
+      //     web-components/
+      //       package.json       <-- publishing from here
+
+      const workspaceContent = `
+packages:
+  - 'packages/*'
+
+catalog:
+  react: ^18.2.0
+  react-dom: ^18.2.0
+  zod: ^3.22.0
+  styled-components: ^6.1.0
+`
+      const workspaceFilePath = join(tempDir, 'pnpm-workspace.yaml')
+      await fs.writeFile(workspaceFilePath, workspaceContent)
+
+      // Create nested package directory
+      const packageDir = join(tempDir, 'packages', 'web-components')
+      await fs.mkdirp(packageDir)
+
+      const packageJsonPath = join(packageDir, 'package.json')
+      await fs.writeFile(
+        packageJsonPath,
+        JSON.stringify({
+          name: '@fe-toolkit/web-components',
+          version: '1.0.0',
+          dependencies: {
+            react: 'catalog:',
+            'react-dom': 'catalog:',
+            zod: 'catalog:',
+            'styled-components': 'catalog:',
+          },
+        }),
+      )
+
+      // Read catalog from nested package directory
+      const result = readCatalogConfig(packageDir)
+
+      // Should find and parse the catalog from monorepo root
+      expect(result.default).toEqual({
+        react: '^18.2.0',
+        'react-dom': '^18.2.0',
+        zod: '^3.22.0',
+        'styled-components': '^6.1.0',
+      })
+      expect(result.named).toEqual({})
+
+      // Test catalog resolution
+      expect(resolveCatalogDependency('catalog:', 'react', result)).toBe(
+        '^18.2.0',
+      )
+      expect(resolveCatalogDependency('catalog:', 'zod', result)).toBe(
+        '^3.22.0',
+      )
+    })
+
+    it('should handle deeply nested packages in monorepo', async () => {
+      // Create deep nesting:
+      // tempDir/
+      //   pnpm-workspace.yaml
+      //   apps/
+      //     frontend/
+      //       packages/
+      //         ui/
+      //           package.json  <-- 4 levels deep
+
+      const workspaceContent = `
+catalog:
+  typescript: ^5.0.0
+  vite: ^5.0.0
+`
+      await fs.writeFile(join(tempDir, 'pnpm-workspace.yaml'), workspaceContent)
+
+      // Create deeply nested structure
+      const deepPackageDir = join(tempDir, 'apps', 'frontend', 'packages', 'ui')
+      await fs.mkdirp(deepPackageDir)
+
+      const packageJsonPath = join(deepPackageDir, 'package.json')
+      await fs.writeFile(
+        packageJsonPath,
+        JSON.stringify({
+          name: '@company/ui',
+          version: '1.0.0',
+          devDependencies: {
+            typescript: 'catalog:',
+            vite: 'catalog:',
+          },
+        }),
+      )
+
+      // Should still find the workspace file at the root
+      const result = readCatalogConfig(deepPackageDir)
+
+      expect(result.default).toEqual({
+        typescript: '^5.0.0',
+        vite: '^5.0.0',
+      })
+    })
+
+    it('should return empty catalog when no pnpm-workspace.yaml in tree', async () => {
+      // Create nested directory without pnpm-workspace.yaml
+      const nestedDir = join(tempDir, 'some', 'nested', 'directory')
+      await fs.mkdirp(nestedDir)
+
+      const result = readCatalogConfig(nestedDir)
+
+      expect(result.default).toEqual({})
+      expect(result.named).toEqual({})
+    })
   })
 
   describe('resolveCatalogDependency', () => {
