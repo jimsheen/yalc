@@ -159,8 +159,13 @@ export const addPackages = async (
   packages: string[],
   options: AddPackagesOptions,
 ) => {
-  // If no packages provided, launch interactive selection
+  // If no packages provided, launch interactive selection (only in TTY environments)
   if (!packages.length) {
+    // Don't launch interactive mode in CI/non-TTY environments to prevent hangs
+    if (!process.stdin.isTTY) {
+      console.log('No packages to add (non-interactive environment)')
+      return
+    }
     const selectedPackages = await selectPackagesInteractively(options)
     if (!selectedPackages.length) {
       console.log('No packages selected')
