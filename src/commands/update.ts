@@ -55,50 +55,55 @@ export const updatePackages = async (
     workspace: lockfile.packages[name].workspace,
   }))
 
-  const packagesFiles = lockPackages.filter((p) => p.file).map((p) => p.name)
+  if (lockPackages.length > 0) {
+    const addOpts: Pick<
+      AddPackagesOptions,
+      'workingDir' | 'replace' | 'update' | 'restore'
+    > = {
+      workingDir: options.workingDir,
+      replace: options.replace,
+      update: options.update,
+      restore: options.restore,
+    }
 
-  const addOpts: Pick<
-    AddPackagesOptions,
-    'workingDir' | 'replace' | 'update' | 'restore'
-  > = {
-    workingDir: options.workingDir,
-    replace: options.replace,
-    update: options.update,
-    restore: options.restore,
+    const packagesFiles = lockPackages.filter((p) => p.file).map((p) => p.name)
+    await addPackages(packagesFiles, {
+      ...addOpts,
+    })
+
+    const packagesLinks = lockPackages
+      .filter((p) => !p.file && !p.link && !p.pure && !p.workspace)
+      .map((p) => p.name)
+    await addPackages(packagesLinks, {
+      ...addOpts,
+      link: true,
+      pure: false,
+    })
+
+    const packagesWks = lockPackages
+      .filter((p) => p.workspace)
+      .map((p) => p.name)
+    await addPackages(packagesWks, {
+      ...addOpts,
+      workspace: true,
+      pure: false,
+    })
+
+    const packagesLinkDep = lockPackages
+      .filter((p) => p.link)
+      .map((p) => p.name)
+    await addPackages(packagesLinkDep, {
+      ...addOpts,
+      linkDep: true,
+      pure: false,
+    })
+
+    const packagesPure = lockPackages.filter((p) => p.pure).map((p) => p.name)
+    await addPackages(packagesPure, {
+      ...addOpts,
+      pure: true,
+    })
   }
-
-  await addPackages(packagesFiles, {
-    ...addOpts,
-  })
-
-  const packagesLinks = lockPackages
-    .filter((p) => !p.file && !p.link && !p.pure && !p.workspace)
-    .map((p) => p.name)
-  await addPackages(packagesLinks, {
-    ...addOpts,
-    link: true,
-    pure: false,
-  })
-
-  const packagesWks = lockPackages.filter((p) => p.workspace).map((p) => p.name)
-  await addPackages(packagesWks, {
-    ...addOpts,
-    workspace: true,
-    pure: false,
-  })
-
-  const packagesLinkDep = lockPackages.filter((p) => p.link).map((p) => p.name)
-  await addPackages(packagesLinkDep, {
-    ...addOpts,
-    linkDep: true,
-    pure: false,
-  })
-
-  const packagesPure = lockPackages.filter((p) => p.pure).map((p) => p.name)
-  await addPackages(packagesPure, {
-    ...addOpts,
-    pure: true,
-  })
   if (!options.noInstallationsRemove) {
     await removeInstallations(installationsToRemove)
   }
