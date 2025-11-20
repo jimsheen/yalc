@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- semantic-release -->
 
+## <small>1.2.2 (2025-11-20)</small>
+
+* fix: update baseline JSON files for yalc command outputs and durations ([b9a9e6ced88f8ba2d14a9173b7ac1aac428e6a48](https://github.com/jimsheen/yalc/commit/b9a9e6ced88f8ba2d14a9173b7ac1aac428e6a48))
+
 ## <small>1.2.1 (2025-11-19)</small>
 
 * fix(tests): update baseline JSON files for yalc command outputs and durations ([69d52f382742380bce9ffb82f5ec4e494fb038af](https://github.com/jimsheen/yalc/commit/69d52f382742380bce9ffb82f5ec4e494fb038af))
