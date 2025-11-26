@@ -58,12 +58,13 @@ export const updatePackages = async (
   if (lockPackages.length > 0) {
     const addOpts: Pick<
       AddPackagesOptions,
-      'workingDir' | 'replace' | 'update' | 'restore'
+      'workingDir' | 'replace' | 'update' | 'restore' | 'skipInteractive'
     > = {
       workingDir: options.workingDir,
       replace: options.replace,
       update: options.update,
       restore: options.restore,
+      skipInteractive: true,
     }
 
     const packagesFiles = lockPackages.filter((p) => p.file).map((p) => p.name)

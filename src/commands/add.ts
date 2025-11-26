@@ -37,6 +37,7 @@ export interface AddPackagesOptions {
   restore?: boolean
   workspace?: boolean
   workingDir: string
+  skipInteractive?: boolean
 }
 
 const getLatestPackageVersion = (packageName: string) => {
@@ -162,8 +163,8 @@ export const addPackages = async (
   // If no packages provided, launch interactive selection (only in TTY environments)
   if (!packages.length) {
     // Don't launch interactive mode in CI/non-TTY environments to prevent hangs
-    if (!process.stdin.isTTY) {
-      console.log('No packages to add (non-interactive environment)')
+    if (!process.stdin.isTTY || options.skipInteractive) {
+      console.log('No packages to add')
       return
     }
     const selectedPackages = await selectPackagesInteractively(options)
