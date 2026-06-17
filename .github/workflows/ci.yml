@@ -3,6 +3,11 @@ name: CI
 on:
   push:
     branches: [main, master, develop]
+    paths-ignore:
+      - '.github/workflows/**'
+      - '.github/dependabot.yml'
+      - '**/*.md'
+      - 'docs/**'
   pull_request:
     branches: [main, master]
 
