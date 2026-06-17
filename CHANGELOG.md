@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- semantic-release -->
 
+## <small>1.2.3 (2026-06-17)</small>
+
+* ci(release): allow manual workflow_dispatch to trigger release ([8110b61035d961d9fb5e6378cf3a74072a1d4281](https://github.com/jimsheen/yalc/commit/8110b61035d961d9fb5e6378cf3a74072a1d4281))
+* fix(deps): resolve high-severity ReDoS advisories ([db147278cb2f69f5ef99d9cc1eb517076ad47678](https://github.com/jimsheen/yalc/commit/db147278cb2f69f5ef99d9cc1eb517076ad47678))
+* fix(interactive): back-to-main from submenu re-shows main menu ([1dee3c77a4377d57a0b7da415163ef3c6118aa61](https://github.com/jimsheen/yalc/commit/1dee3c77a4377d57a0b7da415163ef3c6118aa61)), closes [#1](https://github.com/jimsheen/yalc/issues/1) [#2](https://github.com/jimsheen/yalc/issues/2)
+* fix(interactive): single-shot menu (closes #1, #2) ([2b5bdf1987c8814542a1e3dac7d5b259c83a90d1](https://github.com/jimsheen/yalc/commit/2b5bdf1987c8814542a1e3dac7d5b259c83a90d1)), closes [#1](https://github.com/jimsheen/yalc/issues/1) [#2](https://github.com/jimsheen/yalc/issues/2) [#1](https://github.com/jimsheen/yalc/issues/1) [#2](https://github.com/jimsheen/yalc/issues/2)
+* fix --push command ([f137216caeb71b0442cbdc4afc285632d080624e](https://github.com/jimsheen/yalc/commit/f137216caeb71b0442cbdc4afc285632d080624e))
+
 ## <small>1.2.2 (2025-11-20)</small>
 
 * fix: update baseline JSON files for yalc command outputs and durations ([b9a9e6ced88f8ba2d14a9173b7ac1aac428e6a48](https://github.com/jimsheen/yalc/commit/b9a9e6ced88f8ba2d14a9173b7ac1aac428e6a48))
