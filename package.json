@@ -80,6 +80,7 @@
     "typecheck": "tsc --noEmit",
     "dev": "tsup --watch",
     "dev:cli": "npx tsx src/yalc.ts",
+    "dev:cli:watch": "npx tsx watch src/yalc.ts",
     "semantic-release": "semantic-release",
     "test:workflows": "./tests/workflows/test-workflows.sh all",
     "test:ci-local": "./tests/workflows/test-workflows.sh ci",

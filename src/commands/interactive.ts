@@ -27,64 +27,48 @@ export async function interactiveMode(): Promise<void> {
   clack.intro('📦 YALC Store Manager')
 
   try {
-    let packages = listStorePackages()
-    let stats = getStoreStats()
+    const packages = listStorePackages()
+    const stats = getStoreStats()
 
     // Show context information
     showProjectContext()
     showStoreOverview(packages, stats)
 
-    // Main menu loop
-    let shouldExit = false
-    while (!shouldExit) {
-      const action = await mainMenu(packages, stats)
+    const action = await mainMenu(packages, stats)
 
-      if (clack.isCancel(action)) {
-        shouldExit = true
-        continue
-      }
+    if (clack.isCancel(action) || action === 'exit') {
+      clack.outro('👋 Thanks for using YALC!')
+      return
+    }
 
-      switch (action) {
-        case 'publish':
-          await interactivePublish()
-          packages = listStorePackages()
-          stats = getStoreStats()
-          break
+    switch (action) {
+      case 'publish':
+        await interactivePublish()
+        break
 
-        case 'add':
-          await interactiveAdd(packages)
-          break
+      case 'add':
+        await interactiveAdd(packages)
+        break
 
-        case 'clean':
-          await cleanUnusedPackages(packages)
-          packages = listStorePackages()
-          stats = getStoreStats()
-          break
+      case 'clean':
+        await cleanUnusedPackages(packages)
+        break
 
-        case 'explore':
-          await exploreStoreSubmenu(packages)
-          break
+      case 'explore':
+        await exploreStoreSubmenu(packages)
+        break
 
-        case 'remove':
-          await removeSpecificPackages(packages)
-          packages = listStorePackages()
-          stats = getStoreStats()
-          break
+      case 'remove':
+        await removeSpecificPackages(packages)
+        break
 
-        case 'manage':
-          await manageStoreSubmenu(packages, stats)
-          packages = listStorePackages()
-          stats = getStoreStats()
-          break
+      case 'manage':
+        await manageStoreSubmenu(packages, stats)
+        break
 
-        case 'help':
-          await helpSubmenu()
-          break
-
-        case 'exit':
-          shouldExit = true
-          break
-      }
+      case 'help':
+        await helpSubmenu()
+        break
     }
 
     clack.outro('👋 Thanks for using YALC!')

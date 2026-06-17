@@ -85,7 +85,7 @@ import { listStorePackages, getStoreStats } from '../../core/store/manager.js'
 
 describe('Interactive CLI - Package Removal', () => {
   beforeEach(() => {
-    vi.clearAllMocks()
+    vi.resetAllMocks()
     process.stdin.isTTY = true
 
     vi.mocked(listStorePackages).mockReturnValue(mockStorePackages)
@@ -95,6 +95,7 @@ describe('Interactive CLI - Package Removal', () => {
       unusedPackages: 1,
       lastActivity: new Date(),
     })
+    vi.mocked(clack.isCancel).mockReturnValue(false)
   })
 
   afterEach(() => {
@@ -113,9 +114,7 @@ describe('Interactive CLI - Package Removal', () => {
       })
 
       // Mock user choosing remove from main menu
-      vi.mocked(clack.select)
-        .mockResolvedValueOnce('remove') // main menu
-        .mockResolvedValueOnce('exit') // exit
+      vi.mocked(clack.select).mockResolvedValueOnce('remove') // main menu
 
       await interactiveMode()
 
@@ -130,7 +129,6 @@ describe('Interactive CLI - Package Removal', () => {
       vi.mocked(clack.select)
         .mockResolvedValueOnce('remove') // main menu
         .mockResolvedValueOnce('select') // select specific packages
-        .mockResolvedValueOnce('exit') // exit
 
       vi.mocked(clack.multiselect).mockResolvedValueOnce(['test-package-1'])
       vi.mocked(clack.confirm).mockResolvedValueOnce(true)
@@ -172,7 +170,6 @@ describe('Interactive CLI - Package Removal', () => {
       vi.mocked(clack.select)
         .mockResolvedValueOnce('remove') // main menu
         .mockResolvedValueOnce('all') // remove all packages
-        .mockResolvedValueOnce('exit') // exit
 
       vi.mocked(clack.confirm).mockResolvedValueOnce(true)
 
@@ -197,7 +194,6 @@ describe('Interactive CLI - Package Removal', () => {
       vi.mocked(clack.select)
         .mockResolvedValueOnce('remove') // main menu
         .mockResolvedValueOnce('cancel') // cancel removal
-        .mockResolvedValueOnce('exit') // exit
 
       await interactiveMode()
 
@@ -209,7 +205,6 @@ describe('Interactive CLI - Package Removal', () => {
       vi.mocked(clack.select)
         .mockResolvedValueOnce('remove') // main menu
         .mockResolvedValueOnce('select') // select specific packages
-        .mockResolvedValueOnce('exit') // exit
 
       vi.mocked(clack.multiselect).mockResolvedValueOnce([]) // select no packages
 
@@ -227,7 +222,6 @@ describe('Interactive CLI - Package Removal', () => {
       vi.mocked(clack.select)
         .mockResolvedValueOnce('remove') // main menu
         .mockResolvedValueOnce('select') // select specific packages
-        .mockResolvedValueOnce('exit') // exit
 
       vi.mocked(clack.multiselect).mockResolvedValueOnce(['test-package-1'])
       vi.mocked(clack.confirm).mockResolvedValueOnce(false) // reject confirmation
@@ -246,7 +240,6 @@ describe('Interactive CLI - Package Removal', () => {
       vi.mocked(clack.select)
         .mockResolvedValueOnce('remove') // main menu
         .mockResolvedValueOnce('select') // select specific packages
-        .mockResolvedValueOnce('exit') // exit
 
       vi.mocked(clack.multiselect).mockResolvedValueOnce([
         'test-package-1',
@@ -284,11 +277,23 @@ describe('Interactive CLI - Package Removal', () => {
 
       vi.mocked(clack.isCancel).mockReturnValue(true)
 
-      vi.mocked(clack.select).mockResolvedValueOnce('exit') // exit
-
       await interactiveMode()
 
       expect(fs.remove).not.toHaveBeenCalled()
+    })
+
+    it('should return after one action without looping (single-shot menu)', async () => {
+      vi.mocked(clack.select)
+        .mockResolvedValueOnce('remove') // main menu
+        .mockResolvedValueOnce('cancel') // submenu cancel
+
+      await interactiveMode()
+
+      // mainMenu invoked exactly once — single-shot, no loop re-entry
+      expect(vi.mocked(clack.select)).toHaveBeenCalledTimes(2)
+      expect(vi.mocked(clack.outro)).toHaveBeenCalledWith(
+        '👋 Thanks for using YALC!',
+      )
     })
   })
 })
