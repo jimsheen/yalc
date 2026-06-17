@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- semantic-release -->
 
+## <small>1.2.4 (2026-06-17)</small>
+
+* chore(release): 1.2.3 [skip ci] ([c637bc66a9473f3ca3d30937ece1ad0c8f942074](https://github.com/jimsheen/yalc/commit/c637bc66a9473f3ca3d30937ece1ad0c8f942074)), closes [#1](https://github.com/jimsheen/yalc/issues/1) [#2](https://github.com/jimsheen/yalc/issues/2) [#1](https://github.com/jimsheen/yalc/issues/1) [#2](https://github.com/jimsheen/yalc/issues/2) [#1](https://github.com/jimsheen/yalc/issues/1) [#2](https://github.com/jimsheen/yalc/issues/2) [#1](https://github.com/jimsheen/yalc/issues/1) [#2](https://github.com/jimsheen/yalc/issues/2) [#2](https://github.com/jimsheen/yalc/issues/2) [#1](https://github.com/jimsheen/yalc/issues/1) [#2](https://github.com/jimsheen/yalc/issues/2) [#1](https://github.com/jimsheen/yalc/issues/1) [#2](https://github.com/jimsheen/yalc/issues/2) [#1](https://github.com/jimsheen/yalc/issues/1) [#2](https://github.com/jimsheen/yalc/issues/2) [#1](https://github.com/jimsheen/yalc/issues/1) [#2](https://github.com/jimsheen/yalc/issues/2) [#1](https://github.com/jimsheen/yalc/issues/1) [#2](https://github.com/jimsheen/yalc/issues/2) [#1](https://github.com/jimsheen/yalc/issues/1) [#2](https://github.com/jimsheen/yalc/issues/2) [#1](https://github.com/jimsheen/yalc/issues/1) [#2](https://github.com/jimsheen/yalc/issues/2) [#1](https://github.com/jimsheen/yalc/issues/1) [#2](https://github.com/jimsheen/yalc/issues/2) [#1](https://github.com/jimsheen/yalc/issues/1) [#2](https://github.com/jimsheen/yalc/issues/2) [#1](https://github.com/jimsheen/yalc/issues/1) [#2](https://github.com/jimsheen/yalc/issues/2) [#1](https://github.com/jimsheen/yalc/issues/1) [#2](https://github.com/jimsheen/yalc/issues/2) [#1](https://github.com/jimsheen/yalc/issues/1) [#2](https://github.com/jimsheen/yalc/issues/2)
+* fix(push): suppress spurious "No packages to add" output during push ([bd95f3e0b7da9922f5b58c7cb289ad93bd43a54a](https://github.com/jimsheen/yalc/commit/bd95f3e0b7da9922f5b58c7cb289ad93bd43a54a)), closes [#2](https://github.com/jimsheen/yalc/issues/2)
+
 ## <small>1.2.3 (2026-06-17)</small>
 
 * fix(deps): resolve high-severity ReDoS advisories ([0732af7b72d3e4e59888b24f36f33a89bf0bd74f](https://github.com/jimsheen/yalc/commit/0732af7b72d3e4e59888b24f36f33a89bf0bd74f))
