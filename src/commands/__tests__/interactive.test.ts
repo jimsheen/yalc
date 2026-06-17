@@ -295,5 +295,18 @@ describe('Interactive CLI - Package Removal', () => {
         '👋 Thanks for using YALC!',
       )
     })
+
+    it('should re-show main menu after navigation submenu picks back-to-main', async () => {
+      vi.mocked(clack.select)
+        .mockResolvedValueOnce('help') // main menu — pick navigation submenu
+        .mockResolvedValueOnce('back') // help submenu — back to main
+        .mockResolvedValueOnce('exit') // main menu re-shown — explicit exit
+
+      await interactiveMode()
+
+      // 2 main menu calls + 1 help submenu call = 3 select calls
+      expect(vi.mocked(clack.select)).toHaveBeenCalledTimes(3)
+      expect(vi.mocked(clack.outro)).toHaveBeenCalledTimes(1)
+    })
   })
 })

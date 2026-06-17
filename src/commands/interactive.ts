@@ -34,41 +34,51 @@ export async function interactiveMode(): Promise<void> {
     showProjectContext()
     showStoreOverview(packages, stats)
 
-    const action = await mainMenu(packages, stats)
+    // Re-show main menu only after navigation submenus (explore/manage/help)
+    // where the user explicitly picked "Back to main menu". Action-completing
+    // picks (publish/add/clean/remove) exit single-shot to avoid the nag
+    // pattern from issues #1 and #2.
+    let showMainMenu = true
+    while (showMainMenu) {
+      showMainMenu = false
+      const action = await mainMenu(packages, stats)
 
-    if (clack.isCancel(action) || action === 'exit') {
-      clack.outro('👋 Thanks for using YALC!')
-      return
-    }
-
-    switch (action) {
-      case 'publish':
-        await interactivePublish()
+      if (clack.isCancel(action) || action === 'exit') {
         break
+      }
 
-      case 'add':
-        await interactiveAdd(packages)
-        break
+      switch (action) {
+        case 'publish':
+          await interactivePublish()
+          break
 
-      case 'clean':
-        await cleanUnusedPackages(packages)
-        break
+        case 'add':
+          await interactiveAdd(packages)
+          break
 
-      case 'explore':
-        await exploreStoreSubmenu(packages)
-        break
+        case 'clean':
+          await cleanUnusedPackages(packages)
+          break
 
-      case 'remove':
-        await removeSpecificPackages(packages)
-        break
+        case 'remove':
+          await removeSpecificPackages(packages)
+          break
 
-      case 'manage':
-        await manageStoreSubmenu(packages, stats)
-        break
+        case 'explore':
+          await exploreStoreSubmenu(packages)
+          showMainMenu = true
+          break
 
-      case 'help':
-        await helpSubmenu()
-        break
+        case 'manage':
+          await manageStoreSubmenu(packages, stats)
+          showMainMenu = true
+          break
+
+        case 'help':
+          await helpSubmenu()
+          showMainMenu = true
+          break
+      }
     }
 
     clack.outro('👋 Thanks for using YALC!')
