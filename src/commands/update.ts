@@ -68,42 +68,52 @@ export const updatePackages = async (
     }
 
     const packagesFiles = lockPackages.filter((p) => p.file).map((p) => p.name)
-    await addPackages(packagesFiles, {
-      ...addOpts,
-    })
+    if (packagesFiles.length) {
+      await addPackages(packagesFiles, {
+        ...addOpts,
+      })
+    }
 
     const packagesLinks = lockPackages
       .filter((p) => !p.file && !p.link && !p.pure && !p.workspace)
       .map((p) => p.name)
-    await addPackages(packagesLinks, {
-      ...addOpts,
-      link: true,
-      pure: false,
-    })
+    if (packagesLinks.length) {
+      await addPackages(packagesLinks, {
+        ...addOpts,
+        link: true,
+        pure: false,
+      })
+    }
 
     const packagesWks = lockPackages
       .filter((p) => p.workspace)
       .map((p) => p.name)
-    await addPackages(packagesWks, {
-      ...addOpts,
-      workspace: true,
-      pure: false,
-    })
+    if (packagesWks.length) {
+      await addPackages(packagesWks, {
+        ...addOpts,
+        workspace: true,
+        pure: false,
+      })
+    }
 
     const packagesLinkDep = lockPackages
       .filter((p) => p.link)
       .map((p) => p.name)
-    await addPackages(packagesLinkDep, {
-      ...addOpts,
-      linkDep: true,
-      pure: false,
-    })
+    if (packagesLinkDep.length) {
+      await addPackages(packagesLinkDep, {
+        ...addOpts,
+        linkDep: true,
+        pure: false,
+      })
+    }
 
     const packagesPure = lockPackages.filter((p) => p.pure).map((p) => p.name)
-    await addPackages(packagesPure, {
-      ...addOpts,
-      pure: true,
-    })
+    if (packagesPure.length) {
+      await addPackages(packagesPure, {
+        ...addOpts,
+        pure: true,
+      })
+    }
   }
   if (!options.noInstallationsRemove) {
     await removeInstallations(installationsToRemove)
